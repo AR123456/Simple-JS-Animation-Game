@@ -1,0 +1,20 @@
+import React from "react";
+import { Col, Row } from "react-bootstrap";
+import Product from "../components/Product";
+import products from "../products";
+
+const HomeScreen = () => {
+  return (
+    <div>
+      <Row>
+        {products.map((product) => (
+          <Col sm={12} md={5} lg={4} xl={3}>
+            <Product product={product} />
+          </Col>
+        ))}
+      </Row>
+    </div>
+  );
+};
+
+export default HomeScreen;
