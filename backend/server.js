@@ -1,9 +1,14 @@
 const express = require("express");
-// get dummy products from the package JSON file
+// env
+const dotenv = require("dotenv");
+// get dummy products from the file
 const products = require("./data/products");
+
+// bring in dotenv
+dotenv.config();
 //  init express to app
 const app = express();
-const port = 5000;
+
 // home route
 app.get("/", (req, res) => {
   res.send("API is running.... ");
@@ -18,6 +23,13 @@ app.get("/api/products/:id", (req, res) => {
   const product = products.find((p) => p._id === req.params.id);
   res.json(product);
 });
+// get the port out of the .env file or use 5000
+const PORT = process.env.PORT || 5000;
 
 // kick off server
-app.listen(5000, console.log(`Server is running on http://localhost:${port}`));
+app.listen(
+  5000,
+  console.log(
+    `Server is running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`
+  )
+);
