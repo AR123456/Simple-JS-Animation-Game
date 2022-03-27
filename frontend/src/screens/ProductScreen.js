@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-import products from "../products";
+// import products from "../products";
+import axios from "axios";
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((p) => p._id === match.params.id);
+  // no longer getting from front end , use axixo
+  // const product = products.find((p) => p._id === match.params.id);
   // console.log(product);
+  // products is an object {} not [] in useState
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    //
+    const fetchProduct = async () => {
+      // get product ID form the url , already passing match in so
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
   return (
     <div>
       <Link className="btn btn-light my-3" to="/">
