@@ -80,4 +80,6 @@ const products = [
 ];
 // backend is not set up for ES 6 modules so need to change this to common js syntax
 // export default products
-module.exports = products;
+// module.exports = products;
+// change to ES5
+export default products;

@@ -1,8 +1,9 @@
-const express = require("express");
-// env
-const dotenv = require("dotenv");
-// get dummy products from the file
-const products = require("./data/products");
+// const express = require("express");
+// const dotenv = require("dotenv");
+// const products = require("./data/products");
+import express from "express";
+import dotenv from "dotenv";
+import products from "./data/products.js";
 
 // bring in dotenv
 dotenv.config();
