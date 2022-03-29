@@ -1,13 +1,16 @@
-// const express = require("express");
-// const dotenv = require("dotenv");
-// const products = require("./data/products");
 import express from "express";
 import dotenv from "dotenv";
+
+import connectDB from "./config/db.js";
 import products from "./data/products.js";
 
 // bring in dotenv
 dotenv.config();
 //  init express to app
+
+// connect to the DB
+connectDB();
+
 const app = express();
 
 // home route
