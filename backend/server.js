@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-
+// this is just for fun for me to see colorful console.logs
+import colors from "colors";
 import connectDB from "./config/db.js";
 import products from "./data/products.js";
 
@@ -34,6 +35,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(
   5000,
   console.log(
+    // adding some color to console .log
     `Server is running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`
+      .magenta.bold
   )
 );
