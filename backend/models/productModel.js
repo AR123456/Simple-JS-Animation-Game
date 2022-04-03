@@ -4,7 +4,7 @@ const reviewSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     rating: { type: String, required: true },
-    commment: { type: String, required: true },
+    comment: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -33,7 +33,7 @@ const productSchema = mongoose.Schema(
     description: { type: String, required: true },
     // reviews will be another schema- array of reviewSchema objects
     //
-    reviews: [reviewsSchema],
+    reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
