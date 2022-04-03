@@ -1,16 +1,16 @@
 import express from "express";
 const router = express.Router();
+// bring in model
+import Product from "../models/productModel";
 
-// products route - add this to the url and will see the products in JSON file
-// when this was in server.js was app.get, now needs to be router.get
-// also no longer need to point to the file since will be a route to the DB
-// https://stackoverflow.com/questions/41836310/difference-between-app-get-or-router-get-expressjs
-router.get("/", (req, res) => {
+// products route
+router.get("/", async (req, res) => {
+  //set product to the model and use find method - returns promise so async await (all mongoose methods use a promise) note that instead of async await could use .then syntax
+  const products = await Product.find({});
   res.json(products);
 });
-// get a single product by its ID -- add this to the url with a product id and will get that
+// get a single product by its ID
 router.get("/:id", (req, res) => {
-  // using the same find method used on front end
   const product = products.find((p) => p._id === req.params.id);
   res.json(product);
 });
