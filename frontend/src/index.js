@@ -1,14 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
+// import Provider and store for redux to work
+import { Provider } from "react-redux";
+import store from "./store.js";
 import "./index.css";
 import "./bootstrap.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  // Need to wrap the app in the redux provider pass in store
+  // <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 
