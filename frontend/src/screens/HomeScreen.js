@@ -21,15 +21,22 @@ const HomeScreen = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <Row>
-        {products.map((product) => (
-          <Col key={product._id} sm={12} md={5} lg={4} xl={3}>
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
-    </div>
+    <>
+      <h1>Products</h1>
+      {loading ? (
+        <h2>loading...</h2>
+      ) : error ? (
+        <h2>{error}</h2>
+      ) : (
+        <Row>
+          {products.map((product) => (
+            <Col key={product._id} sm={12} md={5} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
+    </>
   );
 };
 
