@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+// import dispatch and selector
+import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
-// import products from "../products";
-import axios from "axios";
+// import the action
+import { listProducts } from "../actions/productActions";
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
+  //setting const dispatch to useDispatch. using hooks here
+  const dispatch = useDispatch();
+  // call this what you did is store.js
+  // useSelector takes in and arrow with state and a function and what
+  // part of state we want
+  const productList = useSelector((state) => state.productList);
+  // destructure and pull out what we want from the productList
+  const { loading, error, products } = productList;
   useEffect(() => {
-    // cannot make useEffect itself async await so creating function within it that is
-    // set as async
-    const fetchProducts = async () => {
-      // res.data deconstructed
-      // await getting from api
-      const { data } = await axios.get("/api/products");
-      // after fetching products call setProducts that we defined in useState
-      setProducts(data);
-    };
-    // call function while still in useEffect
-    fetchProducts();
-    //as a second argument to use effect, pass in an array of dependencies that is anything
-    // that you want to fire use effect off when it changes for now none
-  }, []);
+    //fire off list products -make request to back end to get products
+    dispatch(listProducts());
+  }, [dispatch]);
+
   return (
     <div>
       <Row>
