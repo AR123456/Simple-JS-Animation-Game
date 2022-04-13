@@ -1,32 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-// import products from "../products";
-import axios from "axios";
-import { listProducts } from "../actions/productActions";
-
+// bring in the action
+import { listProductDetails } from "../actions/productActions.js";
 const ProductScreen = ({ match }) => {
-  // no longer getting from front end , use axixo
-  // const product = products.find((p) => p._id === match.params.id);
-  // console.log(product);
-  // products is an object {} not [] in useState
-  // const [product, setProduct] = useState({});
+  // dispatch the action
   const dispatch = useDispatch();
-  const listProductDetails = useSelector((state) => state.listProductDetails);
-  const { loading, error, product } = listProductDetails;
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    dispatch(listProductDetails());
-    //
-    // const fetchProduct = async () => {
-    //   // get product ID form the url , already passing match in so
-    //   const { data } = await axios.get(`/api/products/${match.params.id}`);
-    //   setProduct(data);
-    // };
-    // fetchProduct();
-  }, [dispatch]);
+    // get the product details from the URL
+    dispatch(listProductDetails(match.params.id));
+  }, [dispatch, match]);
   return (
     <div>
       <Link className="btn btn-light my-3" to="/">

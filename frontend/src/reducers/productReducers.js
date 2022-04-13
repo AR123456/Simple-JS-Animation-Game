@@ -27,4 +27,21 @@ export const productListReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+export const productDetailsReducer = (
+  state = { product: { reviews: [] } },
+  action
+) => {
+  // use switch to evaluate the action types request,success,failure
+  switch (action.type) {
+    case PRODUCT_DETAILS_REQUEST:
+      return { loading: true, ...state };
+    case PRODUCT_DETAILS_SUCCESS:
+      return { loading: false, product: action.payload };
+    case PRODUCT_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 // to use this reducer add it to store.js
