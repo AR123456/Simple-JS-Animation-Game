@@ -16,6 +16,7 @@ router.get(
     //set product to the model and use find method - returns promise so async await
     //(all mongoose methods use a promise) note that instead of async await could use .then syntax
     const products = await Product.find({});
+
     res.json(products);
   })
 );
@@ -34,7 +35,9 @@ router.get(
     if (product) {
       res.json(product);
     } else {
-      res.status(404).json({ message: "Product not found" });
+      // res.status(404).json({ message: "Product not found" });
+      res.status(404);
+      throw new Error("Product not found");
     }
   })
 );

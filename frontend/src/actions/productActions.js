@@ -7,6 +7,9 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
+  PRODUCT_DETAILS_REQUEST,
+  PRODUCT_DETAILS_SUCCESS,
+  PRODUCT_DETAILS_FAIL,
 } from "../constants/productConstants";
 
 // this will pretty much mirror the useEffect in the home screen
@@ -29,6 +32,23 @@ export const listProducts = () => async (dispatch) => {
     dispatch({
       type: PRODUCT_LIST_FAIL,
       // this will be a common payload for our requests -want to return error
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+// product details
+export const listProductDetails = (id) => async (dispatch) => {
+  // get the specific product from db
+  try {
+    dispatch({ type: PRODUCT_DETAILS_REQUEST });
+    const { data } = await axios.get(`/api/products/${id}`);
+    dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
