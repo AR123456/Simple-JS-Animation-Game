@@ -15,7 +15,8 @@ import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
 import Rating from "../components/Rating";
 import { listProductDetails } from "../actions/productActions.js";
-const ProductScreen = ({ match }) => {
+
+const ProductScreen = ({ history, match }) => {
   // component level state
   const [qty, setQty] = useState(0);
   // state from Redux
@@ -26,6 +27,10 @@ const ProductScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
   return (
     <div>
       <Link className="btn btn-light my-3" to="/">
@@ -77,7 +82,7 @@ const ProductScreen = ({ match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {/* only show if product in stock  */}
+                {/* only show if product in stock   */}
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
@@ -88,6 +93,8 @@ const ProductScreen = ({ match }) => {
                           value={qty}
                           onChange={(e) => setQty(e.target.value)}
                         >
+                          {/* spread operator and array constructor takes in product.countInStock  */}
+                          {/* want keys from it so .keys() map  take the iterator x and add 1 for items in stock */}
                           {[...Array(product.countInStock).keys()].map((x) => (
                             <option key={x + 1} value={x + 1}>
                               {x + 1}
@@ -100,6 +107,7 @@ const ProductScreen = ({ match }) => {
                 )}
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     className="btn-block"
                     type="button"
                     disabled={product.countInStock === 0}
