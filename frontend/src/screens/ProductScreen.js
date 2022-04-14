@@ -1,20 +1,29 @@
-import React, { useEffect } from "react";
+// need use state for component level state used for product quantity
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
 import Rating from "../components/Rating";
-// bring in the action
 import { listProductDetails } from "../actions/productActions.js";
 const ProductScreen = ({ match }) => {
-  // dispatch the action
+  // component level state
+  const [qty, setQty] = useState(0);
+  // state from Redux
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    // get the product details from the URL
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
   return (
@@ -68,6 +77,27 @@ const ProductScreen = ({ match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {/* only show if product in stock  */}
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     className="btn-block"
