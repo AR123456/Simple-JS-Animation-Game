@@ -18,7 +18,8 @@ import { listProductDetails } from "../actions/productActions.js";
 
 const ProductScreen = ({ history, match }) => {
   // component level state
-  const [qty, setQty] = useState(0);
+  // setting to 1 as default so that one is defaulted in the selector
+  const [qty, setQty] = useState(1);
   // state from Redux
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
