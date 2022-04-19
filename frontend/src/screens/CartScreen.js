@@ -24,10 +24,21 @@ import { addToCart } from "../actions/cartActions.js";
 // from the URL as well as location to get the quantity and history to redirect
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
-  console.log(match);
   // the query params
-  const qty = location.search;
-  console.log(location);
+  // check for qty and if there is, it looks like this "?qty=1" so doing split on
+  // the = sign.  This creates an array with qty at first index and whatever
+  // number is in the second index.  Need the number so getting index 1
+  // else the qty is 1 , the type of 1 is a string so make it into
+  // number by wrapping in Number()
+  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+  //define dispatch so we can call an action
+  const dispatch = useDispatch();
+  // use effect - only want to dispatch ADD_TO_CART if there is a product to add
+  useEffect(() => {
+    if (productId) {
+      dispatch(addToCart(productId, qty));
+    }
+  }, [dispatch, productId, qty]);
   return (
     <div>
       <h1>CartScreen</h1>
