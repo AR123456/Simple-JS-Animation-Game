@@ -25,7 +25,7 @@ const cartItemsFromStorage = localStorage.getItem("cartItems")
 //local state in the actions.js files into state
 const initialState = {
   //cart
-  cart: { cartItemsFromStorage },
+  cart: { cartItems: cartItemsFromStorage },
 };
 
 const middleware = [thunk];

@@ -15,7 +15,6 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-
 // handling alters and messages
 import Message from "../components/Message.js";
 // redux actions for this screen
@@ -33,7 +32,12 @@ const CartScreen = ({ match, location, history }) => {
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
   //define dispatch so we can call an action
   const dispatch = useDispatch();
+  // useSelector to get items and put them into the cart
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
   // use effect - only want to dispatch ADD_TO_CART if there is a product to add
+  // this gets stuff from url local storage and into state for store.js the useSelector()
+  // is putting into cart
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
