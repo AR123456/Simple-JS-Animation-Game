@@ -18,7 +18,7 @@ import {
 // handling alters and messages
 import Message from "../components/Message.js";
 // redux actions for this screen
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart, removeFromCart } from "../actions/cartActions.js";
 // passing in props to CartScreen getting product id from match.params.id
 // from the URL as well as location to get the quantity and history to redirect
 const CartScreen = ({ match, location, history }) => {
@@ -44,9 +44,10 @@ const CartScreen = ({ match, location, history }) => {
       dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty]);
-
+  // need a reducer for this to to cartReducers.js
   const removeFromCartHandler = (id) => {
-    console.log("remove");
+    // dispatch the removeFromCart action
+    dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
     // here redirecting to log in if not logged in else to to  shipping

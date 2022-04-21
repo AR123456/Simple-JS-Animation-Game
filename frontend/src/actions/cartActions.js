@@ -4,7 +4,7 @@ import axios from "axios";
 // import the constants so we dont have to put them in parens
 // the constants are the reducer actions that get fired off
 // on the component
-import { CART_ADD_ITEM } from "../constants/cartConstants";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
 
 // much like useEffect , redux thunk to pass function within function
 // need to pass in the id and quantity which we are getting out of the url
@@ -36,4 +36,16 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
     JSON.stringify(getState().cart.cartItems)
   );
   // now have this in local storage so need to get into store in  store.js
+};
+// need to pass in id need dispatch to be able to dispatch to reducer
+//  and getState to get all the items in cart  and reset local
+// storage to whatever is in cart less what we are removing
+export const removeFromCart = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: CART_REMOVE_ITEM,
+    payload: id,
+  });
+  // reset local storage to what cart items are now, getState is getting
+  // the entire state tree, from it we want cartItems
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
