@@ -44,6 +44,14 @@ const CartScreen = ({ match, location, history }) => {
       dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty]);
+
+  const removeFromCartHandler = (id) => {
+    console.log("remove");
+  };
+  const checkoutHandler = () => {
+    // here redirecting to log in if not logged in else to to  shipping
+    history.push("/login?redirect=shipping");
+  };
   return (
     <>
       <Row>
@@ -73,7 +81,7 @@ const CartScreen = ({ match, location, history }) => {
                     <Col md={2}>
                       <Form.Control
                         as="select"
-                        value={qty}
+                        value={item.qty}
                         onChange={(e) =>
                           dispatch(
                             addToCart(item.product, Number(e.target.value))
@@ -90,7 +98,13 @@ const CartScreen = ({ match, location, history }) => {
                       </Form.Control>
                     </Col>
                     <Col md={2}>
-                      <Button type="button" variant="light" onClick={()=> removeFromCartHandler(item.product)}></Button>
+                      <Button
+                        type="button"
+                        variant="light"
+                        onClick={() => removeFromCartHandler(item.product)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </Button>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -98,8 +112,39 @@ const CartScreen = ({ match, location, history }) => {
             </ListGroup>
           )}
         </Col>
-        <Col md={2}> </Col>
-        <Col md={2}> </Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                {/* reduce() takes in an accumulator and the current item 
+                take the acc and add the current quantity of items.  want it to start as 0
+                */}
+                <h2>
+                  Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                  ) items
+                </h2>
+                {/* show total price reduce() accumulator starts at 0 add item quantity * item price
+                toFixed to make it a 2 point since it is money  */}
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
+                >
+                  {" "}
+                  Proceed to checkout
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+        <Col md={8}> </Col>
       </Row>
     </>
   );
