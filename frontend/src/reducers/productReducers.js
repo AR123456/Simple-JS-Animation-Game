@@ -1,11 +1,3 @@
-// create function and export it
-// a reducer takes in initial state and an action
-// will dispatch an action to the reducer
-// action is an object with type
-// type evaluated here and do a certain thing depending on what type it is
-// action  may also contain a payload
-// Now improrting the consts so they no
-//longer are strings below, just use the const
 import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -15,7 +7,6 @@ import {
   PRODUCT_DETAILS_FAIL,
 } from "../constants/productConstants";
 export const productListReducer = (state = { products: [] }, action) => {
-  // use switch to evaluate the action types request,success,failure
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
@@ -31,7 +22,6 @@ export const productDetailsReducer = (
   state = { product: { reviews: [] } },
   action
 ) => {
-  // use switch to evaluate the action types request,success,failure
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
       return { loading: true, ...state };
@@ -43,5 +33,3 @@ export const productDetailsReducer = (
       return state;
   }
 };
-
-// to use this reducer add it to store.js

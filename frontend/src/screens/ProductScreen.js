@@ -17,10 +17,8 @@ import Rating from "../components/Rating";
 import { listProductDetails } from "../actions/productActions.js";
 
 const ProductScreen = ({ history, match }) => {
-  // component level state
-  // setting to 1 as default so that one is defaulted in the selector
   const [qty, setQty] = useState(1);
-  // state from Redux
+
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -83,7 +81,7 @@ const ProductScreen = ({ history, match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {/* only show if product in stock   */}
+
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
@@ -94,8 +92,6 @@ const ProductScreen = ({ history, match }) => {
                           value={qty}
                           onChange={(e) => setQty(e.target.value)}
                         >
-                          {/* spread operator and array constructor takes in product.countInStock  */}
-                          {/* want keys from it so .keys() map  take the iterator x and add 1 for items in stock */}
                           {[...Array(product.countInStock).keys()].map((x) => (
                             <option key={x + 1} value={x + 1}>
                               {x + 1}
