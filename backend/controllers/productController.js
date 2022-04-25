@@ -7,7 +7,6 @@ import Product from "../models/productModel.js";
 // @route GET/api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-  //set product to the model and use find method - returns promise so async await
   //(all mongoose methods use a promise) note that instead of async await could use .then syntax
   const products = await Product.find({});
 
