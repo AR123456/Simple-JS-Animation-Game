@@ -2,22 +2,26 @@ import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 import connectDB from "./config/db.js";
+// routes
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 // bring in error handling middleware
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // bring in dotenv
 dotenv.config();
-//  init express to app
 // connect to the DB
 connectDB();
+//  init express to app
 const app = express();
+// allow json data
+app.use(express.json());
 // home route
 app.get("/", (req, res) => {
   res.send("API is running.... ");
 });
-//mount router
-// anything going to /api/products will be linked to productRoutes
+//mount routers
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 // bring in the error handling middleware
 app.use(notFound);
 app.use(errorHandler);

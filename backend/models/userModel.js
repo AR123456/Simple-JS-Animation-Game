@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema(
   {
-    // in this object define all the user fields
-    // data types and required or not
     name: {
       type: String,
       required: true,
@@ -28,6 +27,12 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+// putting method to match the password here
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  // bcrypt - match the users entered plain text pw with the hashed one in db
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 // create a model from this schema
 const User = mongoose.model("User", userSchema);
 // export
