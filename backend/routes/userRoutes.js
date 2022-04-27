@@ -1,9 +1,14 @@
 import express from "express";
 const router = express.Router();
-import { authUser, getUserProfile } from "../controllers/userController.js";
+import {
+  authUser,
+  getUserProfile,
+  registerUser,
+} from "../controllers/userController.js";
 // middle ware to validate token
 import { protect } from "../middleware/authMiddleware.js";
-
+// register user route
+router.route("/").post(registerUser);
 // go to /login and call authUser
 router.post("/login", authUser);
 // go to /profile and make get request by calling getUserProfile
