@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-// importing from utils but could put this right in the controller
 import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 // desc auth user and get token
@@ -28,28 +27,20 @@ const authUser = asyncHandler(async (req, res) => {
 // #route  POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  // destructure email and password from req.body
   const { name, email, password } = req.body;
-  // find user attempting login
   const userExists = await User.findOne({ email });
   if (userExists) {
-    // bad request
     res.status(400);
     throw new Error("User already exists");
   }
-  // here .create is syntactic sure for the save method
+
   const user = await User.create({
-    // the object we want to add
-    // this plane text password will be encrypted
-    //through the middleware in userModel.js
     name,
     email,
     password,
   });
   if (user) {
-    // 201 something created
     res.status(201).json({
-      // here want to authenticate right after registering
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -57,7 +48,6 @@ const registerUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    //something went wrong with validation
     res.status(400);
     throw new Error("Invalid user data");
   }
