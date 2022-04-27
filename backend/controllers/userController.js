@@ -37,8 +37,11 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
+  // here .create is syntactic sure for the save method
   const user = await User.create({
     // the object we want to add
+    // this plane text password will be encrypted
+    //through the middleware in userModel.js
     name,
     email,
     password,
