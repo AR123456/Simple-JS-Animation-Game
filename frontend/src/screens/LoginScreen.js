@@ -6,7 +6,6 @@ import Message from "../components/Message.js";
 import Loader from "../components/Loader.js";
 import { login } from "../actions/userActions";
 import FormContainer from "../components/FormContainer.js";
-// will need location and history from props
 const LoginScreen = ({ location, history }) => {
   //component level state for form fields
   const [email, setEmail] = useState("");
