@@ -6,8 +6,8 @@ import Message from "../components/Message.js";
 import Loader from "../components/Loader.js";
 import { login } from "../actions/userActions";
 import FormContainer from "../components/FormContainer.js";
-// will need location from props
-const LoginScreen = ({ location }) => {
+// will need location and history from props
+const LoginScreen = ({ location, history }) => {
   //component level state for form fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,15 +19,27 @@ const LoginScreen = ({ location }) => {
   const { loading, error, userInfo } = userLogin;
   // does url query search exist, if so turn into array split on = sign, index 1  or go to "/"
   const redirect = location.search ? location.search.split("=")[1] : "/";
+  // if already logged in should not go to the login page
+  useEffect(() => {
+    // it there is user info you ar logged in
+    if (userInfo) {
+      // props.history push to redirect
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
   // submit handler
   const submitHandler = (e) => {
     e.preventDefault();
-    //TODO dispatch login
+    //call dispatch and pass in email and password from the form
+    dispatch(login(email, password));
   };
   return (
     <>
       <FormContainer>
         <h1>Sign in </h1>
+        {/* check for errors loading */}
+        {error && <Message variant="danger">{error}</Message>}
+        {loading && <Loader></Loader>}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="email">
             <Form.Label>Email Address</Form.Label>
