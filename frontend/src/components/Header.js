@@ -1,13 +1,19 @@
 import React from "react";
 // need user login state to determine if logged in and act on it
-import { useDispatch, useReducer, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
   // get the redux state of userLogin and deconstruct it
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const logoutHandler = () => {
+    //will need action created in user actions to dispatch
+    dispatch(logout());
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -26,7 +32,14 @@ const Header = () => {
               {/* check if user is logged in  */}
               {userInfo ? (
                 // name and dropdown
-                <NavDropdown title={userInfo.name}></NavDropdown>
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
               ) : (
                 // no user so show login
                 <LinkContainer to="/login">
