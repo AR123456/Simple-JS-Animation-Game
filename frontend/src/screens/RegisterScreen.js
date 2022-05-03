@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message.js";
-import Loader from "../components/Loader.js";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import FormContainer from "../components/FormContainer";
 import { register } from "../actions/userActions";
-import FormContainer from "../components/FormContainer.js";
 const RegisterScreen = ({ location, history }) => {
   //component level state for form fields
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState(null);
 
   // dispatch -
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const RegisterScreen = ({ location, history }) => {
       <FormContainer>
         <h1>Sign Up </h1>
         {/* check for register on submit error  */}
-        {message && <Message variant="danger">{postMessage}</Message>}
+        {message && <Message variant="danger">{message}</Message>}
         {/* check for errors loading */}
         {error && <Message variant="danger">{error}</Message>}
 
@@ -80,7 +80,7 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Group controlId="confirmPassword">
             <Form.Label> Confirm Password</Form.Label>
             <Form.Control
-              type="confirmPassword"
+              type="password"
               placeholder="Re enter password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
