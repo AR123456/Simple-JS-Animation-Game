@@ -47,13 +47,6 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
 };
 
-// dont allow malucous special characters
-// dont allow too many characters
-// does email match itself
-// is pw strong enough
-// does pw match itself
-// does email already exist
-
 export const register = (name, email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
