@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -18,19 +17,19 @@ const ProfileScreen = ({ location, history }) => {
   // dispatch -
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userRegister);
+  const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   // is user logged in ?
   useEffect(() => {
     if (!userInfo) {
-      //
       history.push("/login");
     } else {
       //if no user name get user details
-      if (!user.name) {
+      if (!user || !user.name) {
         // note this is not really id but profile from userAction.js
         dispatch(getUserDetails("profile"));
       } else {
@@ -39,14 +38,14 @@ const ProfileScreen = ({ location, history }) => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, user]);
   // submit handler
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      //TODO dispatch update profile
+      //TODO dispatch update profile when form submitted
     }
   };
   return (
@@ -54,11 +53,8 @@ const ProfileScreen = ({ location, history }) => {
       <Row>
         <Col md={3}>
           <h2>User Profile </h2>
-          {/* check for  error  */}
           {message && <Message variant="danger">{message}</Message>}
-          {/* check for errors loading */}
           {error && <Message variant="danger">{error}</Message>}
-
           {loading && <Loader></Loader>}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
