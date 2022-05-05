@@ -10,6 +10,10 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  // USER_UPDATE_PROFILE_RESET,
 } from "../constants/userConstants";
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -113,6 +117,39 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+// take in the entire user object, we need to send token so need getState
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // to headers pass in authorization for token
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    // pass in the user object- data we want to update with
+    const { data } = await axios.put(`/api/users/profile`, user, config);
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      // payload is data that comes back
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
