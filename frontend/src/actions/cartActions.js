@@ -1,5 +1,9 @@
 import axios from "axios";
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+} from "../constants/cartConstants";
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`);
   dispatch({
@@ -21,4 +25,15 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
     payload: id,
   });
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+//TODO  save shipping address action  could this be in its own action.js ?
+// what about option to save to db or pull from db ?
+// data is the form data
+export const saveShippingAddress = (data) => (dispatch) => {
+  dispatch({
+    type: CART_SAVE_SHIPPING_ADDRESS,
+    payload: data,
+  });
+  // in local storage save as shippingAddress
+  localStorage.setItem("shippingAddress", JSON.stringify(data));
 };
