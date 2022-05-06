@@ -1,22 +1,33 @@
 import React, { useState } from "react";
-
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { saveShippingAddress } from "../actions/cartActions";
 
 import FormContainer from "../components/FormContainer";
 // deconstruct props history when submitting the form want
 // to  redirect or push to payment screen
 const ShippingScreen = ({ history }) => {
-  // state from forms
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [USState, setUSState] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [country, setCountry] = useState("");
+  // fill const with state stuff
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
+  // state from forms - if in local storage fill this stuff in
+  const [address, setAddress] = useState(shippingAddress.address);
+  const [city, setCity] = useState(shippingAddress.city);
+  const [USState, setUSState] = useState(shippingAddress.USState);
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+  const [country, setCountry] = useState(shippingAddress.country);
+  // set up dispatch
+  const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     //TODO dispatch save shipping address
     e.preventDefault();
-    console.log("submit shipping stuff");
+    // dispatch the form data
+    dispatch(
+      saveShippingAddress({ address, city, USState, postalCode, country })
+    );
+    // then move to the next page
+    history.push("/payment");
   };
   return (
     <FormContainer>
