@@ -33,8 +33,9 @@ const ShippingScreen = ({ history }) => {
     <FormContainer>
       {/* pass in step we are on and every step before the step we are on  */}
       {/* This is shipping screen so step 1 and 2  */}
-      {/* TODO this should really be just the step we are on  */}
-      <CheckoutSteps step1 step2></CheckoutSteps>
+      {/* TODO this should really be just the step we are on ? */}
+
+      <CheckoutSteps step2></CheckoutSteps>
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
