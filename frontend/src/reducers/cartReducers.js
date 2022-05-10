@@ -39,7 +39,7 @@ export const cartReducer = (
     case CART_SAVE_PAYMENT_METHOD:
       return {
         ...state,
-        // payload here is address from form
+        // payload here is payment method
         shippingAddress: action.payload,
       };
 
