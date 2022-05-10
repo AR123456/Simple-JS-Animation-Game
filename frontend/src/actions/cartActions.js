@@ -38,7 +38,8 @@ export const saveShippingAddress = (data) => (dispatch) => {
   // in local storage save as shippingAddress
   localStorage.setItem("shippingAddress", JSON.stringify(data));
 };
-// data is the payment method
+// TODO save this to the db if user wants ?
+//data is the payment method
 export const savePaymentMethod = (data) => (dispatch) => {
   dispatch({
     type: CART_SAVE_PAYMENT_METHOD,
