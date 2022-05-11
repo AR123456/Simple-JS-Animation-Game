@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { createOrder } from "../actions/orderActions";
-// pass in history as prop to use in the orderCreate success
-const PlaceOrderScreen = ({ history }) => {
-  // create dispatch used in createOrder
-  const dispatch = useDispatch();
+import { Link } from "react-router-dom";
+
+const PlaceOrderScreen = () => {
   // get from state
   const cart = useSelector((state) => state.cart);
   //TODO look at using the Javascript Internationalzation API to format currency
@@ -20,45 +17,21 @@ const PlaceOrderScreen = ({ history }) => {
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
-
-  cart.shippingPrice = addDecimals(cart.itemsPrice < 100.0 ? 0 : 100);
-
+  //TODO shipping is not being added for orders over 100
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
   cart.totalPrice = (
     Number(cart.itemsPrice) +
     Number(cart.shippingPrice) +
     Number(cart.taxPrice)
   ).toFixed(2);
-  //useSelector to handle passing around state
-  const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
-  //
-  useEffect(() => {
-    // if everything went ok push history to redirect
-    if (success) {
-      history.push(`/order/${order._id}`);
-    }
-    // eslint-disable-next-line
-  }, [history, success]);
 
   const placeOrderHandler = (e) => {
-    // once this is dispatched will be passed down through state
-    dispatch(
-      createOrder({
-        // pass in all of this stuff from the cart
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      })
-    );
+    console.log("order");
   };
   return (
     <>
-      <CheckoutSteps step2 step3 step4></CheckoutSteps>
+      <CheckoutSteps step4></CheckoutSteps>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
@@ -145,9 +118,6 @@ const PlaceOrderScreen = ({ history }) => {
                   <Col>Total</Col>
                   <Col>${cart.totalPrice}</Col>
                 </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
