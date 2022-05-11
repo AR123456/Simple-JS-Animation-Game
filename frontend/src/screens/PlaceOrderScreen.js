@@ -8,6 +8,27 @@ import { Link } from "react-router-dom";
 const PlaceOrderScreen = () => {
   // get from state
   const cart = useSelector((state) => state.cart);
+  //TODO look at using the Javascript Internationalzation API to format currency
+  // funtion so we are showing in dollar format
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+  };
+  // calculate prices - using redux reducer - which takes in a accumulater and item
+  cart.itemsPrice = addDecimals(
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  );
+  //TODO shipping is not being added for orders over 100
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
+  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
+
+  const placeOrderHandler = (e) => {
+    console.log("order");
+  };
   return (
     <>
       <CheckoutSteps step4></CheckoutSteps>
@@ -28,6 +49,7 @@ const PlaceOrderScreen = () => {
               <h2>Payment Method</h2>
               <strong>Method: </strong>
               {/* TODO is there a use case to add payment method to local storage ?  */}
+              {/* TODO look at Q&A sect9, 55 tip on adding to local storage */}
               {cart.paymentMethod}
             </ListGroup.Item>
             <ListGroup.Item>
@@ -39,6 +61,7 @@ const PlaceOrderScreen = () => {
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
                     // for each cart item do this and need an index
+                    // TODO this should not be index but item.product see course notes section 9 Q&A pt55
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
@@ -71,6 +94,40 @@ const PlaceOrderScreen = () => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>Order Summary </h2>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Items</Col>
+                  <Col>${cart.itemsPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Shipping</Col>
+                  <Col>${cart.shippingPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Tax</Col>
+                  <Col>${cart.taxPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Total</Col>
+                  <Col>${cart.totalPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cart.cartItems === 0}
+                  onClick={placeOrderHandler}
+                >
+                  Place Order
+                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
