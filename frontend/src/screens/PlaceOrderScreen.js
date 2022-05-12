@@ -17,8 +17,9 @@ const PlaceOrderScreen = () => {
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
-  //TODO shipping is not being added for orders over 100
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
+
+  cart.shippingPrice = addDecimals(cart.itemsPrice < 100.0 ? 0 : 100);
+
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
   cart.totalPrice = (
     Number(cart.itemsPrice) +
@@ -31,7 +32,7 @@ const PlaceOrderScreen = () => {
   };
   return (
     <>
-      <CheckoutSteps step4></CheckoutSteps>
+      <CheckoutSteps step2 step3 step4></CheckoutSteps>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
