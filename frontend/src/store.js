@@ -14,7 +14,7 @@ import {
   userDetailsReducer,
   userUpdateProfileReducer,
 } from "./reducers/userReducers";
-import { orderCreateReducer } from "../reducers/orderReducer";
+import { orderCreateReducer } from "./reducers/orderReducers.js";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
