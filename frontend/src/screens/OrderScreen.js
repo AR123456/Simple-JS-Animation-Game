@@ -32,11 +32,13 @@ const OrderScreen = ({ match }) => {
     );
   }
 
-  //
+  // added from section 61
   useEffect(() => {
     // here we want to dispatch action
-    dispatch(getOrderDetails(orderId));
-  }, []);
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId));
+    }
+  }, [order, orderId]);
 
   return loading ? (
     <Loader></Loader>
