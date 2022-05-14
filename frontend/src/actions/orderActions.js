@@ -6,6 +6,10 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
+  ORDER_PAY_REQUEST,
+  ORDER_PAY_SUCCESS,
+  ORDER_PAY_FAIL,
+  ORDER_PAY_RESET,
 } from "../constants/orderConstants";
 // pass in the order
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -66,6 +70,36 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const payOrderDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_PAY_REQUEST });
+    // need the user info for the token in the header
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        // dont need content type for a get request
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/orders/${id}`, config);
+    dispatch({
+      type: ORDER_PAY_SUCCESS,
+      // data here is order
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_PAY_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
