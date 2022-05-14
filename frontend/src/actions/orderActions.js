@@ -77,33 +77,39 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     });
   }
 };
-export const payOrderDetails = (id) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: ORDER_PAY_REQUEST });
-    // need the user info for the token in the header
-    const {
-      userLogin: { userInfo },
-    } = getState();
+export const payOrder =
+  //paymentResult comes from paypal
+  (orderId, paymentResult) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ORDER_PAY_REQUEST });
 
-    const config = {
-      headers: {
-        // dont need content type for a get request
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-    const { data } = await axios.get(`/api/orders/${id}`, config);
-    dispatch({
-      type: ORDER_PAY_SUCCESS,
-      // data here is order
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ORDER_PAY_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/pay`,
+        paymentResult,
+        config
+      );
+      dispatch({
+        type: ORDER_PAY_SUCCESS,
+
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ORDER_PAY_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

@@ -57,21 +57,16 @@ export const orderDetailsReducer = (
       return state;
   }
 };
-export const orderPayReducer = (
-  // set the initial value as true to avoid trying to load order before loading is true
-  state = { loading: true, orderItems: [], shippingAddress: {} },
-  action
-) => {
+export const orderPayReducer = (state = {}, action) => {
   switch (action.type) {
     case ORDER_PAY_REQUEST:
       return {
-        ...state,
         loading: true,
       };
     case ORDER_PAY_SUCCESS:
       return {
         loading: false,
-        order: action.payload,
+        success: true,
       };
     case ORDER_PAY_FAIL:
       return {
@@ -79,10 +74,7 @@ export const orderPayReducer = (
         error: action.payload,
       };
     case ORDER_PAY_RESET:
-      return {
-        loading: false,
-        error: action.payload,
-      };
+      return {};
     default:
       return state;
   }
