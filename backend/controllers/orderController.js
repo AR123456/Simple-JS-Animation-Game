@@ -60,3 +60,32 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 export { addOrderItems, getOrderById };
+//@desc update order to paid
+//@route GET/api/orders/:id/pay
+//@access Private
+//TODO improve the security of this route by checking if admin or user sect58 Ch10 Q&A
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+  //getting from URL - so params
+  const order = await Order.findById(req.params.id);
+  // check to see if order exits if not throw error.
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    // this will come from  from paypal payer object
+    //TODO other payment API would be difrent
+    // set properties
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+    // const to save it in the DB
+    const updateOrder = await order.save();
+    res.json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found ");
+  }
+});
+export { addOrderItems, getOrderById, updateOrderToPaid };

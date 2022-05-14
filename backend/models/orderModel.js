@@ -37,12 +37,12 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    // this is data comming back from paypal
+    // this is data coming back from paypal
     paymentResult: {
       type: String,
       status: String,
       update_time: String,
-      // the email comming from pay pal
+      // the email coming from pay pal
       email_address: String,
     },
 
