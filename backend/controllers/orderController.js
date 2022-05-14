@@ -59,7 +59,7 @@ const getOrderById = asyncHandler(async (req, res) => {
     throw new Error("Order not found ");
   }
 });
-export { addOrderItems, getOrderById };
+
 //@desc update order to paid
 //@route GET/api/orders/:id/pay
 //@access Private
