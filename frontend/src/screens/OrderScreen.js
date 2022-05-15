@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails, orderPay } from "../actions/orderActions";
 // Note all of this is comming from the DB
 //TODO why is order items 0?
 //TODO lots of errors in the address had to reload page for this to work
@@ -13,11 +14,15 @@ import { getOrderDetails } from "../actions/orderActions";
 // need match to ___ f order id from _____
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
-
+  // state for handling the sdk from paypal
+  const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
-  // sending order down through state
   const { order, loading, error } = orderDetails;
+  // bring in orderPay action
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
+
   //TODO refactor using methond from Q&A lec 60 part to store the item- pull from db ?
   if (!loading) {
     //   Calculate prices
@@ -34,11 +39,35 @@ const OrderScreen = ({ match }) => {
 
   // added from section 61
   useEffect(() => {
-    // here we want to dispatch action
-    if (!order || order._id !== orderId) {
+    const addPayPalScript = async () => {
+      // get the client id from server
+      const { data: clientId } = await axios.get("/api/config/paypal");
+      // dynamically generate script tag
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      // url from paypal
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&locale=en_US`;
+      // needs to be asyncronis
+      script.async = true;
+      //piece of state for when the SDK is ready
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      // add the script to the body
+      document.body.appendChild(script);
+    };
+
+    if (!order || order._id !== orderId || successPay) {
       dispatch(getOrderDetails(orderId));
+      // if the order is not paid set the script to true
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPayPalScript();
+      } else {
+        setSdkReady(true);
+      }
     }
-  }, [dispatch, orderId]);
+  }, [dispatch, orderId, successPay, order]);
 
   return loading ? (
     <Loader></Loader>
