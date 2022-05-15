@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, orderPay } from "../actions/orderActions";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
+// importing the order pay reset directly from the consts
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
+
 // Note all of this is comming from the DB
 //TODO why is order items 0?
 //TODO lots of errors in the address had to reload page for this to work
@@ -58,6 +62,8 @@ const OrderScreen = ({ match }) => {
     };
 
     if (!order || order._id !== orderId || successPay) {
+      // stop the refreshing after already paid
+      dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
       // if the order is not paid set the script to true
     } else if (!order.isPaid) {
@@ -68,6 +74,11 @@ const OrderScreen = ({ match }) => {
       }
     }
   }, [dispatch, orderId, successPay, order]);
+  // paymentResult coming from paypal
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult);
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   return loading ? (
     <Loader></Loader>
@@ -188,6 +199,19 @@ const OrderScreen = ({ match }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader></Loader>}
+                  {!sdkReady ? (
+                    <Loader></Loader>
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    ></PayPalButton>
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
