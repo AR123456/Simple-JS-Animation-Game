@@ -37,7 +37,7 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    // this is data coming back from paypal
+    // TODO updating to tyr to resolve 500 error this is data coming back from paypal
     // paymentResult: {
     //   type: String,
     //   status: String,
@@ -45,13 +45,13 @@ const orderSchema = mongoose.Schema(
     //   // the email coming from pay pal
     //   email_address: String,
     // },
-    // TODO this is the paymentResutls in the course repo trying it to get rid of 500 error
     paymentResult: {
       id: { type: String },
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
     },
+
     taxPrice: {
       type: Number,
       required: true,

@@ -60,8 +60,8 @@ const OrderScreen = ({ match }) => {
       // add the script to the body
       document.body.appendChild(script);
     };
-    if (!order || successPay || order._id !== orderId) {
-      // if (!order || order._id !== orderId || successPay) {
+
+    if (!order || order._id !== orderId || successPay) {
       // stop the refreshing after already paid
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
