@@ -38,14 +38,20 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     // this is data coming back from paypal
+    // paymentResult: {
+    //   type: String,
+    //   status: String,
+    //   update_time: String,
+    //   // the email coming from pay pal
+    //   email_address: String,
+    // },
+    // TODO this is the paymentResutls in the course repo trying it to get rid of 500 error
     paymentResult: {
-      type: String,
-      status: String,
-      update_time: String,
-      // the email coming from pay pal
-      email_address: String,
+      id: { type: String },
+      status: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
     },
-
     taxPrice: {
       type: Number,
       required: true,
