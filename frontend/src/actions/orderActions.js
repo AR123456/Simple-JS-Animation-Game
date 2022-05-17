@@ -11,8 +11,8 @@ import {
   ORDER_PAY_FAIL,
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_SUCCESS,
-  RDER_LIST_MY_FAIL,
   ORDER_LIST_MY_FAIL,
+
   // ORDER_PAY_RESET,
 } from "../constants/orderConstants";
 // pass in the order
