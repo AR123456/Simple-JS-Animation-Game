@@ -13,8 +13,10 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
+  USER_DETAILS_RESET,
   // USER_UPDATE_PROFILE_RESET,
 } from "../constants/userConstants";
+import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -56,6 +58,9 @@ export const logout = () => (dispatch) => {
   // dispatch the logout action
   //TODO at end of course run through testing framework sec 52 Q&A
   dispatch({ type: USER_LOGOUT });
+  // here dispatch the order and users(consumers) order and user detatil resets
+  dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {

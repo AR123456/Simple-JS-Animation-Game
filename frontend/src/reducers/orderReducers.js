@@ -12,6 +12,7 @@ import {
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_FAIL,
+  ORDER_LIST_MY_RESET,
 } from "../constants/orderConstants";
 export const orderCreateReducer = (state = {}, action) => {
   switch (action.type) {
@@ -22,6 +23,9 @@ export const orderCreateReducer = (state = {}, action) => {
     case ORDER_CREATE_SUCCESS:
       return {
         loading: false,
+        // TODO from lec 66 bug true need to be turned off
+        // so that with next new order doesent keep directing user
+        // back to order screen with 1st time orders
         success: true,
         order: action.payload,
       };
@@ -97,6 +101,11 @@ export const orderListMyReducer = (state = { orders: [] }, action) => {
       return {
         loading: false,
         error: action.payload,
+      };
+    case ORDER_LIST_MY_RESET:
+      return {
+        // empty the state
+        orders: [],
       };
 
     default:
