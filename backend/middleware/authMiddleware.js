@@ -39,5 +39,15 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error("Not authorized no token");
   }
 });
+// middleware for admin users
+const admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    //TODO this error message should not be this specific
+    throw new Error("Not auth as an admin ");
+  }
+};
 // use protect in userRoute
-export { protect };
+export { protect, admin };
