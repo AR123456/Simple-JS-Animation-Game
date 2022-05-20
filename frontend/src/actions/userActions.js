@@ -19,6 +19,7 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
+  USER_LIST_RESET,
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 export const login = (email, password) => async (dispatch) => {
@@ -65,6 +66,9 @@ export const logout = () => (dispatch) => {
   // here dispatch the order and users(consumers) order and user detatil resets
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
+  // when admin logs out clear the list
+  dispatch({ type: USER_LIST_RESET });
+  // TODO also redirect to home page
 };
 
 export const register = (name, email, password) => async (dispatch) => {
