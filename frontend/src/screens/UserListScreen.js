@@ -10,6 +10,7 @@ const UserListScreen = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
+
   useEffect(() => {
     dispatch(listUsers());
   }, [dispatch]);
@@ -18,9 +19,9 @@ const UserListScreen = () => {
   };
   return (
     <>
-      <h2>Users</h2>
+      <h1>Users</h1>
       {loading ? (
-        <Loader></Loader>
+        <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
@@ -28,9 +29,10 @@ const UserListScreen = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Admin</th>
+              <th>NAME</th>
+              <th>EMAIL</th>
+              <th>ADMIN</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -49,7 +51,7 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>

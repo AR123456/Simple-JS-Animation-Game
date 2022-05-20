@@ -170,9 +170,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     });
   }
 };
-export const listUsers = (user) => async (dispatch, getState) => {
+export const listUsers = () => async (dispatch, getState) => {
   try {
-    dispatch({ type: USER_LIST_REQUEST });
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
 
     const {
       userLogin: { userInfo },
@@ -185,9 +187,9 @@ export const listUsers = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/users`, config);
+
     dispatch({
       type: USER_LIST_SUCCESS,
-      // payload is data that comes back - all the users
       payload: data,
     });
   } catch (error) {
