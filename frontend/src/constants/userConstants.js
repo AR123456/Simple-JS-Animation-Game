@@ -23,3 +23,4 @@ export const USER_LIST_RESET = "USER_LIST_RESET";
 export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST";
 export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS";
 export const USER_DELETE_FAIL = "USER_DELETE_FAIL";
+// TODO need a USER_DELETE_RESET implemented after one user is del state is undefined
