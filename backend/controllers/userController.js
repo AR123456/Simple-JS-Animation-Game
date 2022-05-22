@@ -103,7 +103,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users/
 // @access  Private/admin
 const getUsers = asyncHandler(async (req, res) => {
+  // TODO this should be users why is user working
   const user = await User.find({});
+  // TODO this should be users why is user working
   res.json(user);
 });
 
@@ -121,6 +123,20 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get user by ID for admin only
+// @route   GET /api/users/:id
+// @access  Private/admin
+const getUsersById = asyncHandler(async (req, res) => {
+  // the id in the url  dont send the password back
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 export {
   authUser,
   getUserProfile,
@@ -128,4 +144,5 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
+  getUsersById,
 };
