@@ -126,7 +126,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @desc    Get user by ID for admin only
 // @route   GET /api/users/:id
 // @access  Private/admin
-const getUsersById = asyncHandler(async (req, res) => {
+const getUserById = asyncHandler(async (req, res) => {
   // the id in the url  dont send the password back
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
@@ -140,9 +140,8 @@ const getUsersById = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // @access  Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
-  // get id from url
   const user = await User.findById(req.params.id);
-  // check for user
+
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
@@ -158,7 +157,7 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User p not found");
+    throw new Error("User not found");
   }
 });
 
@@ -169,6 +168,6 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
-  getUsersById,
+  getUserById,
   updateUser,
 };

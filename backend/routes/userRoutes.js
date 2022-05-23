@@ -7,6 +7,8 @@ import {
   updateUserProfile,
   getUsers,
   deleteUser,
+  getUserById,
+  updateUser,
 } from "../controllers/userController.js";
 // middle ware to validate token
 import { protect, admin } from "../middleware/authMiddleware.js";
@@ -20,7 +22,11 @@ router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
-// route for admin to deltete a user
-router.route("/:id").delete(protect, admin, deleteUser);
+// route for admin to delete a user
+router
+  .route("/:id")
+  .delete(protect, admin, deleteUser)
+  .get(protect, admin, getUserById)
+  .put(protect, admin, updateUser);
 
 export default router;
