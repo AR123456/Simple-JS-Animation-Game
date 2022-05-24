@@ -23,7 +23,7 @@ const UserListScreen = ({ history }) => {
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, successDelete]);
+  }, [dispatch, history, successDelete, userInfo]);
   const deleteHandler = (id) => {
     // TODO make a prettier confirm alert
     if (window.confirm("Are you sure")) {
