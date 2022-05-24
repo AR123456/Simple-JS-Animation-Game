@@ -15,6 +15,7 @@ const UserEditScreen = ({ match, history }) => {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userEdit);
   const { loading, error, user } = userDetails;
+
   useEffect(() => {}, []);
   const submitHandler = (e) => {
     e.preventDefault();
@@ -26,48 +27,47 @@ const UserEditScreen = ({ match, history }) => {
         Go Back to list
       </Link>
       <FormContainer>
-        <h2>User edit screen </h2>
-        <Form onSubmit={console.log("submitted")}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="name"
-              placeholder="Enter name"
-              //   value={name}
-              //   onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              //   value={email}
-              //   onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              //   value={password}
-              //   onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="confirmPassword">
-            <Form.Label> Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Re enter password"
-              //   value={confirmPassword}
-              //   onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Button type="submit" variant="primary">
-            Update
-          </Button>
-        </Form>
+        <h2>User edit </h2>
+        {loading ? (
+          <Loader></Loader>
+        ) : error ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="isadmin">
+              <Form.Check
+                type="checkbox"
+                label="Is Admin"
+                checked={isAdmin}
+                onChange={(e) => setIsAdmin(e.target.checked)}
+              ></Form.Check>
+            </Form.Group>
+
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
+          </Form>
+        )}
       </FormContainer>
     </>
   );
