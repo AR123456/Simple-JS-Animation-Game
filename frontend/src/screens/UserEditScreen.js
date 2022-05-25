@@ -21,6 +21,7 @@ const UserEditScreen = ({ match, history }) => {
     if (!user.name || user._id !== userId) {
       dispatch(getUserDetails(userId));
     } else {
+      // TODO what could be other safe , meaningful things an administrator would need to edit
       setName(user.name);
       setEmail(user.email);
       setIsAdmin(user.isAdmin);
