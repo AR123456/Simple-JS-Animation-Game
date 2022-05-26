@@ -26,7 +26,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
-  USER_UPDATE_RESET,
+  // USER_UPDATE_RESET,
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 export const login = (email, password) => async (dispatch) => {
@@ -256,10 +256,16 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
     // pass in the user object- data we want to update with
-    const { data } = await axios.put(`/admin/user/:id/edit`, user, config);
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
     dispatch({
       type: USER_UPDATE_SUCCESS,
       // payload is data that comes back
+      payload: data,
+    });
+    // also want details success, pass updated user into user details
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      // payload is data is updated user
       payload: data,
     });
   } catch (error) {
