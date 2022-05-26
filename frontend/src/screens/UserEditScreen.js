@@ -17,13 +17,13 @@ const UserEditScreen = ({ match, history }) => {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
-  // need the user update state to know if it is successfull
+  // need the user update state to know if it is successful
   const userUpdate = useSelector((state) => state.userUpdate);
   const {
     loading: loadingUpdate,
     error: errorUpdate,
     success: successUpdate,
-  } = userDetails;
+  } = userUpdate;
 
   useEffect(() => {
     // check for success update first
@@ -56,6 +56,7 @@ const UserEditScreen = ({ match, history }) => {
       <FormContainer>
         <h2>User edit </h2>
         {loadingUpdate && <Loader />}
+        {/* this would be an error in the put request  */}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader></Loader>

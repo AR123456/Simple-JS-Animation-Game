@@ -240,6 +240,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     });
   }
 };
+// takes in the user object
 export const updateUser = (user) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_UPDATE_REQUEST });
@@ -248,7 +249,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    // to headers pass in authorization for token
+    // to headers pass in authorization for token and content type of application json
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -256,11 +257,10 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
     // pass in the user object- data we want to update with
+    // destructure data from the put request
     const { data } = await axios.put(`/api/users/${user._id}`, user, config);
     dispatch({
       type: USER_UPDATE_SUCCESS,
-      // payload is data that comes back
-      payload: data,
     });
     // also want details success, pass updated user into user details
     dispatch({

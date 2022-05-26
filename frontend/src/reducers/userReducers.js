@@ -111,6 +111,7 @@ export const userDeleteReducer = (state = {}, action) => {
       return state;
   }
 };
+// passing in empty user object
 export const userUpdateReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case USER_UPDATE_REQUEST:
