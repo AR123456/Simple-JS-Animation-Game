@@ -47,4 +47,4 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById };
+export { getProducts, getProductById, deleteProduct };
