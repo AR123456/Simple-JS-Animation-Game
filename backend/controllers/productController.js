@@ -27,5 +27,24 @@ const getProductById = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
+// @desc Delete product
+// @route DELETE/api/products/:id
+// @access Public/Admin
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  //TODO check to see if user is admin before allowing them to del products
+  //TODO checking protected and admin in the routes js file is that enough?
+  //Note any admin can edit or del a product  if you wanted to liming the admins
+  //to the admin who created the product being the only one who could delete it.
+  //would need to add check for req.user._id === rec.product.user._id
+  if (product) {
+    //
+    await product.remove();
+    res.json({ message: "Product removed" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found ");
+  }
+});
 
 export { getProducts, getProductById };
