@@ -78,7 +78,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
   // Product model,id in URL
-  const product = await ProductlfindById(req.params.id);
+  const product = await Product.findById(req.params.id);
   // check for product
   if (product) {
     // set feilds
@@ -97,4 +97,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
-export { getProducts, getProductById, deleteProduct };
+export {
+  getProducts,
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+};
