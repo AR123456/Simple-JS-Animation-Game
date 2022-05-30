@@ -19,7 +19,7 @@ const ProductEditScreen = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
-  const [loading, error, product] = productDetails;
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
     //make sure product in url matches what is comming from db
