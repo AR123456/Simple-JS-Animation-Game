@@ -34,7 +34,7 @@ const ProductEditScreen = ({ match, history }) => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       // redirect to productlist
-      history.push("/admin/productist");
+      history.push("/admin/productlist");
     } else {
       //make sure product in url matches what is comming from db
       if (!product.name || product._id !== productId) {
