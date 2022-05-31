@@ -1,3 +1,5 @@
+// need path module from express to make static folder
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
@@ -6,6 +8,8 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+// upload routes
+import uploadRoutes from "./routes/uploadRoutes.js";
 // bring in error handling middleware
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 // bring in dotenv
@@ -24,12 +28,21 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
-
+app.use("/api/upload", uploadRoutes);
 //paypal config route
 // when ready to make payment hit this and get the client ik
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+//
+// __dirname points to current dir, but not avalible in ES modules ,only avalible in common js
+// so to mimic this create a var called __durname and path.resolve
+const __dirname = path.resolve();
+//Make uploads a static folder so it can be loaded in the browser
+// be sure to bring path module in to do this
+// point to uploads folder
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // bring in the error handling middleware
 app.use(notFound);
