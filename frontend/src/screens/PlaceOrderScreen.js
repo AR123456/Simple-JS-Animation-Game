@@ -56,6 +56,7 @@ const PlaceOrderScreen = ({ history }) => {
       })
     );
   };
+  //TODO depricate what is in stock when someone makes a purchase see Q&A sect 79 for suggestions
   return (
     <>
       <CheckoutSteps step2 step3 step4></CheckoutSteps>

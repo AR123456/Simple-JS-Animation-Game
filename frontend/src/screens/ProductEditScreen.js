@@ -1,3 +1,5 @@
+// axios for file upload
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
@@ -16,6 +18,11 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
+  // file upload state
+  //TODO when I delete a product the image is not removed from uploads folder
+  //TODO the ref to it does get del from the DB, note the image is not being stored
+  // in the db it is the url to it on the server.
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -50,6 +57,31 @@ const ProductEditScreen = ({ match, history }) => {
       }
     }
   }, [dispatch, history, productId, product, successUpdate]);
+  const uploadFileHandler = async (e) => {
+    // e.target.files is an array, we are doing one file so first in array
+    const file = e.target.files[0];
+    // initialize a form data object
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+    // put request in try catch
+    try {
+      // content type must be multipart form data
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      // response data
+      const { data } = await axios.post("/api/upload", formData, config);
+      // send back the path - in data
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
   const submitHandler = (e) => {
     e.preventDefault();
     // dispatch the update product action, pass in the form fields
@@ -100,15 +132,28 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
             <Form.Group controlId="image">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter image URL"
+                placeholder="Enter image url"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
+              {/* <Form.File
+                id="image-file"
+                label="Choose File"
+                custom
+                onChange={uploadFileHandler}
+              ></Form.File> */}
+              <Form.Control
+                type="file"
+                // id="image-file"
+                label="Choose File"
+                custom="true"
+                onChange={uploadFileHandler}
+              ></Form.Control>
+              {uploading && <Loader />}
             </Form.Group>
 
             <Form.Group controlId="brand">

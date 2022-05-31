@@ -142,6 +142,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       // data is newly created product
       payload: data,
     });
+    //TODO need to also dispatch product details success to fix bug Q&A section 79
   } catch (error) {
     const message =
       error.response && error.response.data.message
