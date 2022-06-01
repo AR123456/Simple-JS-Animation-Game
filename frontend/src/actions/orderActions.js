@@ -12,6 +12,9 @@ import {
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_FAIL,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAIL,
 
   // ORDER_PAY_RESET,
 } from "../constants/orderConstants";
@@ -143,6 +146,22 @@ export const listMyOrders = () => async (dispatch, getState) => {
     dispatch({
       type: ORDER_LIST_MY_FAIL,
       payload: message,
+    });
+  }
+};
+export const listOrders = () => async (dispatch) => {
+  try {
+    dispatch({ type: ORDER_LIST_REQUEST });
+    const { data } = await axios.get("/api/orders");
+    dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_FAIL,
+
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };
