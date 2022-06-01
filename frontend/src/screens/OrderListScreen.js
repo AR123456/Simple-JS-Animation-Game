@@ -8,17 +8,16 @@ import { listOrders } from "../actions/orderActions";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
-  const orderList = useSelector((state) => state.userList);
+  const orderList = useSelector((state) => state.orderList);
   const { loading, error, orders } = orderList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      //TODO dispathc listORders
-      console.log("admin");
+      dispatch(listOrders());
     } else {
       //TODO is this the best place to push back to ?
-      history.push("/");
+      history.push("/login");
     }
   }, [dispatch, history, userInfo]);
   return (
@@ -33,15 +32,42 @@ const OrderListScreen = ({ history }) => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th>Order</th>
+              <th>User</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Paid</th>
+              <th>Delivered?</th>
             </tr>
           </thead>
           {orders.map((order) => (
             <tr key={order._id}>
-              <td>{order.user._id}</td>
-              <td>{order.user.name}</td>
-              <td>{order}</td>
+              <td>{order._id}</td>
+              <td>{order.user && order.user.name}</td>
+              <td>{order.createdAt.substring(0, 10)}</td>
+              <td>${order.totalPrice}</td>
+              <td>
+                {order.isPaid ? (
+                  order.paidAt.substring(0, 10)
+                ) : (
+                  <i className="fas fa-times" style={{ color: "red" }}></i>
+                )}
+              </td>
+              <td>
+                {order.isDelivered ? (
+                  order.deleveredAt.substring(0, 10)
+                ) : (
+                  <i className="fas fa-times" style={{ color: "red" }}></i>
+                )}
+              </td>
+              {/* TODO is this the best place to dir? was `/order/${order._id}` 
+              would need to have an admin order screen but maybe other things admin needs 
+              to see and maybe better security to have a totally diffrent screen 
+              */}
+              <LinkContainer to={`/order/${order._id}`}>
+                <Button variant="light" className="btn-sm">
+                  Details
+                </Button>
+              </LinkContainer>
             </tr>
           ))}
         </Table>

@@ -149,10 +149,19 @@ export const listMyOrders = () => async (dispatch, getState) => {
     });
   }
 };
-export const listOrders = () => async (dispatch) => {
+export const listOrders = () => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_LIST_REQUEST });
-    const { data } = await axios.get("/api/orders");
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/orders", config);
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
