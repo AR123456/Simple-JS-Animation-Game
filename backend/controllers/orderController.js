@@ -90,6 +90,28 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     throw new Error("Order not found ");
   }
 });
+//TODO functionality to change to acctually delivered when that happens ?
+// maybe this should be shipped since that is what is actualy happening
+//@desc update order to out for delivery
+//@route GET/api/orders/:id/deliver
+//@access Private/admin
+//TODO improve the security of this route by checking if admin or user sect58 Ch10 Q&A
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  //getting from URL - so params
+  const order = await Order.findById(req.params.id);
+  // check to see if order exits if not throw error.
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updatedOrder = await order.save();
+    // send back updated order
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found ");
+  }
+});
 //@desc Users order history
 //@route GET/api/orders/myorders
 //@access Private
@@ -115,6 +137,7 @@ export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
+  updateOrderToDelivered,
   getMyOrders,
   getOrders,
 };
