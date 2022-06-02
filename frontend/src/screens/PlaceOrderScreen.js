@@ -57,6 +57,7 @@ const PlaceOrderScreen = ({ history }) => {
     );
   };
   //TODO depricate what is in stock when someone makes a purchase see Q&A sect 79 for suggestions
+  // TODO see the code in sect 82 Admin Order List Q&A
   return (
     <>
       <CheckoutSteps step2 step3 step4></CheckoutSteps>
