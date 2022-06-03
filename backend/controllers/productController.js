@@ -72,7 +72,7 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 // @desc Update product
 // @route PUT/api/products/:id
-// @access Public/Admin
+// @access Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
   // from body get
   const { name, price, description, image, brand, category, countInStock } =
@@ -92,6 +92,52 @@ const updateProduct = asyncHandler(async (req, res) => {
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+// @desc Create new product review
+// @route POST/api/products/:id/review  -post bacuse we are adding a resource
+// @access Private
+const createProductReview = asyncHandler(async (req, res) => {
+  // for the particular review get
+  const { rating, comment } = req.body;
+  // get the product out of the url
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    // has this user already submitted a review? this const will
+    // be true if it has
+    const alreadyReviewed = products.reviews.find(
+      (r) => r.toString() === req.user._id.toString()
+    );
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("You already reviewed this product");
+    }
+    // user has not reviewed product so create a review object
+    const review = {
+      // logged in user name
+      name: req.user.name,
+      // from the body of the req
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+    // push the new review onto the array
+    products.reviews.push(review);
+    // get number of reviews from array
+    product.numReviews = product.reviews.length;
+    //calculate overall rating
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      products.reviews.length;
+    // save the review to the db
+    await product.save();
+    // 201 new resource created- send message to front end
+    res.status(201).json({ message: "Review added" });
   } else {
     res.status(404);
     throw new Error("Product not found");

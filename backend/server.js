@@ -3,6 +3,7 @@ import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
+import morgan from "morgan";
 import connectDB from "./config/db.js";
 // routes
 import productRoutes from "./routes/productRoutes.js";
@@ -18,6 +19,10 @@ dotenv.config();
 connectDB();
 //  init express to app
 const app = express();
+// running morgan in dev
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 // allow json data
 app.use(express.json());
 // home route

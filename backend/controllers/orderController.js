@@ -61,7 +61,8 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 //@desc update order to paid
-//@route GET/api/orders/:id/pay
+
+//@route PUT/api/orders/:id/pay
 //@access Private
 //TODO improve the security of this route by checking if admin or user sect58 Ch10 Q&A
 const updateOrderToPaid = asyncHandler(async (req, res) => {
@@ -103,7 +104,6 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
-
     const updatedOrder = await order.save();
     // send back updated order
     res.json(updatedOrder);
