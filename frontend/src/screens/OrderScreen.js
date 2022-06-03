@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
 import { Link } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../actions/orderActions";
 // importing the order pay reset directly from the consts
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from "../constants/orderConstants";
 
 // Note all of this is comming from the DB
 //TODO why is order items 0?
@@ -16,7 +23,7 @@ import { ORDER_PAY_RESET } from "../constants/orderConstants";
 //TODO refactor using methond from Q&A lec 60 part to store the item
 //price in DB and pull from there
 // need match to ___ f order id from _____
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
   // state for handling the sdk from paypal
   const [sdkReady, setSdkReady] = useState(false);
@@ -26,6 +33,12 @@ const OrderScreen = ({ match }) => {
   // bring in orderPay action
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+  // state for order paid
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+  // ned user info from state to only show button to admin
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   //TODO refactor using methond from Q&A lec 60 part to store the item- pull from db ?
   if (!loading) {
@@ -43,6 +56,12 @@ const OrderScreen = ({ match }) => {
 
   // added from section 61
   useEffect(() => {
+    // if user is not logged in redirect to login page
+    //TODO this may be something to do on other pages to not show
+    // them to people who should not see them
+    if (!userInfo) {
+      history.push("/login");
+    }
     const addPayPalScript = async () => {
       // get the client id from server
       const { data: clientId } = await axios.get("/api/config/paypal");
@@ -61,9 +80,10 @@ const OrderScreen = ({ match }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || order._id !== orderId || successPay) {
+    if (!order || successPay || successDeliver || order._id !== orderId) {
       // stop the refreshing after already paid
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
       // if the order is not paid set the script to true
     } else if (!order.isPaid) {
@@ -73,13 +93,15 @@ const OrderScreen = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, successDeliver]);
   // paymentResult coming from paypal
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
-
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
+  };
   return loading ? (
     <Loader></Loader>
   ) : error ? (
@@ -212,6 +234,22 @@ const OrderScreen = ({ match }) => {
                   )}
                 </ListGroup.Item>
               )}
+              {/* only admin can see this button and only if order paid and not del yet */}
+              {loadingDeliver && <Loader></Loader>}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      className="btn btn-block"
+                      type="button"
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

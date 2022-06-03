@@ -18,7 +18,7 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
-
+  // ORDER_DELIVER_RESET,
   // ORDER_PAY_RESET,
 } from "../constants/orderConstants";
 // pass in the order
@@ -177,7 +177,7 @@ export const listOrders = () => async (dispatch, getState) => {
     });
   }
 };
-export const deliverOrder = (orderId) => async (dispatch, getState) => {
+export const deliverOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_DELIVER_REQUEST });
 
@@ -187,14 +187,16 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.put(`/api/orders/${orderId}/deliver`, config);
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/deliver`,
+      {},
+      config
+    );
     dispatch({
       type: ORDER_DELIVER_SUCCESS,
-
       payload: data,
     });
   } catch (error) {
