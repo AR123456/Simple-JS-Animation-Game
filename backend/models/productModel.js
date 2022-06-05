@@ -19,7 +19,6 @@ const productSchema = mongoose.Schema(
   {
     //   which admin user created which product
     // adding relationship between the product and the user
-
     user: {
       type: mongoose.Schema.Types.ObjectId,
       require: true,
