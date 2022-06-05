@@ -93,7 +93,8 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order, successDeliver]);
+    // TODO from section 83 Mark as Del Q&A
+  }, [dispatch, orderId, successPay, order, successDeliver, history, userInfo]);
   // paymentResult coming from paypal
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
