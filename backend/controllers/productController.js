@@ -110,7 +110,7 @@ const createProductReview = asyncHandler(async (req, res) => {
   if (product) {
     // has this user already submitted a review? this const will
     // be true if it has
-    const alreadyReviewed = products.reviews.find(
+    const alreadyReviewed = product.reviews.find(
       (r) => r.toString() === req.user._id.toString()
     );
     if (alreadyReviewed) {
@@ -127,13 +127,13 @@ const createProductReview = asyncHandler(async (req, res) => {
       user: req.user._id,
     };
     // push the new review onto the array
-    products.reviews.push(review);
+    product.reviews.push(review);
     // get number of reviews from array
     product.numReviews = product.reviews.length;
     //calculate overall rating
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      products.reviews.length;
+      product.reviews.length;
     // save the review to the db
     await product.save();
     // 201 new resource created- send message to front end
@@ -149,4 +149,5 @@ export {
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 };
