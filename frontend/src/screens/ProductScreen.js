@@ -41,11 +41,21 @@ const ProductScreen = ({ history, match }) => {
     productReviewCreate;
 
   useEffect(() => {
+    if (successProductReview) {
+      alert("Review Submitted!");
+      setRating(0);
+      setComment("");
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+    }
     dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match]);
+  }, [dispatch, match, successProductReview]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(createProductReview(match.params.id, { rating, comment }));
   };
   return (
     <div>
@@ -142,7 +152,7 @@ const ProductScreen = ({ history, match }) => {
               <h2>Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant="flush">
-                {product.reviews.map((review) => {
+                {product.reviews.map((review) => (
                   // map through and for each review
                   <ListGroup.Item key={review._id}>
                     {/* reviewers name */}
@@ -150,11 +160,14 @@ const ProductScreen = ({ history, match }) => {
                     <Rating value={review.rating}></Rating>
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
-                  </ListGroup.Item>;
-                })}
+                  </ListGroup.Item>
+                ))}
                 {/* TODO this should not be here should be on user product page lec 85Form to add a review  */}
                 <ListGroup.Item>
                   <h2>Write a customer review</h2>
+                  {errorProductReview && (
+                    <Message variant="danger">{errorProductReview}</Message>
+                  )}
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       <Form.Group controlId="rating">
@@ -164,14 +177,26 @@ const ProductScreen = ({ history, match }) => {
                           value={rating}
                           onChange={(e) => setRating(e.target.value)}
                         >
-                          <option value="">Select....</option>
-                          <option value="1">1-Poor</option>{" "}
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
                           <option value="2">2 - Fair</option>
                           <option value="3">3 - Good</option>
                           <option value="4">4 - Very Good</option>
                           <option value="5">5 - Excellent</option>
                         </Form.Control>
                       </Form.Group>
+                      <Form.Group controlId="comment">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          row="3"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button type="submit" variant="primary">
+                        Submit
+                      </Button>
                     </Form>
                   ) : (
                     <Message>
