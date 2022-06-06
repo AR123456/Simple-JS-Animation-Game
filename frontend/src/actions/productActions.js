@@ -173,7 +173,7 @@ export const createProductReview =
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      // pass in review and config
+      // not putting into var since only returning a message that we do not care about -pass in review and config
       await axios.post(`/api/products/${productId}/reviews`, review, config);
 
       dispatch({
