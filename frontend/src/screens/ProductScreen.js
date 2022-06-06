@@ -46,6 +46,7 @@ const ProductScreen = ({ history, match }) => {
       setRating(0);
       setComment("");
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+      // TODO need to add the product review reset on logout so it dosent persist for the next user lec 85 Q&A
     }
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match, successProductReview]);
@@ -163,6 +164,7 @@ const ProductScreen = ({ history, match }) => {
                   </ListGroup.Item>
                 ))}
                 {/* TODO this should not be here should be on user product page lec 85Form to add a review  */}
+                {/* TODO alternative would be leave it here but hide if user has not purchased it or if they have already reviewed lect85 */}
                 <ListGroup.Item>
                   <h2>Write a customer review</h2>
                   {errorProductReview && (
