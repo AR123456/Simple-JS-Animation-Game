@@ -8,7 +8,20 @@ import Product from "../models/productModel.js";
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
   //(all mongoose methods use a promise) note that instead of async await could use .then syntax
-  const products = await Product.find({});
+  // for keyword search functionality need to decide if this is going to be
+  // empty or get all products.
+  const keyword = req.query.keyword
+    ? {
+        // match the keyword to the name of the product
+        name: {
+          // useing regex here case insensitive
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+  // for search functionality spread keyword ( this is going to be the keyword or empty)
+  const products = await Product.find({ ...keyword });
 
   res.json(products);
 });

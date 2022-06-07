@@ -5,16 +5,23 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listProducts } from "../actions/productActions";
-
-const HomeScreen = () => {
+// need to pass in match for the search logic
+const HomeScreen = ({ match }) => {
+  // check for keyword using match - not getting an id here, getting keyword
+  // may be nothing or may be a keyword - whatever it is we are passing
+  // into list products
+  const keyword = match.params.keyword;
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
 
   const { loading, error, products } = productList;
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    // passing in keyword - need to account for this in list products actions
+    // in productActions.js
+    dispatch(listProducts(keyword));
+    // add keyword as dependancy
+  }, [dispatch, keyword]);
 
   return (
     <>
