@@ -21,26 +21,37 @@ import {
 } from "../constants/productConstants";
 // for search pass in keyword defaulted to empty string
 export const listProducts =
-  (keyword = "") =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: PRODUCT_LIST_REQUEST });
-      // const { data } = await axios.get("/api/products");
-      // now pass in a query string instead
-      // need to set up this route in the controller on the back end too
-      const { data } = await axios.get(`/api/products?keyword=${keyword}`);
-      dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_LIST_FAIL,
+  // pass in pageNumber that will be empty by default
 
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+
+    (keyword = "", pageNumber = "") =>
+    async (dispatch) => {
+      try {
+        dispatch({ type: PRODUCT_LIST_REQUEST });
+        // const { data } = await axios.get("/api/products");
+        // now pass in a query string instead
+        // need to set up this route in the controller on the back end too
+        // for pagination need to change this and pass in second query sting so...
+        // data is now the product, pages and page
+        // const { data } = await axios.get(`/api/products?keyword=${keyword}`);
+        // when using 2 or more query strings use an ampersand
+        // need to account for these changes in reducer
+        const { data } = await axios.get(
+          `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+        );
+
+        dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({
+          type: PRODUCT_LIST_FAIL,
+
+          payload:
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+        });
+      }
+    };
 
 export const listProductDetails = (id) => async (dispatch) => {
   try {
