@@ -26,15 +26,7 @@ export const productListReducer = (state = { products: [] }, action) => {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
     case PRODUCT_LIST_SUCCESS:
-      // with implementation of pagination were getting more stuff from back
-      // end  getting products ,page and pages
-      return {
-        loading: false,
-        products: action.payload.products,
-        // adding pages and page to the return
-        pages: action.payload.pages,
-        page: action.payload.page,
-      };
+      return { loading: false, products: action.payload };
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
