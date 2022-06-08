@@ -7,7 +7,13 @@ import Product from "../models/productModel.js";
 // @route GET/api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-  //(all mongoose methods use a promise) note that instead of async await could use .then syntax
+  // pagination - how many products per page being set as static number
+  // const pageSize =10;
+  // setting to 2 for testing
+  const pageSize = 2;
+  // the requested page number coming in from front end
+  // cast as number page number or 1
+  const page = Number(req.query.pageNumber) || 1;
   // for keyword search functionality need to decide if this is going to be
   // empty or get all products.
   const keyword = req.query.keyword
@@ -20,10 +26,19 @@ const getProducts = asyncHandler(async (req, res) => {
         },
       }
     : {};
+  // for pagination will need total products- can use .count() , spread in keyword
+  const count = await Product.count({ ...keyword });
   // for search functionality spread keyword ( this is going to be the keyword or empty)
-  const products = await Product.find({ ...keyword });
-
-  res.json(products);
+  // for patination adding a limit to the page size and skip method
+  const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    // . skip here page is either 1 or req.query.pageNumber result
+    .skip(pageSize * (page - 1));
+  // will also need to return page and total number of pages so making this object
+  // passing in pages using ceil so nearest whole number greater than
+  // res.json(products);
+  // now that this is an object need to account for that on front end.
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 // @desc Fetch single product
 // @route GET/api/products/:id

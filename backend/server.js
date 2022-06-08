@@ -19,10 +19,9 @@ dotenv.config();
 connectDB();
 //  init express to app
 const app = express();
-// running morgan in dev
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// running morgan
+//TODO remove from prd app
+app.use(morgan("combined"));
 // allow json data
 app.use(express.json());
 // home route
