@@ -10,7 +10,7 @@ const getProducts = asyncHandler(async (req, res) => {
   // pagination - how many products per page being set as static number
   // const pageSize =10;
   // setting to 2 for testing
-  const pageSize = 2;
+  const pageSize = 10;
   // the requested page number coming in from front end
   // cast as number page number or 1
   const page = Number(req.query.pageNumber) || 1;
@@ -26,8 +26,8 @@ const getProducts = asyncHandler(async (req, res) => {
         },
       }
     : {};
-  // for pagination will need total products- can use .count() , spread in keyword
-  const count = await Product.count({ ...keyword });
+  // for pagination will need total products- can use .countDocuments() , spread in keyword
+  const count = await Product.countDocuments({ ...keyword });
   // for search functionality spread keyword ( this is going to be the keyword or empty)
   // for patination adding a limit to the page size and skip method
   const products = await Product.find({ ...keyword })
@@ -171,6 +171,17 @@ const createProductReview = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
+// @desc Get Top Rated products
+// @route GET /api/products/top
+// @access Public
+// note this could have been done by adding to the get products route
+const getTopProducts = asyncHandler(async (req, res) => {
+  // get all the products, sort the returned object assending
+  // .sort()  method and .limit() to get the top 3
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  // respond back to front end with the products
+  res.json(products);
+});
 export {
   getProducts,
   getProductById,
@@ -178,4 +189,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 };
