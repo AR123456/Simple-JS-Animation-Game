@@ -5,8 +5,9 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
-import { listProducts } from "../actions/productActions";
+
 import ProductCarousel from "../components/ProductCarousel";
+import { listProducts } from "../actions/productActions";
 // need to pass in match for the search logic
 const HomeScreen = ({ match }) => {
   // check for keyword using match - not getting an id here, getting keyword
