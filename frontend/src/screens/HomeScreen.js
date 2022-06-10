@@ -43,6 +43,7 @@ const HomeScreen = ({ match }) => {
             ))}
           </Row>
           {/* pass in pages , keyword if there is on or empty string if no keyword */}
+          {/* TODO add message product not found if it is not sec 87 q&A */}
           <Paginate
             pages={pages}
             page={page}
