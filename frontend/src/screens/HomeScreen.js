@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import { listProducts } from "../actions/productActions";
+import ProductCarousel from "../components/ProductCarousel";
 // need to pass in match for the search logic
 const HomeScreen = ({ match }) => {
   // check for keyword using match - not getting an id here, getting keyword
@@ -28,6 +29,8 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      {/* dont show the carousel if users is doing a search so if keyword dont show  */}
+      {!keyword && <ProductCarousel />}
       <h1>Products</h1>
       {loading ? (
         <Loader></Loader>
