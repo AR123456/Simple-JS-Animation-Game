@@ -4,6 +4,7 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+
 // for admin to see patination on the product list screen
 import Paginate from "../components/Paginate";
 import {

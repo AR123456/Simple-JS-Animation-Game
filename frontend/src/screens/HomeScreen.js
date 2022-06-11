@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
@@ -8,6 +8,7 @@ import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 import { listProducts } from "../actions/productActions";
 // need to pass in match for the search logic
 const HomeScreen = ({ match }) => {
@@ -31,12 +32,14 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
-      {/* adding Helmet  */}
-      <Helmet>
-        <title>Welcome Here | Home</title>
-      </Helmet>
-      {/* dont show the carousel if users is doing a search so if keyword dont show  */}
-      {!keyword && <ProductCarousel />}
+      <Meta />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light">
+          Go Back
+        </Link>
+      )}
       <h1>Products</h1>
       {loading ? (
         <Loader></Loader>

@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader.js";
+import Meta from "../components/Meta";
 import Message from "../components/Message.js";
 import Rating from "../components/Rating";
 import {
@@ -49,6 +50,8 @@ const ProductScreen = ({ history, match }) => {
       // TODO need to add the product review reset on logout so it dosent persist for the next user lec 85 Q&A
     }
     dispatch(listProductDetails(match.params.id));
+    // TODO lect 89 Q&A ure it has this at the end of the useEffects
+    //[dispatch, match, successProductReview, product, history]
   }, [dispatch, match, successProductReview]);
 
   const addToCartHandler = () => {
@@ -70,6 +73,9 @@ const ProductScreen = ({ history, match }) => {
       ) : (
         //
         <>
+          {/* adding tab title using Helmet housed in Meta , here after products load 
+          this will find the product title */}
+          <Meta title={product.name}></Meta>
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
