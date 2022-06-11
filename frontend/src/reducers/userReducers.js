@@ -13,7 +13,7 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-  // USER_UPDATE_PROFILE_RESET,
+  USER_UPDATE_PROFILE_RESET,
   // admin user
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
@@ -77,8 +77,9 @@ export const userUpdateProfileReducer = (state = { user: {} }, action) => {
       return { loading: false, success: true, userInfo: action.payload };
     case USER_UPDATE_PROFILE_FAIL:
       return { loading: false, error: action.payload };
-    // case USER_UPDATE_PROFILE_RESET:
-    //   return { loading: false, user: action.payload };
+    // DONE fix but lec 92
+    case USER_UPDATE_PROFILE_RESET:
+      return {};
     default:
       return state;
   }

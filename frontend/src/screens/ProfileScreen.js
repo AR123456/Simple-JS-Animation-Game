@@ -7,7 +7,7 @@ import Loader from "../components/Loader";
 
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
-
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 const ProfileScreen = ({ location, history }) => {
   //component level state for form fields
   const [name, setName] = useState("");
@@ -33,8 +33,10 @@ const ProfileScreen = ({ location, history }) => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      //if no user name get user details
-      if (!user || !user.name) {
+      //if no user name get user details or if userUpdatedProfile successfully
+      if (!user || !user.name || success) {
+        //DONE bug fix lec 90 profile name change update display
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         // note this is not really id but profile from userAction.js
         dispatch(getUserDetails("profile"));
         dispatch(listMyOrders());
@@ -44,7 +46,8 @@ const ProfileScreen = ({ location, history }) => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo, user]);
+    // add successful profile update to dependancys
+  }, [dispatch, history, userInfo, user, success]);
   // submit handler
   const submitHandler = (e) => {
     e.preventDefault();

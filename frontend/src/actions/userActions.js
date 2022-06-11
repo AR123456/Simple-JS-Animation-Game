@@ -171,6 +171,14 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       // payload is data that comes back
       payload: data,
     });
+    // DONE to fix the user displayed in nav bar not updating after profile update lec 92
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      // payload is data that comes back
+      payload: data,
+    });
+    // as part of fixing display bug also update the user name in local storage
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
