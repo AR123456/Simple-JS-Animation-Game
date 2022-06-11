@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
@@ -30,6 +31,10 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      {/* adding Helmet  */}
+      <Helmet>
+        <title>Welcome Here | Home</title>
+      </Helmet>
       {/* dont show the carousel if users is doing a search so if keyword dont show  */}
       {!keyword && <ProductCarousel />}
       <h1>Products</h1>
