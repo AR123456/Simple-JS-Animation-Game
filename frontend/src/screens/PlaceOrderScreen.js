@@ -5,12 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../actions/orderActions";
+// re sets
+import { ORDER_CREATE_RESET } from "../constants/orderConstants";
+import { USER_DETAILS_RESET } from "../constants/userConstants";
 // pass in history as prop to use in the orderCreate success
 const PlaceOrderScreen = ({ history }) => {
   // create dispatch used in createOrder
   const dispatch = useDispatch();
   // get from state
   const cart = useSelector((state) => state.cart);
+  //check to see if there is not a shipping address
+  if (!cart.shippingAddress.address) {
+    history.push("/shipping");
+  } else if (!cart.paymentMethod) {
+    history.push("/payment");
+  }
+
   //TODO look at using the Javascript Internationalzation API to format currency
   // funtion so we are showing in dollar format
   const addDecimals = (num) => {
@@ -37,11 +47,13 @@ const PlaceOrderScreen = ({ history }) => {
     // if everything went ok push history to redirect
     if (success) {
       history.push(`/order/${order._id}`);
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
     }
     // eslint-disable-next-line
   }, [history, success]);
 
-  const placeOrderHandler = (e) => {
+  const placeOrderHandler = () => {
     // once this is dispatched will be passed down through state
     dispatch(
       createOrder({
@@ -60,7 +72,7 @@ const PlaceOrderScreen = ({ history }) => {
   // TODO see the code in sect 82 Admin Order List Q&A
   return (
     <>
-      <CheckoutSteps step2 step3 step4></CheckoutSteps>
+      <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">

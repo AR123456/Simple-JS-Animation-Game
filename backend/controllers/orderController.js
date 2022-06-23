@@ -5,7 +5,6 @@ import Order from "../models/orderModel.js";
 //@route POST/api/orders
 //@access Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  // destructue
   const {
     orderItems,
     shippingAddress,
@@ -15,6 +14,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body;
+  console.log(req.body);
+
   // check orderItems and if empty send error back to front end
   if (orderItems && orderItems.length === 0) {
     res.status(400);
