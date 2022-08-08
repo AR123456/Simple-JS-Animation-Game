@@ -16,7 +16,7 @@ const spriteHeight = 523;
 // horizontal
 let frameX = 0;
 // vertical
-let frameY = 2;
+let frameY = 1;
 // to slow the animation down
 let gameFrame = 0;
 // using to slow down animation by amount const is =t0
@@ -26,14 +26,16 @@ const staggerFrames = 5;
 function animate() {
   // frist clear anything out of canvas that is there
   ctx.clearRect(0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
-
-  //can pass in 3 ,5 or 0 ards depending on how much control is needed
+  // cycle through horizontally
+  // a more advanced method that includes
+  // swap between animation states
+  let position = Math.floor(gameFrame / staggerFrames) % 6;
+  frameX = spriteWidth * position;
   // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dy)
-  // one frame of the sprite sheet
   ctx.drawImage(
     playerImage,
     // sx
-    frameX * spriteWidth,
+    frameX,
     //sy
     frameY * spriteHeight,
     spriteWidth,
@@ -43,12 +45,7 @@ function animate() {
     spriteWidth,
     spriteHeight
   );
-  // only increase the game frame if
-  if (gameFrame % staggerFrames == 0) {
-    // a simple way to run the animation
-    if (frameX < 6) frameX++;
-    else frameX = 0;
-  }
+
   // for each loop increase by one
   gameFrame++;
   requestAnimationFrame(animate);
