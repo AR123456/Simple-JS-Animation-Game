@@ -23,8 +23,10 @@ function animate() {
   // one frame of the sprite sheet
   ctx.drawImage(
     playerImage,
-    0,
-    0,
+    // get 5th image in  row of sprite sheet
+    5 * spriteWidth,
+    // get third row
+    2 * spriteHeight,
     spriteWidth,
     spriteHeight,
     0,
