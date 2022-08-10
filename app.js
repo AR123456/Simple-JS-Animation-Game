@@ -16,7 +16,7 @@ const spriteHeight = 523;
 // horizontal
 let frameX = 0;
 // vertical
-let frameY = 1;
+let frameY = 4;
 // to slow the animation down
 let gameFrame = 0;
 // using to slow down animation by amount const is =t0
@@ -26,10 +26,10 @@ const staggerFrames = 5;
 function animate() {
   // frist clear anything out of canvas that is there
   ctx.clearRect(0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
-  // cycle through horizontally
+  // cycle through horizontally frames per row
   // a more advanced method that includes
   // swap between animation states
-  let position = Math.floor(gameFrame / staggerFrames) % 6;
+  let position = Math.floor(gameFrame / staggerFrames) % 11;
   frameX = spriteWidth * position;
   // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dy)
   ctx.drawImage(
