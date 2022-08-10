@@ -1,3 +1,11 @@
+// playerState need this first
+let playerState = "run";
+const dropdown = document.getElementById("animations");
+// add an event listener to the drop down
+dropdown.addEventListener("change", function (e) {
+  playerState = e.target.value;
+});
+
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
@@ -10,8 +18,6 @@ playerImage.src = "/shadow_dog.png";
 const spriteWidth = 575;
 // 5230 / 10
 const spriteHeight = 523;
-// playerState so no longer needing to enter text string for row location
-let playerState = "run";
 
 let gameFrame = 0;
 //slow down animation 0 stops higher number slower animation
