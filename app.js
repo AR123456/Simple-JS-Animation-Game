@@ -10,10 +10,10 @@ playerImage.src = "/shadow_dog.png";
 const spriteWidth = 575;
 // 5230 / 10
 const spriteHeight = 523;
-// horizontal
-let frameX = 0;
-// vertical
-let frameY = 1;
+// // horizontal
+// let frameX = 0; now can get from loc array
+// // vertical
+// let frameY = 1;  now can get from loc array
 // to slow the animation down
 let gameFrame = 0;
 //slow down animation 0 stops higher number slower animation
@@ -56,16 +56,23 @@ console.log(spriteAnimations);
 function animate() {
   // frist clear anything out of canvas that is there
   ctx.clearRect(0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
-
-  let position = Math.floor(gameFrame / staggerFrames) % 6;
-  frameX = spriteWidth * position;
+  // spriteAnimations.loc vs a hard coded value
+  let position =
+    Math.floor(gameFrame / staggerFrames) % spriteAnimations["jump"].loc.length;
+  // // horizontal
+  let frameX = spriteWidth * position;
+  // // vertical
+  // let frameY = spriteAnimations["idle"].loc[position].y;
+  let frameY = spriteAnimations["jump"].loc[position].y;
   // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dy)
   ctx.drawImage(
     playerImage,
     // sx
     frameX,
     //sy
-    frameY * spriteHeight,
+    // no longer need to do this calc
+    // frameY * spriteHeight,
+    frameY,
     spriteWidth,
     spriteHeight,
     0,
