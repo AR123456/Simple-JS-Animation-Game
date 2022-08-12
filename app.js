@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = (canvas.width = 800);
 const CANVAS_HEIGHT = (canvas.height = 700);
 // dynamic scroll speed - in px
-let gameSpeed = 8;
+let gameSpeed = 5;
 
 const backgroundLayer1 = new Image();
 backgroundLayer1.src = "./backgroundLayers/layer-1.png";
@@ -15,6 +15,15 @@ const backgroundLayer4 = new Image();
 backgroundLayer4.src = "./backgroundLayers/layer-4.png";
 const backgroundLayer5 = new Image();
 backgroundLayer5.src = "./backgroundLayers/layer-5.png";
+
+const slider = document.getElementById("slider");
+slider.value = gameSpeed;
+const showGameSpeed = document.getElementById("showGameSpeed");
+showGameSpeed.innerHTML = gameSpeed;
+slider.addEventListener("change", function (e) {
+  gameSpeed = e.target.value;
+  showGameSpeed.innerHTML = gameSpeed;
+});
 
 // create 5 instances of javascript object   layer class and put inside an array that can be cycled through to update and draw them
 // classes are used to create many similar obects - class is the blueprint -some shared properties and methods
