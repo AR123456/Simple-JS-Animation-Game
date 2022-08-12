@@ -36,7 +36,7 @@ class Layer {
     this.width = 2400;
     this.height = 700;
     // start second image where the first ends
-    this.x2 = this.width;
+    // this.x2 = this.width;
     this.image = image;
     this.speedModifier = speedModifier;
     this.speed = gameSpeed * this.speedModifier;
@@ -47,19 +47,25 @@ class Layer {
     this.speed = gameSpeed * this.speedModifier;
     if (this.x <= -this.width) {
       // take care of gap between images
-      this.x = this.width + this.x2 - this.speed;
+      this.x = 0;
     }
-    if (this.x2 <= -this.width) {
-      // take care of gap between images
-      this.x2 = this.width + this.x - this.speed;
-    }
+    // if (this.x2 <= -this.width) {
+    //   // take care of gap between images
+    //   this.x2 = this.width + this.x - this.speed;
+    // }
     this.x = Math.floor(this.x - this.speed);
-    this.x2 = Math.floor(this.x2 - this.speed);
+    // this.x2 = Math.floor(this.x2 - this.speed);
   }
   // take info and draw on canvas
   draw() {
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    ctx.drawImage(this.image, this.x2, this.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.x + this.width,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 }
 // the word new looks for the class and triggers its constructor
