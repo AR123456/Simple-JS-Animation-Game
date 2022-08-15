@@ -27,21 +27,21 @@ class Enemy {
     this.y += this.speed;
   }
   draw() {
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    // this can be any drawing code, not just rectangles
+    // ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
   }
 }
 // call the class to generate an ememy
-// const enemy1 = new Enemy();
+
 // Create new enemies
 for (let i = 0; i < numberOfEnemies; i++) {
-  // create new enemy and push to enemies array
   enemiesArray.push(new Enemy());
 }
-console.log(enemiesArray);
+// console.log(enemiesArray);
 function animate() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   // methods from constructor
-  //get enemies from array and call the update and draw methond on each
   enemiesArray.forEach((enemy) => {
     enemy.update();
     enemy.draw();
