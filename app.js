@@ -21,11 +21,14 @@ class Enemy {
     this.width = 100;
     this.height = 100;
   }
-  // this code is avalible to all enemys created using this class. It will update the coordiates of the objects
+  // methods avalable to all enemys created using this class. It will update the coordiates of the objects
   update() {
     // for every frame increase x and y by one
     this.x++;
     this.y++;
+  }
+  draw() {
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
 // call the class to generate an ememy
@@ -41,8 +44,10 @@ function animate() {
   // enemy1.y++;
   // enemy2.x += 0.5;
   // enemy2.y += 0.5;
-  ctx.fillRect(enemy1.x, enemy1.y, enemy1.width, enemy1.height);
-  ctx.fillRect(enemy2.x, enemy2.y, enemy2.width, enemy2.height);
+  // now using the draw method defined in the class
+  // ctx.fillRect(enemy1.x, enemy1.y, enemy1.width, enemy1.height);
+  enemy1.draw();
+
   requestAnimationFrame(animate);
 }
 animate();
