@@ -16,8 +16,13 @@ CANVAS_HEIGHT = canvas.height = 1000;
 class Enemy {
   constructor() {
     //starting coordinates
-    this.x = 10;
-    this.y = 50;
+    // this.x = 10;
+    // this.y = 50;
+    // this.width = 100;
+    // this.height = 100;
+    //randomizing starting positions of emenys
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
     this.width = 100;
     this.height = 100;
   }
