@@ -8,6 +8,9 @@ const enemiesArray = [];
 
 const enemyImage = new Image();
 enemyImage.src = "./enemies/enemy1.png";
+// using this simple way to slow down the flapping of the wings
+// how fast the sheet is traversed
+let gameFrame = 0;
 
 // factory function to create ememys
 class Enemy {
@@ -23,19 +26,27 @@ class Enemy {
     this.height = this.spriteHeight / 2.5;
     // adding random speed between 2 and -2
     this.speed = Math.random() * 4 - 2;
+    this.frame = 0;
   }
 
   update() {
     // random speed
     this.x += this.speed;
     this.y += this.speed;
+    // slow down the sprites flapping if
+    if (gameFrame % 2 === 0) {
+      // cycle through the frames
+      this.frame > 4 ? (this.frame = 0) : this.frame++;
+    }
   }
   draw() {
     // ctx.strokeRect(this.x, this.y, this.width, this.height);
     ctx.drawImage(
       enemyImage,
       // start at 0 0
-      0,
+      // 0,
+      // instead of 0 use position or frame on sprite sheet
+      this.frame * this.spriteWidth,
       0,
       // travel one sprite
       this.spriteWidth,
@@ -61,6 +72,8 @@ function animate() {
     enemy.update();
     enemy.draw();
   });
+  // every loop increments the speed of wings flapping
+  gameFrame++;
   requestAnimationFrame(animate);
 }
 animate();
