@@ -3,7 +3,8 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = 500;
 CANVAS_HEIGHT = canvas.height = 1000;
-const numberOfEnemies = 100;
+// increasing this gives more enemies
+const numberOfEnemies = 300;
 const enemiesArray = [];
 // move this into the enemy constructor
 // const enemyImage = new Image();
@@ -27,16 +28,16 @@ class Enemy {
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
     // adding random speed between 2 and -2
-    this.speed = Math.random() * 4 - 2;
+    // this.speed = Math.random() * 4 - 2;// moving to update
     this.frame = 0;
     // needs to be in floor so it has no remainder in the modulous check
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
   }
 
   update() {
-    // random speed
-    this.x += this.speed;
-    this.y += this.speed;
+    // keeps the bats from moving off screen, so they hover i place
+    this.x += Math.random() * 5 - 2.5;
+    this.y += Math.random() * 5 - 2.5;
     // slow down the sprites flapping randomly
     if (gameFrame % this.flapSpeed === 0) {
       // cycle through the frames
