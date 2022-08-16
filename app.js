@@ -4,29 +4,26 @@ const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = 500;
 CANVAS_HEIGHT = canvas.height = 1000;
 // increasing this gives more enemies
-const numberOfEnemies = 300;
+const numberOfEnemies = 10;
 const enemiesArray = [];
-// move this into the enemy constructor
-// const enemyImage = new Image();
-// enemyImage.src = "./enemies/enemy1.png";
-// using this simple way to slow down the flapping of the wings
 // how fast the sheet is traversed
 let gameFrame = 0;
 
-// factory function to create ememys
+// factory function to create ememies
 class Enemy {
   constructor() {
     this.image = new Image();
     this.image.src = "./enemies/enemy1.png";
-    //randomizing starting positions
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+
     // size of one enemy in the row sheet is 1758/6
     this.spriteWidth = 293;
     this.spriteHeight = 133;
     // this needs to be relative to sprite size to maintain aspect ratio
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
+    //randomizing starting positions and account for size of canvas
+    this.x = Math.random() * (canvas.width - this.width);
+    this.y = Math.random() * (canvas.height - this.height);
     // adding random speed between 2 and -2
     // this.speed = Math.random() * 4 - 2;// moving to update
     this.frame = 0;
