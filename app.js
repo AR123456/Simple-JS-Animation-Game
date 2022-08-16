@@ -14,28 +14,23 @@ class Enemy {
   constructor() {
     this.image = new Image();
     this.image.src = "./enemies/enemy1.png";
-
     // size of one enemy in the row sheet is 1758/6
     this.spriteWidth = 293;
     this.spriteHeight = 133;
-    // this needs to be relative to sprite size to maintain aspect ratio
+    // maintain aspect ratio
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
     //randomizing starting positions and account for size of canvas
     this.x = Math.random() * (canvas.width - this.width);
     this.y = Math.random() * (canvas.height - this.height);
-    // adding random speed between 2 and -2
-    // this.speed = Math.random() * 4 - 2;// moving to update
     this.frame = 0;
-    // needs to be in floor so it has no remainder in the modulous check
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
   }
 
   update() {
-    // keeps the bats from moving off screen, so they hover i place
+    // hover in place
     this.x += Math.random() * 5 - 2.5;
     this.y += Math.random() * 5 - 2.5;
-    // slow down the sprites flapping randomly
     if (gameFrame % this.flapSpeed === 0) {
       // cycle through the frames
       this.frame > 4 ? (this.frame = 0) : this.frame++;
@@ -43,17 +38,11 @@ class Enemy {
   }
   draw() {
     ctx.drawImage(
-      // enemyImage,
       this.image,
-      // start at 0 0
-      // 0,
-      // instead of 0 use position or frame on sprite sheet
       this.frame * this.spriteWidth,
       0,
-      // travel one sprite
       this.spriteWidth,
       this.spriteHeight,
-      // where to display the cropped out frame
       this.x,
       this.y,
       this.width,
@@ -69,12 +58,10 @@ for (let i = 0; i < numberOfEnemies; i++) {
 // console.log(enemiesArray);
 function animate() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
   enemiesArray.forEach((enemy) => {
     enemy.update();
     enemy.draw();
   });
-  // every loop increments the speed of wings flapping
   gameFrame++;
   requestAnimationFrame(animate);
 }
