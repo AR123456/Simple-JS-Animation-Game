@@ -28,8 +28,8 @@ class Enemy {
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
     this.angle = 0;
     //effects who fast angle value is increasing, increase horizantal movement
-    // this affects how fast angle speed is increasing
-    this.angleSpeed = Math.random() * 1.5 + 0.5;
+    // this affects how fast angle speed is increasing on this.y =
+    this.angleSpeed = Math.random() * 2 + 0.5;
     //changing this to be a random number between 0 and 200
     // this determines the radious of the circle the characters are
     // moving in speed along the circular path
@@ -47,15 +47,14 @@ class Enemy {
     // the + canvas.width/2 at the end is to keep them off the left edge of the canvas - this.width is to offset them by their width
     // changing the hard coded 100 to this.curve for
     this.x =
-      this.curve * Math.sin((this.angle * Math.PI) / 90) +
+      this.curve * Math.sin((this.angle * Math.PI) / 180) +
       (canvas.width / 2 - this.width / 2);
     //// animmate the y positon vetical
     // this.y += this.curve * Math.sin(this.angle);
     // using the formula for x and changing hight to width
     // need to use cosin
-    // the speed and pattern of the movement is a relationship between sin and cos
     this.y =
-      this.curve * Math.cos((this.angle * Math.PI) / 270) +
+      this.curve * Math.cos((this.angle * Math.PI) / 180) +
       (canvas.height / 2 - this.height / 2);
     this.angle += this.angleSpeed;
     if (this.x + this.width < 0) this.x = canvas.width;
