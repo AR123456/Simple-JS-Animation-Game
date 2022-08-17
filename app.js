@@ -13,12 +13,12 @@ let gameFrame = 0;
 class Enemy {
   constructor() {
     this.image = new Image();
-    this.image.src = "./enemies/enemy2.png";
+    this.image.src = "./enemies/enemy3.png";
 
     this.speed = Math.random() * 4 + 5;
-    // size of one enemy in the row sheet is 1596/6
-    this.spriteWidth = 266;
-    this.spriteHeight = 188;
+    // size of one enemy in the row sheet is 1308/6
+    this.spriteWidth = 218;
+    this.spriteHeight = 177;
     // maintain aspect ratio
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
@@ -27,19 +27,37 @@ class Enemy {
     this.frame = 0;
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
     this.angle = 0;
-    this.angleSpeed = Math.random() * 0.2;
-    this.curve = Math.random() * 7;
+    //effects who fast angle value is increasing, increase horizantal movement
+    // this affects how fast angle speed is increasing on this.y =
+    this.angleSpeed = Math.random() * 2 + 0.5;
+    //changing this to be a random number between 0 and 200
+    // this determines the radious of the circle the characters are
+    // moving in speed along the circular path
+    this.curve = Math.random() * 200 + 50;
   }
 
   update() {
-    this.x -= this.speed;
+    ///// animate the horizontal x position /////
+    // this.x -= this.speed;
+    // want horizontal movement to be cycling within a certain range
+    // pass math.sin this.angle. this.angle value is increasing over and
+    //  as update is called inside animation loop then multiply it by
+    // math.pi / 180  the whole thing by 100, then updated  (this.curve)
 
-    this.y += this.curve * Math.sin(this.angle);
-
+    // the + canvas.width/2 at the end is to keep them off the left edge of the canvas - this.width is to offset them by their width
+    // changing the hard coded 100 to this.curve for
+    this.x =
+      this.curve * Math.sin((this.angle * Math.PI) / 180) +
+      (canvas.width / 2 - this.width / 2);
+    //// animmate the y positon vetical
+    // this.y += this.curve * Math.sin(this.angle);
+    // using the formula for x and changing hight to width
+    // need to use cosin
+    this.y =
+      this.curve * Math.cos((this.angle * Math.PI) / 180) +
+      (canvas.height / 2 - this.height / 2);
     this.angle += this.angleSpeed;
-
     if (this.x + this.width < 0) this.x = canvas.width;
-
     if (gameFrame % this.flapSpeed === 0) {
       this.frame > 4 ? (this.frame = 0) : this.frame++;
     }
