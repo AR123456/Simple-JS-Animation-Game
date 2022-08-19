@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = 500;
 CANVAS_HEIGHT = canvas.height = 1000;
 // increasing this gives more enemies
-const numberOfEnemies = 30;
+const numberOfEnemies = 20;
 const enemiesArray = [];
 // how fast the sheet is traversed
 let gameFrame = 0;
@@ -13,12 +13,12 @@ let gameFrame = 0;
 class Enemy {
   constructor() {
     this.image = new Image();
-    this.image.src = "./enemies/enemy4.png";
+    this.image.src = "./enemies/enemy3.png";
 
     this.speed = Math.random() * 4 + 5;
-    // size of one enemy in the row sheet is 1917/6
-    this.spriteWidth = 213;
-    this.spriteHeight = 213;
+    // size of one enemy in the row sheet is 1308/6
+    this.spriteWidth = 218;
+    this.spriteHeight = 177;
     // maintain aspect ratio
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
@@ -30,13 +30,11 @@ class Enemy {
     this.newY = Math.random() * (canvas.height - this.height);
     this.frame = 0;
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
-    // each character should update individually with randomized interval. Math.floor so modulus works
-    this.interval = Math.floor(Math.random() * 200 + 50);
   }
 
   update() {
-    // every___frames  create new random position
-    if (gameFrame % this.interval === 0) {
+    // every 60 frames  create new random position
+    if (gameFrame % 100 === 0) {
       this.newX = Math.random() * (canvas.width - this.width);
       this.newY = Math.random() * (canvas.height - this.height);
     }
