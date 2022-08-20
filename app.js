@@ -9,6 +9,7 @@ const explosions = [];
 // offset to allow for canvas in browser window return
 // position relative to view port
 let canvasPosition = canvas.getBoundingClientRect();
+// console.log(canvasPosition);
 
 // explosion factory
 
@@ -52,10 +53,11 @@ class Explosion {
 }
 
 window.addEventListener("click", function (e) {
-  // draw a rectangale where mouse was clicked
+  // using explosion  to create an anamation in the place oncanvas we click
+  // putting the offset to account for  viewport and canvas H W  in variables - note the -25 for the width of the box needs to be moved to the explosion class for that animation
+  let positionX = e.x - canvasPosition.left - 25;
+  let positionY = e.y - canvasPosition.top - 25;
   // console.log(e);
-  // event location coordiantes
   ctx.fillStyle = "white";
-
-  ctx.fillRect(e.x, e.y, 50, 50);
+  ctx.fillRect(positionX, positionY, 50, 50);
 });
