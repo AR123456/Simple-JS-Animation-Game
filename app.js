@@ -5,14 +5,13 @@ CANVAS_WIDTH = canvas.width = 500;
 CANVAS_HEIGHT = canvas.height = 700;
 const explosion = 1;
 // array to work with explosions
+// will be pushing explosions created by the constructor into this array, when last frame is reached remove it.
 const explosions = [];
-// offset to allow for canvas in browser window return
+
 // position relative to view port
 let canvasPosition = canvas.getBoundingClientRect();
-// console.log(canvasPosition);
 
 // explosion factory
-
 class Explosion {
   // location fo explosion event , pass in from an event every time animation to be triggered create a new object using this class
   constructor(x, y) {
@@ -36,7 +35,7 @@ class Explosion {
     this.frame++;
   }
   draw() {
-    // take stuff from constructor and draw - draw image method  sprite source - s  canvase destination -d
+    // take stuff from constructor and draw - draw image method  sprite source - s  canvas destination -d
     // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
     ctx.drawImage(
       this.image,
@@ -55,9 +54,10 @@ class Explosion {
 window.addEventListener("click", function (e) {
   // using explosion  to create an anamation in the place oncanvas we click
   // putting the offset to account for  viewport and canvas H W  in variables - note the -25 for the width of the box needs to be moved to the explosion class for that animation
-  let positionX = e.x - canvasPosition.left - 25;
-  let positionY = e.y - canvasPosition.top - 25;
+  let positionX = e.x - canvasPosition.left;
+  let positionY = e.y - canvasPosition.top;
   // console.log(e);
-  ctx.fillStyle = "white";
-  ctx.fillRect(positionX, positionY, 50, 50);
+  // this will be the cartoon explosion
+  // ctx.fillStyle = "white";
+  // ctx.fillRect(positionX, positionY, 50, 50);
 });
