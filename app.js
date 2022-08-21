@@ -1,11 +1,9 @@
 /**@type {HTMLCanvasElement} */
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-// CANVAS_WIDTH = canvas.width = 500;
-// CANVAS_HEIGHT = canvas.height = 700;
-canvas.width = 500;
-canvas.height = 700;
-// const explosion = 1;
+CANVAS_WIDTH = canvas.width = 500;
+CANVAS_HEIGHT = canvas.height = 700;
+
 // array to work with explosions
 // will be pushing explosions created by the constructor into this array, when last frame is reached remove it.
 const explosions = [];
@@ -25,7 +23,7 @@ class Explosion {
     // maintain aspect ratio- multiplication has better performace the division in JS
     this.width = this.spriteWidth * 0.7;
     this.height = this.spriteHeight * 0.7;
-    //offset to center the exposion at mouse click location
+    //offset to center the exposion at mouse click location - could also do this in the draw function but doing here for clarity
     this.x = x - this.width / 2;
     this.y = y - this.height / 2;
     // create new blank HTML image
@@ -59,7 +57,7 @@ class Explosion {
     );
   }
 }
-
+/////  NOTE this code could be re used to show the animation with a colison instead of mouse click  or could be other event or user input that triggers ////
 window.addEventListener("click", function (e) {
   let positionX = e.x - canvasPosition.left;
   let positionY = e.y - canvasPosition.top;
@@ -68,6 +66,10 @@ window.addEventListener("click", function (e) {
   // console.log(e);
   console.log(explosions);
 });
+
+// putting code into re usable funtion 
+function createAnimation(){}
+
 // cycle through the explosions array and draw them using animation loop
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
