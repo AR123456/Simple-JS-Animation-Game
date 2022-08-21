@@ -24,14 +24,19 @@ class Explosion {
     this.width = this.spriteWidth * 0.7;
     this.height = this.spriteHeight * 0.7;
     //offset to center the exposion at mouse click location - could also do this in the draw function but doing here for clarity
-    this.x = x - this.width / 2;
-    this.y = y - this.height / 2;
+    // moving  this.width /2 down to in the draw method
+    // this.x = x - this.width / 2;
+    // this.y = y - this.height / 2;
+    this.x = x;
+    this.y = y;
     // create new blank HTML image
     this.image = new Image();
     this.image.src = "/boom.png";
     // need this .frame to get one frame from sheet x source value used in drawImage methond
     this.frame = 0;
     this.timer = 0;
+    // pass in radiant of 360 deg
+    this.angle = Math.random() * 6.2;
   }
   update() {
     this.timer++;
@@ -42,19 +47,29 @@ class Explosion {
     }
   }
   draw() {
-    // take stuff from constructor and draw - draw image method  sprite source - s  canvas destination -d
-    // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
+    // save so that the effect is on just one draw call
+    ctx.save();
+    // rotate around its center
+    ctx.translate(this.x, this.y);
+    // rotate the entire canvas context by random rotate angle
+    ctx.rotate(this.angle);
     ctx.drawImage(
       this.image,
       this.spriteWidth * this.frame,
       0,
       this.spriteWidth,
       this.spriteHeight,
-      this.x,
-      this.y,
+      // doing this in the translate now so do not need here
+      // can use 0 and 0
+      // this.x,
+      // this.y,
+      0 - this.width / 2,
+      0 - this.height / 2,
       this.width,
       this.height
     );
+    // restore to the original draw point
+    ctx.restore();
   }
 }
 /////  NOTE this code could be re used to show the animation with a colison instead of mouse click  or could be other event or user input that triggers ////
