@@ -59,16 +59,21 @@ class Explosion {
 }
 /////  NOTE this code could be re used to show the animation with a colison instead of mouse click  or could be other event or user input that triggers ////
 window.addEventListener("click", function (e) {
+  createAnimation(e);
+});
+window.addEventListener("mousemove", function (e) {
+  createAnimation(e);
+});
+
+// putting code into re usable funtion
+function createAnimation(e) {
   let positionX = e.x - canvasPosition.left;
   let positionY = e.y - canvasPosition.top;
   // pass the click location to the constructor
   explosions.push(new Explosion(positionX, positionY));
   // console.log(e);
   console.log(explosions);
-});
-
-// putting code into re usable funtion 
-function createAnimation(){}
+}
 
 // cycle through the explosions array and draw them using animation loop
 function animate() {
