@@ -1,9 +1,11 @@
 /**@type {HTMLCanvasElement} */
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-CANVAS_WIDTH = canvas.width = 500;
-CANVAS_HEIGHT = canvas.height = 700;
-const explosion = 1;
+// CANVAS_WIDTH = canvas.width = 500;
+// CANVAS_HEIGHT = canvas.height = 700;
+canvas.width = 500;
+canvas.height = 700;
+// const explosion = 1;
 // array to work with explosions
 // will be pushing explosions created by the constructor into this array, when last frame is reached remove it.
 const explosions = [];
@@ -28,7 +30,7 @@ class Explosion {
     this.y = y - this.height / 2;
     // create new blank HTML image
     this.image = new Image();
-    this.image.scr = "/boom.png";
+    this.image.src = "/boom.png";
     // need this .frame to get one frame from sheet x source value used in drawImage methond
     this.frame = 0;
     this.timer = 0;
@@ -76,7 +78,7 @@ function animate() {
     // stop pushing explosions to the array after 4
     if (explosions[i].frame > 5) {
       // remove
-      explosion.splice(i, 1);
+      explosions.splice(i, 1);
       // after removing adjust index
       i--;
     }
