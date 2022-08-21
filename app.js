@@ -23,7 +23,7 @@ class Explosion {
     this.y = y;
     // create new blank HTML image
     this.image = new Image();
-    this.image.src = "/boom.png";
+    this.image.src = "./boom.png";
     // need this .frame to get one frame from sheet x source value used in drawImage methond
     this.frame = 0;
     this.timer = 0;
@@ -31,7 +31,7 @@ class Explosion {
     this.angle = Math.random() * 6.2;
     // adding boom sound
     this.sound = new Audio();
-    this.sound.src = "/boom.wav";
+    this.sound.src = "./boom.wav";
   }
   update() {
     // only play the sound one time
