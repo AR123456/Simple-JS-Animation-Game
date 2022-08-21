@@ -13,26 +13,33 @@ let canvasPosition = canvas.getBoundingClientRect();
 
 // explosion factory
 class Explosion {
-  // location fo explosion event , pass in from an event every time animation to be triggered create a new object using this class
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    // offset to center the exposion at mouse click location
+    // this.x = x;
+    // this.y = y;
     // the width of a single frame in sprite sheet.
-    // this.spriteWidth = 1000 / 5;
     this.spriteWidth = 200;
     this.spriteHeight = 179;
     // maintain aspect ratio- multiplication has better performace the division in JS
-    this.width = this.spriteWidth * 0.5;
-    this.height = this.spriteHeight * 0.5;
+    this.width = this.spriteWidth * 0.7;
+    this.height = this.spriteHeight * 0.7;
+    //offset to center the exposion at mouse click location
+    this.x = x - this.width / 2;
+    this.y = y - this.height / 2;
     // create new blank HTML image
     this.image = new Image();
     this.image.scr = "/boom.png";
     // need this .frame to get one frame from sheet x source value used in drawImage methond
     this.frame = 0;
+    this.timer = 0;
   }
   update() {
-    // increment frame each animationFrame
-    this.frame++;
+    this.timer++;
+    // run every 10 frames
+    if (this.timer % 10 === 0) {
+      // increment animationFrame
+      this.frame++;
+    }
   }
   draw() {
     // take stuff from constructor and draw - draw image method  sprite source - s  canvas destination -d
@@ -52,12 +59,30 @@ class Explosion {
 }
 
 window.addEventListener("click", function (e) {
-  // using explosion  to create an anamation in the place oncanvas we click
-  // putting the offset to account for  viewport and canvas H W  in variables - note the -25 for the width of the box needs to be moved to the explosion class for that animation
   let positionX = e.x - canvasPosition.left;
   let positionY = e.y - canvasPosition.top;
+  // pass the click location to the constructor
+  explosions.push(new Explosion(positionX, positionY));
   // console.log(e);
-  // this will be the cartoon explosion
-  // ctx.fillStyle = "white";
-  // ctx.fillRect(positionX, positionY, 50, 50);
+  console.log(explosions);
 });
+// cycle through the explosions array and draw them using animation loop
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < explosions.length; i++) {
+    // for each one call the constructors update and draw methods
+    explosions[i].update();
+    explosions[i].draw();
+    // stop pushing explosions to the array after 4
+    if (explosions[i].frame > 5) {
+      // remove
+      explosion.splice(i, 1);
+      // after removing adjust index
+      i--;
+    }
+  }
+  // draw it
+  requestAnimationFrame(animate);
+}
+// kick off the animation loop
+animate();
