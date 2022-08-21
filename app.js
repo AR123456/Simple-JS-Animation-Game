@@ -14,19 +14,11 @@ let canvasPosition = canvas.getBoundingClientRect();
 // explosion factory
 class Explosion {
   constructor(x, y) {
-    // offset to center the exposion at mouse click location
-    // this.x = x;
-    // this.y = y;
-    // the width of a single frame in sprite sheet.
     this.spriteWidth = 200;
     this.spriteHeight = 179;
     // maintain aspect ratio- multiplication has better performace the division in JS
     this.width = this.spriteWidth * 0.7;
     this.height = this.spriteHeight * 0.7;
-    //offset to center the exposion at mouse click location - could also do this in the draw function but doing here for clarity
-    // moving  this.width /2 down to in the draw method
-    // this.x = x - this.width / 2;
-    // this.y = y - this.height / 2;
     this.x = x;
     this.y = y;
     // create new blank HTML image
@@ -37,8 +29,13 @@ class Explosion {
     this.timer = 0;
     // pass in radiant of 360 deg
     this.angle = Math.random() * 6.2;
+    // adding boom sound
+    this.sound = new Audio();
+    this.sound.src = "/boom.wav";
   }
   update() {
+    // only play the sound one time
+    if (this.frame === 0) this.sound.play();
     this.timer++;
     // run every 10 frames
     if (this.timer % 10 === 0) {
@@ -76,9 +73,10 @@ class Explosion {
 window.addEventListener("click", function (e) {
   createAnimation(e);
 });
-window.addEventListener("mousemove", function (e) {
-  createAnimation(e);
-});
+// cool dust trail
+// window.addEventListener("mousemove", function (e) {
+//   createAnimation(e);
+// });
 
 // putting code into re usable funtion
 function createAnimation(e) {
