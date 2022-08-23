@@ -40,16 +40,30 @@ class Raven {
     // number of frames in sprite sheet starting at 0
     this.frame = 0;
     this.maxFrame = 4;
+    // contoling the flapping (speed to cross from right to left )and using delta so same regardless of machine performace
+    this.timeSinceFlap = 0;
+    // randomize the rhythm rand number between 50 and 100
+    // Math.random()*(max-min+1)+min
+    this.flapInterval = Math.random() * 50 + 50;
   }
   // update - move raven and adjust any values that need to be before next frame drawn
-  update() {
+  // pass in delta time from the animate function
+  update(deltaTime) {
     // move to left
     this.x -= this.directionX;
     // check position on x and if it is off screen ( less that 0) mark for deletion
     if (this.x < 0 - this.width) this.markedForDeletion = true;
-    // dont go over max frames
-    if (this.frame > this.maxFrame) this.frame = 0;
-    else this.frame++;
+    // controling wing flapping -speed to cross from right to left
+    this.timeSinceFlap += deltaTime;
+    if (this.timeSinceFlap > this.flapInterval) {
+      // cycle through the frames
+      if (this.frame > this.maxFrame)
+        // dont go over max frames
+        this.frame = 0;
+      else this.frame++;
+      // reset to 0 so count can begin again
+      this.timeSinceFlap = 0;
+    }
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
@@ -96,7 +110,8 @@ function animate(timeStamp) {
   // ... is the spread operator - spread the ravens array into this new array - expand into new array
   // for each new object in the new array call update and draw
   // this array literal can be expanded for particles and enemies
-  [...ravens].forEach((object) => object.update());
+  // passing delta into update to make it avalible to the update function
+  [...ravens].forEach((object) => object.update(deltaTime));
   [...ravens].forEach((object) => object.draw());
   // [...ravens].forEach((object) => {
   //   object.update();
