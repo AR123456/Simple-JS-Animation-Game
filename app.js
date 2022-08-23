@@ -1,7 +1,4 @@
 /**@type {HTMLCanvasElement} */
-// 3 hrs in good explination
-////https://www.youtube.com/watch?v=GFO_txvwK_c
-
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = window.innerWidth;
@@ -21,8 +18,14 @@ let canvasPosition = canvas.getBoundingClientRect();
 // factory class -constructor update draw
 class Raven {
   constructor() {
-    this.width = 100;
-    this.height = 50;
+    // 1627x194
+    // this is at top so that can user it to scale w and h maintain aspect ratio
+    this.spriteWidth = 271;
+    this.spriteHeight = 194;
+    // ransomize size of ravens random number between  0.4 to 1
+    this.sizeModifier = Math.random() * 0.6 + 0.4;
+    this.width = this.spriteWidth * this.sizeModifier;
+    this.height = this.spriteHeight * this.sizeModifier;
     this.x = canvas.width;
     // offset so that dont have 1/2 birds at top or bottom of screen
     this.y = Math.random() * (canvas.height - this.height);
@@ -32,6 +35,11 @@ class Raven {
     this.directionY = Math.random() * 5 - 2.5;
     // marked for deletion to prevent endlessly growing array
     this.markedForDeletion = false;
+    this.image = new Image();
+    this.image.src = "/enemy_raven.png";
+    // number of frames in sprite sheet starting at 0
+    this.frame = 0;
+    this.maxFrame = 4;
   }
   // update - move raven and adjust any values that need to be before next frame drawn
   update() {
@@ -39,10 +47,25 @@ class Raven {
     this.x -= this.directionX;
     // check position on x and if it is off screen ( less that 0) mark for deletion
     if (this.x < 0 - this.width) this.markedForDeletion = true;
+    // dont go over max frames
+    if (this.frame > this.maxFrame) this.frame = 0;
+    else this.frame++;
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
+    ctx.drawImage(
+      this.image,
+      this.frame * this.spriteWidth,
+      0,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 }
 // use constructor to create raven object
