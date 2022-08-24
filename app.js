@@ -97,6 +97,15 @@ function drawScore() {
 window.addEventListener("click", function (e) {
   // get x and y coords at click in relation to the viewport
   console.log(e.x, e.y);
+  /// detect collision by color
+  // https://www.w3schools.com/tags/canvas_getimagedata.asp
+  // position and size
+  // getImageData(sx, sy, sw, sh)
+  const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
+  // Using this will only pick up the color generated using canvas, not the background color coming from CSS
+  // will get a cors error with this console.lob if not using server
+  // safety measure to protect from virus hidden in image data
+  console.log(detectPixelColor);
 });
 
 // animation loop
