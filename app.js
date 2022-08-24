@@ -1,8 +1,13 @@
 /**@type {HTMLCanvasElement} */
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-CANVAS_WIDTH = canvas.width = window.innerWidth;
-CANVAS_HEIGHT = canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+// second collisionCanvas
+const collisionCanvas = document.getElementById("collisionCanvas");
+const collisionCtx = collisionCanvas.getContext("2d");
+collisionCanvas.width = window.innerWidth;
+collisionCanvas.height = window.innerHeight;
 
 let score = 0;
 // setting global canvas font size, have to set the family too
