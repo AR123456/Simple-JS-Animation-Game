@@ -49,8 +49,15 @@ class Raven {
   // update - move raven and adjust any values that need to be before next frame drawn
   // pass in delta time from the animate function
   update(deltaTime) {
+    // when the raven hits the top or bottom edge bounce , ie reveres direction
+    if (this.y < 0 || this.y > canvas.height - this.height) {
+      this.directionY = this.directionY * -1;
+    }
     // move to left
     this.x -= this.directionX;
+    // move up and down
+
+    this.y += this.directionY;
     // check position on x and if it is off screen ( less that 0) mark for deletion
     if (this.x < 0 - this.width) this.markedForDeletion = true;
     // controling wing flapping -speed to cross from right to left
