@@ -104,6 +104,11 @@ function drawScore() {
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + score, 55, 80);
 }
+// __ raves before they get to edge of screen
+window.addEventListener("click", function (e) {
+  // get x and y coords at click in relation to the viewport
+  console.log(e.x, e.y);
+});
 
 // animation loop
 // the very first time the loop runs this timeStamp is undefined because it only gets created on second loop so need to give it a value on the first call of animate
