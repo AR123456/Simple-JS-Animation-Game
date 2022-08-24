@@ -3,6 +3,10 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = window.innerWidth;
 CANVAS_HEIGHT = canvas.height = window.innerHeight;
+// score var
+let score = 0;
+// setting global canvas font size, have to set the family too
+ctx.font = "50px Impact";
 // helper vars for timeStamp control of raven generation
 let timeToNextRaven = 0;
 // after this amount of time trigger next raven
@@ -91,6 +95,16 @@ class Raven {
 }
 // use constructor to create raven object
 const raven = new Raven();
+// scoring
+function drawScore() {
+  ctx.fillStyle = "black";
+  // text, score var, x , y
+  ctx.fillText("Score: " + score, 50, 75);
+  // shadow effect
+  ctx.fillStyle = "white";
+  ctx.fillText("Score: " + score, 55, 80);
+}
+
 // animation loop
 // the very first time the loop runs this timeStamp is undefined because it only gets created on second loop so need to give it a value on the first call of animate
 function animate(timeStamp) {
@@ -105,6 +119,8 @@ function animate(timeStamp) {
   // miliseconds between frames
   timeToNextRaven += deltaTime;
   // console.log(deltaTime);
+  // draw score then draw ravens so the score is layered behind the ravesn
+  drawScore();
   if (timeToNextRaven > ravenInterval) {
     // trigger raven class constructor to create one more raven pushed to the ravens array
     ravens.push(new Raven());
@@ -112,6 +128,7 @@ function animate(timeStamp) {
     timeToNextRaven = 0;
     // console.log(ravens);
   }
+
   // cycle through the ravens array and call update and draw
   // this is an array literal- creates a new array on the fly
   // ... is the spread operator - spread the ravens array into this new array - expand into new array
