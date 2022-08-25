@@ -3,18 +3,17 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 CANVAS_WIDTH = canvas.width = window.innerWidth;
 CANVAS_HEIGHT = canvas.height = window.innerHeight;
-// score var
+
 let score = 0;
 // setting global canvas font size, have to set the family too
 ctx.font = "50px Impact";
-// helper vars for timeStamp control of raven generation
+
 let timeToNextRaven = 0;
-// after this amount of time trigger next raven
+
 let ravenInterval = 500;
-// hold the timeStamp from the prior loop
+
 let lastTime = 0;
 
-// holder for all raven objects
 let ravens = [];
 
 let canvasPosition = canvas.getBoundingClientRect();
@@ -23,10 +22,9 @@ let canvasPosition = canvas.getBoundingClientRect();
 class Raven {
   constructor() {
     // 1627x194
-    // this is at top so that can user it to scale w and h maintain aspect ratio
+    // aspect ratio
     this.spriteWidth = 271;
     this.spriteHeight = 194;
-    // ransomize size of ravens random number between  0.4 to 1
     this.sizeModifier = Math.random() * 0.6 + 0.4;
     this.width = this.spriteWidth * this.sizeModifier;
     this.height = this.spriteHeight * this.sizeModifier;
@@ -37,42 +35,33 @@ class Raven {
     this.directionX = Math.random() * 5 + 3;
     // vertical speed - 2.5 to + 2.5
     this.directionY = Math.random() * 5 - 2.5;
-    // marked for deletion to prevent endlessly growing array
     this.markedForDeletion = false;
     this.image = new Image();
     this.image.src = "/enemy_raven.png";
-    // number of frames in sprite sheet starting at 0
     this.frame = 0;
     this.maxFrame = 4;
-    // contoling the flapping (speed to cross from right to left )and using delta so same regardless of machine performace
     this.timeSinceFlap = 0;
-    // randomize the rhythm rand number between 50 and 100
     // Math.random()*(max-min+1)+min
     this.flapInterval = Math.random() * 50 + 50;
   }
-  // update - move raven and adjust any values that need to be before next frame drawn
+  // update
   // pass in delta time from the animate function
   update(deltaTime) {
-    // when the raven hits the top or bottom edge bounce , ie reveres direction
+    //top or bottom edge bounce
     if (this.y < 0 || this.y > canvas.height - this.height) {
       this.directionY = this.directionY * -1;
     }
     // move to left
     this.x -= this.directionX;
     // move up and down
-
     this.y += this.directionY;
-    // check position on x and if it is off screen ( less that 0) mark for deletion
     if (this.x < 0 - this.width) this.markedForDeletion = true;
-    // controling wing flapping -speed to cross from right to left
+    //speed to cross from right to left
     this.timeSinceFlap += deltaTime;
     if (this.timeSinceFlap > this.flapInterval) {
-      // cycle through the frames
-      if (this.frame > this.maxFrame)
-        // dont go over max frames
-        this.frame = 0;
+      if (this.frame > this.maxFrame) this.frame = 0;
       else this.frame++;
-      // reset to 0 so count can begin again
+
       this.timeSinceFlap = 0;
     }
   }
@@ -111,20 +100,17 @@ window.addEventListener("click", function (e) {
 });
 
 // animation loop
-// the very first time the loop runs this timeStamp is undefined because it only gets created on second loop so need to give it a value on the first call of animate
 function animate(timeStamp) {
   //frame by frame
   // clear old paint
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // create a new raven at interval that will work on old and new computers - time in miliseconds vs computers speed compare timeStamps to generate ravens
-  // delta time is the value in milliseconds between timestamp from this loop and saved timestamp value from previous loop
   let deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
   // console.log(timeStamp);
   // miliseconds between frames
   timeToNextRaven += deltaTime;
   // console.log(deltaTime);
-  // draw score then draw ravens so the score is layered behind the ravesn
+  // draw score then draw ravens so the score is layered behind the ravens
   drawScore();
   if (timeToNextRaven > ravenInterval) {
     // trigger raven class constructor to create one more raven pushed to the ravens array
@@ -133,28 +119,15 @@ function animate(timeStamp) {
     timeToNextRaven = 0;
     // console.log(ravens);
   }
-
-  // cycle through the ravens array and call update and draw
-  // this is an array literal- creates a new array on the fly
-  // ... is the spread operator - spread the ravens array into this new array - expand into new array
-  // for each new object in the new array call update and draw
   // this array literal can be expanded for particles and enemies
   // passing delta into update to make it avalible to the update function
   [...ravens].forEach((object) => object.update(deltaTime));
   [...ravens].forEach((object) => object.draw());
-  // [...ravens].forEach((object) => {
-  //   object.update();
-  //   object.draw();
-  // });
-  // need to remove the ravens from the array after the travel off screen.  could use splice for this
-  // here using filter on the array to remove raves the are past the left edge of screen double negative
+
   ravens = ravens.filter((object) => !object.markedForDeletion);
   // console.log(ravens);
   // call animate again to create endless loop
-  // default JS behavior is to pass timestamp(in miliseconds) by default
   requestAnimationFrame(animate);
 }
 // call the first loop
-// the very first time the loop runs this timeStamp is undefined because it only gets created on second loop so need to give it a value on the first call of animate
-// the 0 here
 animate(0);
