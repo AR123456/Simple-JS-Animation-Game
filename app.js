@@ -48,6 +48,22 @@ class Raven {
     this.timeSinceFlap = 0;
     // Math.random()*(max-min+1)+min
     this.flapInterval = Math.random() * 50 + 50;
+    // raven colors rand values between 0 and 255
+
+    this.randomColors = [
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+    ];
+    // concattonate the color decloration
+    this.color =
+      "rgb(" +
+      this.randomColors[0] +
+      "," +
+      this.randomColors[1] +
+      "," +
+      this.randomColors[2] +
+      ")";
   }
   // update
   // pass in delta time from the animate function
@@ -72,7 +88,10 @@ class Raven {
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // fillRect to color the hit box
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
     // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
     ctx.drawImage(
       this.image,
