@@ -1,22 +1,21 @@
 /**@type {HTMLCanvasElement} */
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-CANVAS_WIDTH = canvas.width = window.innerWidth;
-CANVAS_HEIGHT = canvas.height = window.innerHeight;
-
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+// second collisionCanvas
+const collisionCanvas = document.getElementById("collisionCanvas");
+const collisionCtx = collisionCanvas.getContext("2d");
+collisionCanvas.width = window.innerWidth;
+collisionCanvas.height = window.innerHeight;
 let score = 0;
 // setting global canvas font size, have to set the family too
 ctx.font = "50px Impact";
-
 let timeToNextRaven = 0;
-
 let ravenInterval = 500;
-
 let lastTime = 0;
-
 let ravens = [];
-
-let canvasPosition = canvas.getBoundingClientRect();
+// let canvasPosition = canvas.getBoundingClientRect();
 
 // factory class -constructor update draw
 class Raven {
@@ -43,6 +42,22 @@ class Raven {
     this.timeSinceFlap = 0;
     // Math.random()*(max-min+1)+min
     this.flapInterval = Math.random() * 50 + 50;
+    // raven colors rand values between 0 and 255
+
+    this.randomColors = [
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+    ];
+    // concatonate the color decloration
+    this.color =
+      "rgb(" +
+      this.randomColors[0] +
+      "," +
+      this.randomColors[1] +
+      "," +
+      this.randomColors[2] +
+      ")";
   }
   // update
   // pass in delta time from the animate function
@@ -67,7 +82,11 @@ class Raven {
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // fillRect to color the hit box
+    // drAW this on collsionCanvas
+    collisionCtx.fillStyle = this.color;
+    collisionCtx.fillRect(this.x, this.y, this.width, this.height);
     // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
     ctx.drawImage(
       this.image,
@@ -101,7 +120,10 @@ window.addEventListener("click", function (e) {
   // https://www.w3schools.com/tags/canvas_getimagedata.asp
   // position and size
   // getImageData(sx, sy, sw, sh)
-  const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
+  // nnow that we have the second canvas with the colored hit boxes  set up use it to get the color
+  // const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
+
+  const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
   // Using this will only pick up the color generated using canvas, not the background color coming from CSS
   // will get a cors error with this console.lob if not using server
   // safety measure to protect from virus hidden in image data
@@ -111,23 +133,31 @@ window.addEventListener("click", function (e) {
 // animation loop
 function animate(timeStamp) {
   //frame by frame
-  // clear old paint
+  // clear old paint- on both canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
   let deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
   // console.log(timeStamp);
   // miliseconds between frames
   timeToNextRaven += deltaTime;
   // console.log(deltaTime);
-  // draw score then draw ravens so the score is layered behind the ravens
-  drawScore();
+
   if (timeToNextRaven > ravenInterval) {
     // trigger raven class constructor to create one more raven pushed to the ravens array
     ravens.push(new Raven());
     // set time back to 0 to start count again
     timeToNextRaven = 0;
     // console.log(ravens);
+    // create a sense of depth by layering smaller ravens behind the large ones.  ravens are being drawn in the order that they are pushed into the array. sort size when a new raven is pushed into array , dont need to do with every frame
+    ravens.sort(function (a, b) {
+      // assending order is default
+      // using width asending based on width
+      return a.width - b.width;
+    });
   }
+  // draw score then draw ravens so the score is layered behind the ravens
+  drawScore();
   // this array literal can be expanded for particles and enemies
   // passing delta into update to make it avalible to the update function
   [...ravens].forEach((object) => object.update(deltaTime));
