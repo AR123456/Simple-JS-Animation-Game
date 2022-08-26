@@ -55,7 +55,7 @@ class Raven {
       Math.floor(Math.random() * 255),
       Math.floor(Math.random() * 255),
     ];
-    // concatonate the color decloration
+    // concattonate the color decloration
     this.color =
       "rgb(" +
       this.randomColors[0] +
@@ -90,7 +90,6 @@ class Raven {
   draw() {
     // ctx.strokeRect(this.x, this.y, this.width, this.height);
     // fillRect to color the hit box
-    // drAW this on collsionCanvas
     collisionCtx.fillStyle = this.color;
     collisionCtx.fillRect(this.x, this.y, this.width, this.height);
     // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
@@ -121,15 +120,12 @@ function drawScore() {
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
   // get x and y coords at click in relation to the viewport
-  console.log(e.x, e.y);
+  // console.log(e.x, e.y);
   /// detect collision by color
   // https://www.w3schools.com/tags/canvas_getimagedata.asp
   // position and size
   // getImageData(sx, sy, sw, sh)
-  // nnow that we have the second canvas with the colored hit boxes  set up use it to get the color
-  // const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
-
-  const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
+  const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
   // Using this will only pick up the color generated using canvas, not the background color coming from CSS
   // will get a cors error with this console.lob if not using server
   // safety measure to protect from virus hidden in image data
@@ -139,15 +135,16 @@ window.addEventListener("click", function (e) {
 // animation loop
 function animate(timeStamp) {
   //frame by frame
-  // clear old paint- on both canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // clear old paint
   collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   let deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
   // console.log(timeStamp);
   // miliseconds between frames
   timeToNextRaven += deltaTime;
   // console.log(deltaTime);
+  // draw score then draw ravens so the score is layered behind the ravens
 
   if (timeToNextRaven > ravenInterval) {
     // trigger raven class constructor to create one more raven pushed to the ravens array
@@ -158,11 +155,10 @@ function animate(timeStamp) {
     // create a sense of depth by layering smaller ravens behind the large ones.  ravens are being drawn in the order that they are pushed into the array. sort size when a new raven is pushed into array , dont need to do with every frame
     ravens.sort(function (a, b) {
       // assending order is default
-      // using width asending based on width
+      // using width
       return a.width - b.width;
     });
   }
-  // draw score then draw ravens so the score is layered behind the ravens
   drawScore();
   // this array literal can be expanded for particles and enemies
   // passing delta into update to make it avalible to the update function
