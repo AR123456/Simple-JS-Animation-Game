@@ -115,19 +115,32 @@ function drawScore() {
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
   // get x and y coords at click in relation to the viewport
-  console.log(e.x, e.y);
+  // console.log(e.x, e.y);
   /// detect collision by color
   // https://www.w3schools.com/tags/canvas_getimagedata.asp
   // position and size
   // getImageData(sx, sy, sw, sh)
   // nnow that we have the second canvas with the colored hit boxes  set up use it to get the color
   // const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
-
   const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
   // Using this will only pick up the color generated using canvas, not the background color coming from CSS
   // will get a cors error with this console.lob if not using server
   // safety measure to protect from virus hidden in image data
-  console.log(detectPixelColor);
+  // console.log(detectPixelColor);
+  // compare the RCG value of the clicked location to the RGB value of the randomColors RGB in the array, if match mark it for deletion=true. From the on click the values are in the ImageData object, on the data property
+  const pc = detectPixelColor.data;
+  // pc is the data object with the rgba value in it, we do not need the alpha
+  // console.log(pc);
+  ravens.forEach((object) => {
+    //for each object compare each element randomColors to pc
+    if (
+      object.randomColors[0] === pc[0] &&
+      object.randomColors[1] === pc[1] &&
+      object.randomColors[2] === pc[2]
+    ) {
+      console.log("you clicked on the hit box ");
+    }
+  });
 });
 
 // animation loop
