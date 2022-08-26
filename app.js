@@ -151,6 +151,12 @@ function animate(timeStamp) {
     // set time back to 0 to start count again
     timeToNextRaven = 0;
     // console.log(ravens);
+    // create a sense of depth by layering smaller ravens behind the large ones.  ravens are being drawn in the order that they are pushed into the array. sort size when a new raven is pushed into array , dont need to do with every frame
+    ravens.sort(function (a, b) {
+      // assending order is default
+      // using width
+      return a.width - b.width;
+    });
   }
   // this array literal can be expanded for particles and enemies
   // passing delta into update to make it avalible to the update function
