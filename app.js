@@ -138,7 +138,9 @@ window.addEventListener("click", function (e) {
       object.randomColors[1] === pc[1] &&
       object.randomColors[2] === pc[2]
     ) {
-      console.log("you clicked on the hit box ");
+      // console.log("you clicked on the hit box ");
+      object.markedForDeletion = true;
+      score++;
     }
   });
 });
