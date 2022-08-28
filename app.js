@@ -107,6 +107,15 @@ function drawScore() {
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + score, 55, 80);
 }
+//// createing an explosion effect with a successfull hit
+let explosions = [];
+class Explosions {
+  constructor(x, y, size) {
+    //
+  }
+  update() {}
+  draw() {}
+}
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
   const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
