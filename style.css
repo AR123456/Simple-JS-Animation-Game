@@ -1,5 +1,5 @@
 body {
-  /* background: linear-gradient(to bottom, red, green, blue); */
+  background: linear-gradient(to bottom, red, green, blue);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -23,4 +23,6 @@ body {
   height: 100%;
   top: 0;
   left: 0;
+  /* set opacity to 0 so the colors of the hit boxes are not seen  */
+  opacity: 0;
 }
