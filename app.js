@@ -3,7 +3,6 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-// second collisionCanvas
 const collisionCanvas = document.getElementById("collisionCanvas");
 const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = window.innerWidth;
@@ -43,13 +42,12 @@ class Raven {
     // Math.random()*(max-min+1)+min
     this.flapInterval = Math.random() * 50 + 50;
     // raven colors rand values between 0 and 255
-
     this.randomColors = [
       Math.floor(Math.random() * 255),
       Math.floor(Math.random() * 255),
       Math.floor(Math.random() * 255),
     ];
-    // concatonate the color decloration
+
     this.color =
       "rgb(" +
       this.randomColors[0] +
@@ -82,9 +80,6 @@ class Raven {
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
-    // ctx.strokeRect(this.x, this.y, this.width, this.height);
-    // fillRect to color the hit box
-    // drAW this on collsionCanvas
     collisionCtx.fillStyle = this.color;
     collisionCtx.fillRect(this.x, this.y, this.width, this.height);
     // ctx.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
@@ -114,23 +109,8 @@ function drawScore() {
 }
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
-  // get x and y coords at click in relation to the viewport
-  // console.log(e.x, e.y);
-  /// detect collision by color
-  // https://www.w3schools.com/tags/canvas_getimagedata.asp
-  // position and size
-  // getImageData(sx, sy, sw, sh)
-  // nnow that we have the second canvas with the colored hit boxes  set up use it to get the color
-  // const detectPixelColor = ctx.getImageData(e.x, e.y, 1, 1);
   const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
-  // Using this will only pick up the color generated using canvas, not the background color coming from CSS
-  // will get a cors error with this console.lob if not using server
-  // safety measure to protect from virus hidden in image data
-  // console.log(detectPixelColor);
-  // compare the RCG value of the clicked location to the RGB value of the randomColors RGB in the array, if match mark it for deletion=true. From the on click the values are in the ImageData object, on the data property
   const pc = detectPixelColor.data;
-  // pc is the data object with the rgba value in it, we do not need the alpha
-  // console.log(pc);
   ravens.forEach((object) => {
     //for each object compare each element randomColors to pc
     if (
@@ -153,21 +133,12 @@ function animate(timeStamp) {
   collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
   let deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
-  // console.log(timeStamp);
-  // miliseconds between frames
   timeToNextRaven += deltaTime;
-  // console.log(deltaTime);
-
   if (timeToNextRaven > ravenInterval) {
-    // trigger raven class constructor to create one more raven pushed to the ravens array
     ravens.push(new Raven());
     // set time back to 0 to start count again
     timeToNextRaven = 0;
-    // console.log(ravens);
-    // create a sense of depth by layering smaller ravens behind the large ones.  ravens are being drawn in the order that they are pushed into the array. sort size when a new raven is pushed into array , dont need to do with every frame
     ravens.sort(function (a, b) {
-      // assending order is default
-      // using width asending based on width
       return a.width - b.width;
     });
   }
@@ -179,7 +150,7 @@ function animate(timeStamp) {
   [...ravens].forEach((object) => object.draw());
 
   ravens = ravens.filter((object) => !object.markedForDeletion);
-  // console.log(ravens);
+
   // call animate again to create endless loop
   requestAnimationFrame(animate);
 }
