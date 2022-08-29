@@ -8,26 +8,24 @@ const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = window.innerWidth;
 collisionCanvas.height = window.innerHeight;
 let score = 0;
+// setting up game over
+let gameOver = false;
 // setting global canvas font size, have to set the family too
 ctx.font = "50px Impact";
 let timeToNextRaven = 0;
 let ravenInterval = 500;
 let lastTime = 0;
 let ravens = [];
-// let canvasPosition = canvas.getBoundingClientRect();
 
 // factory class -constructor update draw
 class Raven {
   constructor() {
-    // 1627x194
-    // aspect ratio
     this.spriteWidth = 271;
     this.spriteHeight = 194;
     this.sizeModifier = Math.random() * 0.6 + 0.4;
     this.width = this.spriteWidth * this.sizeModifier;
     this.height = this.spriteHeight * this.sizeModifier;
     this.x = canvas.width;
-    // offset so that dont have 1/2 birds at top or bottom of screen
     this.y = Math.random() * (canvas.height - this.height);
     // horizontal speed 3 to 8
     this.directionX = Math.random() * 5 + 3;
@@ -41,13 +39,11 @@ class Raven {
     this.timeSinceFlap = 0;
     // Math.random()*(max-min+1)+min
     this.flapInterval = Math.random() * 50 + 50;
-    // raven colors rand values between 0 and 255
     this.randomColors = [
       Math.floor(Math.random() * 255),
       Math.floor(Math.random() * 255),
       Math.floor(Math.random() * 255),
     ];
-
     this.color =
       "rgb(" +
       this.randomColors[0] +
@@ -58,7 +54,6 @@ class Raven {
       ")";
   }
   // update
-  // pass in delta time from the animate function
   update(deltaTime) {
     //top or bottom edge bounce
     if (this.y < 0 || this.y > canvas.height - this.height) {
@@ -74,11 +69,11 @@ class Raven {
     if (this.timeSinceFlap > this.flapInterval) {
       if (this.frame > this.maxFrame) this.frame = 0;
       else this.frame++;
-
       this.timeSinceFlap = 0;
     }
+    if (this.x < 0 - this.width) gameOver = true;
   }
-  // draw - take updated values and any drawing code for a single raven object
+
   draw() {
     collisionCtx.fillStyle = this.color;
     collisionCtx.fillRect(this.x, this.y, this.width, this.height);
@@ -96,38 +91,35 @@ class Raven {
     );
   }
 }
-// use constructor to create raven object
+
 const raven = new Raven();
 let explosions = [];
 class Explosion {
   constructor(x, y, size) {
-    // the position and size will come from outside to the constructor and depend on the raven that was clicked on
     this.image = new Image();
     this.image.src = "/boom.png";
     this.spriteWidth = 200;
     this.spriteHeight = 179;
+    this.size = size;
     this.x = x;
     this.y = y;
+    this.frame = 0;
     this.sound = new Audio();
-    this.sound = "/boom.wav";
+    this.sound.src = "/boom.wav";
     this.timeSinceLastFrame = 0;
-    // in ms
-    this.frameInterval = 200;
+    this.frameInterval = 100;
+    this.markedForDeletion = false;
   }
   // deltaTime is coming from the animation loop
   update(deltaTime) {
-    if (this.frame === 0) {
-      // play sound on frame 0 when the explosion first appears
-      this.sound.play();
-    }
-    // use delta time to time animation
+    if (this.frame === 0) this.sound.play();
     this.timeSinceLastFrame += deltaTime;
-    // if more than 200 ms
     if (this.timeSinceLastFrame > this.frameInterval) {
       this.frame++;
+      this.timeSinceLastFrame = 0;
     }
+    if (this.frame > 5) this.markedForDeletion = true;
   }
-  // explosions need the draw methond to draw the explosion
   draw() {
     ctx.drawImage(
       this.image,
@@ -136,39 +128,78 @@ class Explosion {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.y,
+      //explosion size relative to raven size
+      this.y - this.size / 4,
       this.size,
       this.size
     );
+  }
+}
+// adding particles shooting from tail
+// const particle = new Particle();
+let particles = [];
+class Particle {
+  constructor(x, y, size, color) {
+    this.x = x;
+    this.y = y;
+    // particles are circles so need radius - random number tied to length of array
+    this.size = size;
+    this.radius = (Math.random() * this.size) / 10;
+    this.maxRadius = Math.random() * 20 + 35;
+    this.markedForDeletion = false;
+    // paticles should slowly drift to the right
+    this.speedX = Math.random() * 1 + 0.5;
+    this.color = color;
+  }
+  update() {
+    // move to right horizonally
+    this.x += this.speedX;
+    this.radius = +0.2;
+    if (this.radius > this.maxRadius) this.markedForDeletion = true;
+  }
+  draw() {
+    // draw circle
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
   }
 }
 
 // scoring
 function drawScore() {
   ctx.fillStyle = "black";
-  // text, score var, x , y
   ctx.fillText("Score: " + score, 50, 75);
-  // shadow effect
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + score, 55, 80);
+}
+function drawGameOver() {
+  ctx.textAlign = "center";
+  ctx.fillStyle = "black";
+  ctx.fillText(
+    "Game over Score: " + score,
+    canvas.width / 2,
+    canvas.height / 2
+  );
+  ctx.fillStyle = "white";
+  ctx.fillText(
+    "Game over Score: " + score,
+    canvas.width / 2 + 5,
+    canvas.height / 2 + 5
+  );
 }
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
   const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
   const pc = detectPixelColor.data;
   ravens.forEach((object) => {
-    //for each object compare each element randomColors to pc
     if (
       object.randomColors[0] === pc[0] &&
       object.randomColors[1] === pc[1] &&
       object.randomColors[2] === pc[2]
     ) {
-      // console.log("you clicked on the hit box ");
       object.markedForDeletion = true;
       score++;
-      // push a new explosion into the explosions array
-      // this triggers the new Explosion constructor
-      // want explosion size to be in proportion to the size of raven
       explosions.push(new Explosion(object.x, object.y, object.width));
     }
   });
@@ -176,8 +207,6 @@ window.addEventListener("click", function (e) {
 
 // animation loop
 function animate(timeStamp) {
-  //frame by frame
-  // clear old paint- on both canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
   let deltaTime = timeStamp - lastTime;
@@ -185,23 +214,19 @@ function animate(timeStamp) {
   timeToNextRaven += deltaTime;
   if (timeToNextRaven > ravenInterval) {
     ravens.push(new Raven());
-    // set time back to 0 to start count again
     timeToNextRaven = 0;
     ravens.sort(function (a, b) {
       return a.width - b.width;
     });
   }
-  // draw score then draw ravens so the score is layered behind the ravens
   drawScore();
-  // this array literal can be expanded for particles and enemies
-  // passing delta into update to make it avalible to the update function
-  [...ravens].forEach((object) => object.update(deltaTime));
-  [...ravens].forEach((object) => object.draw());
+  [...ravens, ...explosions].forEach((object) => object.update(deltaTime));
+  [...ravens, ...explosions].forEach((object) => object.draw());
 
   ravens = ravens.filter((object) => !object.markedForDeletion);
-
-  // call animate again to create endless loop
-  requestAnimationFrame(animate);
+  explosions = explosions.filter((object) => !object.markedForDeletion);
+  if (!gameOver) requestAnimationFrame(animate);
+  else drawGameOver();
 }
 // call the first loop
 animate(0);
