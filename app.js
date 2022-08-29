@@ -106,8 +106,10 @@ class Explosion {
     this.image.src = "/boom.png";
     this.spriteWidth = 200;
     this.spriteHeight = 179;
+    this.size = size;
     this.x = x;
     this.y = y;
+    this.frame = 0;
     this.sound = new Audio();
     this.sound = "/boom.wav";
     this.timeSinceLastFrame = 0;
@@ -117,10 +119,8 @@ class Explosion {
   }
   // deltaTime is coming from the animation loop
   update(deltaTime) {
-    if (this.frame === 0) {
-      // play sound on frame 0 when the explosion first appears
-      this.sound.play();
-    }
+    // play sound on frame 0 when the explosion first appears
+    // if (this.frame === 0) this.sound.play();
     // use delta time to time animation
     this.timeSinceLastFrame += deltaTime;
     // if more than 200 ms
