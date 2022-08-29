@@ -14,7 +14,7 @@ let timeToNextRaven = 0;
 let ravenInterval = 500;
 let lastTime = 0;
 let ravens = [];
-let canvasPosition = canvas.getBoundingClientRect();
+// let canvasPosition = canvas.getBoundingClientRect();
 
 // factory class -constructor update draw
 class Raven {
@@ -98,6 +98,22 @@ class Raven {
 }
 // use constructor to create raven object
 const raven = new Raven();
+let explosions = [];
+class Explosion {
+  constructor(x, y, size) {
+    // the position and size will come from outside to the constructor and depend on the raven that was clicked on
+    this.image = new Image();
+    this.image.src = "/boom.png";
+    this.spriteWidth = 200;
+    this.spriteHeight = 179;
+    this.x = x;
+    this.y = y;
+    this.sound = new Audio();
+  }
+  update() {}
+  draw() {}
+}
+
 // scoring
 function drawScore() {
   ctx.fillStyle = "black";
@@ -106,53 +122,6 @@ function drawScore() {
   // shadow effect
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + score, 55, 80);
-}
-//// createing an explosion effect with a successfull hit
-let explosions = [];
-let explosion;
-class Explosions {
-  constructor(x, y, size) {
-    //100- x 79
-    this.spriteWidth = 200;
-    this.spriteHeight = 179;
-    this.width = this.spriteWidth * 0.7;
-    this.height = this.spriteHeight * 0.7;
-    this.x = x;
-    this.y = y;
-    this.image = new Image();
-    this.image.src = "/boom.png";
-    this.frame = 0;
-    this.timer = 0;
-    this.angle = Math.random() * 6.2;
-  }
-  update() {
-    if (this.timer % 10 === 0) {
-      this.frame++;
-    }
-  }
-  draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.drawImage(
-      this.image,
-      this.spriteWidth.this.frame,
-      0,
-      this.spriteWidth,
-      this.spriteHeight,
-      0 - this.width / 2,
-      0 - this.height / 2,
-      this.width,
-      this.height
-    );
-    ctx.restore();
-  }
-}
-function createExplosion(e) {
-  let positionX = e.x - canvasPosition.left;
-  let positionY = e.y - canvasPosition.top;
-  explosions.push(new Explosion(positionX, positionY));
-  console.log(explosions);
 }
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
@@ -168,7 +137,6 @@ window.addEventListener("click", function (e) {
       // console.log("you clicked on the hit box ");
       object.markedForDeletion = true;
       score++;
-      createExplosion(e);
     }
   });
 });
@@ -198,19 +166,7 @@ function animate(timeStamp) {
   [...ravens].forEach((object) => object.draw());
 
   ravens = ravens.filter((object) => !object.markedForDeletion);
-  // animate the explosion
-  for (let i = 0; i < explosions.length; i++) {
-    // for each one call the constructors update and draw methods
-    explosions[i].update();
-    explosions[i].draw();
-    // stop pushing explosions to the array after 4
-    if (explosions[i].frame > 5) {
-      // remove
-      explosions.splice(i, 1);
-      // after removing adjust index
-      i--;
-    }
-  }
+
   // call animate again to create endless loop
   requestAnimationFrame(animate);
 }
