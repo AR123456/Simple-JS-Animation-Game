@@ -109,9 +109,38 @@ class Explosion {
     this.x = x;
     this.y = y;
     this.sound = new Audio();
+    this.sound = "/boom.wav";
+    this.timeSinceLastFrame = 0;
+    // in ms
+    this.frameInterval = 200;
   }
-  update() {}
-  draw() {}
+  // deltaTime is coming from the animation loop
+  update(deltaTime) {
+    if (this.frame === 0) {
+      // play sound on frame 0 when the explosion first appears
+      this.sound.play();
+    }
+    // use delta time to time animation
+    this.timeSinceLastFrame += deltaTime;
+    // if more than 200 ms
+    if (this.timeSinceLastFrame > this.frameInterval) {
+      this.frame++;
+    }
+  }
+  // explosions need the draw methond to draw the explosion
+  draw() {
+    ctx.drawImage(
+      this.image,
+      this.frame * this.spriteWidth,
+      0,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.size,
+      this.size
+    );
+  }
 }
 
 // scoring
@@ -137,6 +166,10 @@ window.addEventListener("click", function (e) {
       // console.log("you clicked on the hit box ");
       object.markedForDeletion = true;
       score++;
+      // push a new explosion into the explosions array
+      // this triggers the new Explosion constructor
+      // want explosion size to be in proportion to the size of raven
+      explosions.push(new Explosion(object.x, object.y, object.width));
     }
   });
 });
