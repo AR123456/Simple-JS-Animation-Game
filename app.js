@@ -114,7 +114,7 @@ class Explosion {
     this.sound.src = "/boom.wav";
     this.timeSinceLastFrame = 0;
     // in ms
-    this.frameInterval = 200;
+    this.frameInterval = 100;
     this.markedForDeletion = false;
   }
   // deltaTime is coming from the animation loop
@@ -126,6 +126,8 @@ class Explosion {
     // if more than 200 ms
     if (this.timeSinceLastFrame > this.frameInterval) {
       this.frame++;
+      // reset so that whole row in sprite sheet plays at same speed
+      this.timeSinceLastFrame = 0;
     }
     if (this.frame > 5) this.markedForDeletion = true;
   }
@@ -138,7 +140,8 @@ class Explosion {
       this.spriteWidth,
       this.spriteHeight,
       this.x,
-      this.y,
+      // make the explosion size relative to raven size
+      this.y - this.size / 4,
       this.size,
       this.size
     );
