@@ -8,6 +8,8 @@ const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = window.innerWidth;
 collisionCanvas.height = window.innerHeight;
 let score = 0;
+// setting up game over
+let gameOver = false;
 // setting global canvas font size, have to set the family too
 ctx.font = "50px Impact";
 let timeToNextRaven = 0;
@@ -77,6 +79,8 @@ class Raven {
 
       this.timeSinceFlap = 0;
     }
+    // check for game over - if raven crosses over all the way from r to l
+    if (this.x < 0 - this.width) gameOver = true;
   }
   // draw - take updated values and any drawing code for a single raven object
   draw() {
@@ -157,6 +161,22 @@ function drawScore() {
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + score, 55, 80);
 }
+// when game is over display that
+function drawGameOver() {
+  ctx.textAlign = "center";
+  ctx.fillStyle = "black";
+  ctx.fillText(
+    "Game over Score: " + score,
+    canvas.width / 2,
+    canvas.height / 2
+  );
+  ctx.fillStyle = "white";
+  ctx.fillText(
+    "Game over Score: " + score,
+    canvas.width / 2 + 5,
+    canvas.height / 2 + 5
+  );
+}
 // __ raves before they get to edge of screen
 window.addEventListener("click", function (e) {
   const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
@@ -175,7 +195,7 @@ window.addEventListener("click", function (e) {
       // this triggers the new Explosion constructor
       // want explosion size to be in proportion to the size of raven
       explosions.push(new Explosion(object.x, object.y, object.width));
-      console.log(explosions);
+      // console.log(explosions);
     }
   });
 });
@@ -208,9 +228,10 @@ function animate(timeStamp) {
   ravens = ravens.filter((object) => !object.markedForDeletion);
   // remove prior explosions with filter
   explosions = explosions.filter((object) => !object.markedForDeletion);
-
+  // only do this if gameOver is not true
   // call animate again to create endless loop
-  requestAnimationFrame(animate);
+  if (!gameOver) requestAnimationFrame(animate);
+  else drawGameOver();
 }
 // call the first loop
 animate(0);
