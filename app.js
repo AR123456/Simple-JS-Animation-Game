@@ -149,8 +149,8 @@ let particles = [];
 class Particle {
   constructor(x, y, size, color) {
     this.size = size;
-    this.x = x + this.size / 2;
-    this.y = y + this.size / 3;
+    this.x = x + this.size / 2 + Math.random() * 50 - 25;
+    this.y = y + this.size / 3 + Math.random() * 50 - 25;
     // particles are circles so need radius - random number tied to length of array
 
     this.radius = (Math.random() * this.size) / 10;
