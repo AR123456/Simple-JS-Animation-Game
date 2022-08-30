@@ -52,6 +52,8 @@ class Raven {
       "," +
       this.randomColors[2] +
       ")";
+    // ransomize which raven gets particle trail - 50% of the time
+    this.hastTrail = Math.random() > 0.5;
   }
   // update
   update(deltaTime) {
@@ -70,8 +72,12 @@ class Raven {
       if (this.frame > this.maxFrame) this.frame = 0;
       else this.frame++;
       this.timeSinceFlap = 0;
-      // every time we serve a frame at this interval - using the same color we used for the hit box.
-      particles.push(new Particle(this.x, this.y, this.width, this.color));
+      if (this.hastTrail) {
+        // add 5 particles each time vs 1 to make the trail look nicer
+        for (let i = 0; i < 5; i++) {
+          particles.push(new Particle(this.x, this.y, this.width, this.color));
+        }
+      }
     }
     if (this.x < 0 - this.width) gameOver = true;
   }
@@ -158,16 +164,22 @@ class Particle {
   update() {
     // move to right horizonally
     this.x += this.speedX;
-    this.radius += 0.2;
-    if (this.radius > this.maxRadius) this.markedForDeletion = true;
+    this.radius += 0.5;
+    // -5 to remove the blink
+    if (this.radius > this.maxRadius - 5) this.markedForDeletion = true;
   }
   draw() {
-    // draw circle
+    // save() creates a snapshot
+    ctx.save();
+    // animate particles visible to transparent 1 is fully visable
+    ctx.globalAlpha = 1 - this.radius / this.maxRadius;
     ctx.beginPath();
     ctx.fillStyle = this.color;
     //arc(x, y, radius, startAngle, endAngle)
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fill();
+    // restore goes back to save snapshot
+    ctx.restore();
   }
 }
 
