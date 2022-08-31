@@ -1,7 +1,7 @@
 /**@type {HTMLCanvasElement}*/
 // wait to run the js until all the html, images and CSS have been loaded.  This wraps everything
 document.addEventListener("load", function () {
-  const canvas1 = document.getElementById("canvas1");
+  const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
   canvas.width = 500;
   canvas.height = 800;
@@ -31,13 +31,21 @@ document.addEventListener("load", function () {
   }
   // animation loop
   // will call what needs to be called and loop to move and animate things in game frame by frame
-  function animate() {
+  // animate has access to timestamp
+  let lastTime = 1;
+  function animate(timeStamp) {
     // do this frame by frame
     // start off by clearing the entire canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // some code -
+    // request AnimationFrame refreshes based on the machine so is scalable to all devices - only serve the next frame based on time between previous animate call and current animate call. Use built in timestamp. AKA delta time
+    const deltaTime = timeStamp - lastTime;
+    // calculation done so reassign so ready to use for next calculation
+    lastTime = timeStamp;
+    console.log(deltaTime);
     requestAnimationFrame(animate);
   }
+
+  animate();
   //don't run until all canvas elements have been loaded so put inside the load event listener
 });
-//  Good explanation of set up here  https://www.youtube.com/watch?v=GFO_txvwK_c 3:51 to  3:58
