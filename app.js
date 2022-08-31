@@ -1,6 +1,7 @@
 /**@type {HTMLCanvasElement}*/
 // wait to run the js until all the html, images and CSS have been loaded.  This wraps everything
-document.addEventListener("load", function () {
+// document.addEventListener("load", function () {
+window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
   canvas.width = 500;
@@ -43,9 +44,10 @@ document.addEventListener("load", function () {
     // calculation done so reassign so ready to use for next calculation
     lastTime = timeStamp;
     console.log(deltaTime);
+    console.log("hello");
     requestAnimationFrame(animate);
   }
 
-  animate();
+  // animate();
   //don't run until all canvas elements have been loaded so put inside the load event listener
 });

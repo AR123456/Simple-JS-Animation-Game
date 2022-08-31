@@ -12,5 +12,6 @@ body {
 }
 img {
   /* hide images coming from html will be drawn with JS  */
+
   display: none;
 }
