@@ -1,28 +1,43 @@
 /**@type {HTMLCanvasElement}*/
+// wait to run the js until all the html, images and CSS have been loaded.  This wraps everything
+document.addEventListener("load", function () {
+  const canvas1 = document.getElementById("canvas1");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 500;
+  canvas.height = 800;
 
-// main parent class -define properties and values shared between all enemy types
-class Enemy {
-  constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.width = 100;
-    this.height = 200;
+  // Game class will be wrapper and contain all the movement and animation logic
+  class Game {
+    constructor() {
+      this.enemies = [];
+    }
+    // update and draw are public - need to be called from animation loop that is outside the constructor - they will handle the updating and drawing for the entire game - enemies player obstacles backgrounds menues
+    update() {}
+    draw() {}
+    // private method will be called when need to create and set up a new enemy for game
+    // if methods name starts with # it will be a private class
+    // ic can only be called from within game class to manage some kind of internal functionality.  In this case adding a new enemy into the this.enemies array
+    #addNewEnemy() {
+      //need way to create new enemies for the game
+    }
   }
-  update() {}
-  draw() {}
-}
-// extends keyword is used to create a so called child class or subclasses
-// that defines specifics like diff visuals like movement pattern
-
-// update
-class Ghost extends Enemy {
-  ///
-  constructor() {
-    // the super keyword The super keyword is used to call the constructor of its parent class to access the parent's properties and methods.
-    super();
-    this.image = "./ghost.png";
+  // in this class declare blueprint - when called from the #addNewEnemy method it will create one new enemy ogject
+  class Enemy {
+    // the ghosts worms and spiders will be crated by the enemy class but they will have different animations and different behaviors
+    constructor() {}
+    // update and draw methods in this class will handle updating and drawing each individual enemy position movement patterns sprite animation
+    update() {}
+    draw() {}
   }
-}
-const enemy1 = new Ghost();
-// for each enemy type -when object instatiated and call update on it, if JS cannot find update method on the Ghost class it will go look for it automatically on the Enemy (parent class )
-enemy1.update();
+  // animation loop
+  // will call what needs to be called and loop to move and animate things in game frame by frame
+  function animate() {
+    // do this frame by frame
+    // start off by clearing the entire canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // some code -
+    requestAnimationFrame(animate);
+  }
+  //don't run until all canvas elements have been loaded so put inside the load event listener
+});
+//  Good explanation of set up here  https://www.youtube.com/watch?v=GFO_txvwK_c 3:51 to  3:58
