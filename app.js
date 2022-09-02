@@ -8,14 +8,19 @@ window.addEventListener("load", function () {
 
   // Game class will be wrapper movement and animation logic
   class Game {
-    constructor() {
+    // it is good practice not to call globals from inside constructor.  So adding to game class (pass them in at bottom when creating new Game() instnace) also in the contructor will need to convert them into class properites
+
+    constructor(ctx, width, height) {
       // code here run when we instantiate new object
+      this.ctx = ctx;
+      this.width = width;
+      this.height = height;
       this.enemies = [];
       this.#addNewEnemy();
     }
     // update and draw are public handle the updating and drawing  entire game - enemies player obstacles backgrounds menus
     update() {
-      // cycle enemies array and run their update fucnton
+      // cycle enemies array and run their update fucntion
       this.enemies.forEach((object) => object.update());
     }
     draw() {
@@ -44,7 +49,8 @@ window.addEventListener("load", function () {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   }
-  const game = new Game();
+  // tell JS which canvas
+  const game = new Game(ctx, canvas.width, canvas.height);
   let lastTime = 1;
   // animation loop
   // will call what needs to be called and loop to move and animate things in game frame by frame
