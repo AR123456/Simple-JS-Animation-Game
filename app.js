@@ -29,15 +29,19 @@ window.addEventListener("load", function () {
     }
     // private method to create and set up a new enemy for game
     #addNewEnemy() {
-      //need way to create new enemies for the game
-      this.enemies.push(new Enemy());
+      // "this" referes to the game object we are currenty inside it carries all the properties in the object
+      this.enemies.push(new Enemy(this));
     }
   }
   class Enemy {
     // the ghosts worms and spiders animations and different behaviors
-    constructor() {
-      this.x = 100;
-      this.y = 100;
+    // passing in game which is the object coming from Game class, the "this"
+    constructor(game) {
+      // access to game oject inside enemy class
+      this.game = game;
+      // console.log(game);
+      this.x = this.game.width;
+      this.y = Math.random() * this.game.height;
       this.width = 100;
       this.height = 100;
     }
