@@ -16,10 +16,23 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.enemies = [];
-      this.#addNewEnemy();
+      // game class is responsible for adding new enemies to game setting interval to add new enemys to the game here
+      this.enemyInterval = 20;
+      this.enemyTimer = 0;
+      // this.#addNewEnemy();
     }
     // update and draw are public handle the updating and drawing  entire game - enemies player obstacles backgrounds menus
     update() {
+      // using enemyInterval and timer to control when new enemies are created
+      if (this.enemyTimer > this.enemyInterval) {
+        this.#addNewEnemy();
+        // reset back to 0
+        this.enemyTimer = 0;
+        console.log(this.enemies);
+      } else {
+        //increment the timer
+        this.enemyTimer++;
+      }
       // cycle enemies array and run their update fucntion
       this.enemies.forEach((object) => object.update());
     }
