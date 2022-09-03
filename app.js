@@ -8,8 +8,7 @@ window.addEventListener("load", function () {
 
   // Game class will be wrapper movement and animation logic
   class Game {
-    // it is good practice not to call globals from inside constructor.  So adding to game class (pass them in at bottom when creating new Game() instnace) also in the contructor will need to convert them into class properites
-
+    // good practice not to call globals from inside constructor convert them into class properites
     constructor(ctx, width, height) {
       // code here run when we instantiate new object
       this.ctx = ctx;
@@ -30,7 +29,7 @@ window.addEventListener("load", function () {
       if (this.enemyTimer > this.enemyInterval) {
         this.#addNewEnemy();
         this.enemyTimer = 0;
-        console.log(this.enemies);
+        // console.log(this.enemies);
       } else {
         //increment the timer delta time
         this.enemyTimer += deltaTime;
@@ -75,6 +74,7 @@ window.addEventListener("load", function () {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   }
+  // creating worm sub class (child class )
   // tell JS which canvas
   const game = new Game(ctx, canvas.width, canvas.height);
   let lastTime = 1;
