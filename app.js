@@ -35,7 +35,9 @@ window.addEventListener("load", function () {
     }
     // private method to create and set up a new enemy for game
     #addNewEnemy() {
-      this.enemies.push(new Enemy(this));
+      // this.enemies.push(new Enemy(this));
+      // now that we have Worm child class , instatiate it instead
+      this.enemies.push(new Worm(this));
     }
   }
   class Enemy {
@@ -43,10 +45,12 @@ window.addEventListener("load", function () {
     constructor(game) {
       // access to game oject
       this.game = game;
-      this.x = this.game.width;
-      this.y = Math.random() * this.game.height;
-      this.width = 100;
-      this.height = 100;
+      // console.log(this.game);
+      // moving this to the Worm Child constuctor
+      // this.x = this.game.width;
+      // this.y = Math.random() * this.game.height;
+      // this.width = 100;
+      // this.height = 100;
       this.markedForDeletion = false;
     }
 
@@ -55,10 +59,30 @@ window.addEventListener("load", function () {
       if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
     draw(ctx) {
-      ctx.fillRect(this.x, this.y, this.width, this.height);
+      // ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
   }
   // creating worm sub class (child class )
+
+  class Worm extends Enemy {
+    // could use parent but this enemy will have some different values
+    // so here just change what is different keep the rest
+    constructor(game) {
+      // super tells js to use stuff from parent
+      super(game);
+      // this is added stuff unique to worm- order is important here
+      // call super to make this keyword avalable
+      this.x = this.game.width;
+      this.y = Math.random() * this.game.height;
+      this.width = 100;
+      this.height = 100;
+      // this is coming from adding worm image with ID to the HTML
+      // could have also added this the traditional way using get element by ID and passing global to worm class constructor as an argument so not calling global from the outside
+      this.image = worm;
+      // using the draw method from the parent constructor at this point
+    }
+  }
   // tell JS which canvas
   const game = new Game(ctx, canvas.width, canvas.height);
   let lastTime = 1;
