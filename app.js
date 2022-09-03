@@ -16,7 +16,7 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.enemies = [];
-      // game class is responsible for adding new enemies to game setting interval to add new enemys to the game here
+      // add new enemy at this inteval
       this.enemyInterval = 1000;
       this.enemyTimer = 0;
       // this.#addNewEnemy();
@@ -24,15 +24,15 @@ window.addEventListener("load", function () {
     // update and draw are public handle the updating and drawing  entire game - enemies player obstacles backgrounds menus
     // pass deltaTime from the animation loop to update
     update(deltaTime) {
+      // filtering out the enemies marked for deletion- only include in the new array enemies that meet the test - only if markedForDeletion is false
+      this.enemies = this.enemies.filter((object) => !object.markedForDeletion);
       // using enemyInterval and timer to control when new enemies are created
       if (this.enemyTimer > this.enemyInterval) {
         this.#addNewEnemy();
-        // reset back to 0
         this.enemyTimer = 0;
         console.log(this.enemies);
       } else {
-        //increment the timer now with delta time
-        // this.enemyTimer++;
+        //increment the timer delta time
         this.enemyTimer += deltaTime;
       }
       // cycle enemies array and run their update fucntion
@@ -40,7 +40,8 @@ window.addEventListener("load", function () {
     }
     draw() {
       // cycle enemies array and run their draw function
-      this.enemies.forEach((object) => object.draw());
+      // pass in ctx from constructor
+      this.enemies.forEach((object) => object.draw(this.ctx));
     }
     // private method to create and set up a new enemy for game
     #addNewEnemy() {
@@ -54,17 +55,23 @@ window.addEventListener("load", function () {
     constructor(game) {
       // access to game oject inside enemy class
       this.game = game;
-      // console.log(game);
       this.x = this.game.width;
       this.y = Math.random() * this.game.height;
       this.width = 100;
       this.height = 100;
+      // filtering out some of the enemies
+      this.markedForDeletion = false;
     }
 
     update() {
       this.x--;
+      // if the enemy has moved off the left side of screen remove it
+      // set to true here then in game constructor do the filter
+      if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
-    draw() {
+    // draw needs to expect ctx from draw method in game constructor so pass in here
+    // this is so that it using that ctx vs the global var ctx
+    draw(ctx) {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   }
