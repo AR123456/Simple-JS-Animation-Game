@@ -26,6 +26,7 @@ window.addEventListener("load", function () {
         this.enemyTimer = 0;
         // console.log(this.enemies);
       } else {
+        // console.log(deltaTime);
         this.enemyTimer += deltaTime;
       }
       this.enemies.forEach((object) => object.update());
@@ -33,6 +34,7 @@ window.addEventListener("load", function () {
     draw() {
       this.enemies.forEach((object) => object.draw(this.ctx));
     }
+
     // private method to create and set up a new enemy for game
     #addNewEnemy() {
       // this.enemies.push(new Enemy(this));
@@ -54,13 +56,31 @@ window.addEventListener("load", function () {
       this.markedForDeletion = false;
     }
 
-    update() {
-      this.x--;
+    // deltaTime is avalable becasue we passed it in the the parent game class. use as argument here
+    update(deltaTime) {
+      // speed at which the worms are drawn normalize with
+      // this.x--;
+      // why is deltatime undefined here ?
+      // console.log(deltaTime);
+      // this.x -= this.vx * deltaTime;
+      // on my machine logs of delta @35 so hard coding here
+      this.x -= this.vx * 35;
       if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
     draw(ctx) {
-      // ctx.fillRect(this.x, this.y, this.width, this.height);
-      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+      // change over to 9 values to tell js which sprite image to cut out and draw
+      ctx.drawImage(
+        this.image,
+        0,
+        0,
+        this.spriteWidth,
+        this.spriteHeight,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
     }
   }
   // creating worm sub class (child class )
@@ -72,15 +92,20 @@ window.addEventListener("load", function () {
       // super tells js to use stuff from parent
       super(game);
       // this is added stuff unique to worm- order is important here
-      // call super to make this keyword avalable
+      //1374x171 1374/6
+      this.spriteWidth = 229;
+      this.spriteHeight = 171;
+      // maintain aspect ratio dividing by 2 because whole image it too big.  as long as denominators are the same aspect ration is preserved . they are defining how bit the worms are on the canvas
+      this.width = this.spriteWidth / 2;
+      this.height = this.spriteHeight / 2;
       this.x = this.game.width;
       this.y = Math.random() * this.game.height;
-      this.width = 100;
-      this.height = 100;
+
       // this is coming from adding worm image with ID to the HTML
       // could have also added this the traditional way using get element by ID and passing global to worm class constructor as an argument so not calling global from the outside
       this.image = worm;
-      // using the draw method from the parent constructor at this point
+      // ransomize the speed of the worms or speed along vertical axis
+      this.vx = Math.random() * 0.1 + 0.1;
     }
   }
   // tell JS which canvas
