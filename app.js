@@ -30,7 +30,8 @@ window.addEventListener("load", function () {
         // console.log(deltaTime);
         this.enemyTimer += deltaTime;
       }
-      this.enemies.forEach((object) => object.update());
+      // passing deltaTime here so see if that resolves issue
+      this.enemies.forEach((object) => object.update(deltaTime));
     }
     draw() {
       this.enemies.forEach((object) => object.draw(this.ctx));
@@ -38,25 +39,31 @@ window.addEventListener("load", function () {
     // private method to create and set up a new enemy for game
     #addNewEnemy() {
       this.enemies.push(new Worm(this));
+      // sort the array so that worms are not on top of one another
+      this.enemies.sort(function (a, b) {
+        // sort so worms with vertical y coordinantes have lower index
+      });
     }
   }
   class Enemy {
     // the ghosts worms and spiders animations and different behaviors
+
     constructor(game) {
       // access to game oject
       this.game = game;
       // console.log(this.game);
+
       this.markedForDeletion = false;
     }
     // deltaTime is avalable becasue we passed it in the the parent game class. use as argument here
     update(deltaTime) {
-      // speed at which the worms are drawn normalize with
+      // speed at which the worms are drawn normalize with delta
       // this.x--;
       // why is deltatime undefined here ?
       // console.log(deltaTime);
-      // this.x -= this.vx * deltaTime;
+      this.x -= this.vx * deltaTime;
       // on my machine logs of delta @35 so hard coding here
-      this.x -= this.vx * 35;
+      // this.x -= this.vx * 35;
       if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
     draw(ctx) {
