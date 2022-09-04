@@ -1,14 +1,13 @@
 /**@type {HTMLCanvasElement}*/
-// document.addEventListener("load", function () {
+
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
   canvas.width = 500;
   canvas.height = 800;
-
-  // Game class will be wrapper movement and animation logic
+  // Game class wrapper movement and animation logic
   class Game {
-    // good practice not to call globals from inside constructor convert them into class properites
+    //globals to properites
     constructor(ctx, width, height) {
       // code  run when we instantiate new object
       this.ctx = ctx;
@@ -18,7 +17,7 @@ window.addEventListener("load", function () {
       this.enemyInterval = 100;
       this.enemyTimer = 0;
     }
-    // update and draw are public handle the updating and drawing  entire game - enemies player obstacles backgrounds menus
+    // update & draw public handle updating and drawing game - enemies player obstacles backgrounds menus
     update(deltaTime) {
       this.enemies = this.enemies.filter((object) => !object.markedForDeletion);
       if (this.enemyTimer > this.enemyInterval) {
@@ -34,37 +33,25 @@ window.addEventListener("load", function () {
     draw() {
       this.enemies.forEach((object) => object.draw(this.ctx));
     }
-    // private method to create and set up a new enemy for game
+    // private method to create and set up new enemy
     #addNewEnemy() {
       this.enemies.push(new Worm(this));
-      // sort the array so that worms are not on top of one another
-      // only sort when we add a new enemy into the array
       this.enemies.sort(function (a, b) {
-        // sort so worms with vertical y coordinantes have lower index drawn first
-        // worms that are higher are drawn behind worms that are lower
         return a.y - b.y;
       });
     }
   }
   class Enemy {
     // the ghosts worms and spiders animations and different behaviors
-
     constructor(game) {
-      // access to game oject
       this.game = game;
       // console.log(this.game);
-
       this.markedForDeletion = false;
     }
-    // deltaTime is avalable becasue we passed it in the the parent game class. use as argument here
+    // deltaTime is avalable becasue we passed it in the the parent game class. and update object.update use as argument here
     update(deltaTime) {
       // speed at which the worms are drawn normalize with delta
-      // this.x--;
-      // why is deltatime undefined here ?
-      // console.log(deltaTime);
       this.x -= this.vx * deltaTime;
-      // on my machine logs of delta @35 so hard coding here
-      // this.x -= this.vx * 35;
       if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
     draw(ctx) {
@@ -81,15 +68,14 @@ window.addEventListener("load", function () {
       );
     }
   }
-  // creating worm sub class (child class of enemy it will be using the draw and update methods from its parent )
+  // worm sub class (child class of enemy it will be using the draw and update methods from its parent )
 
   class Worm extends Enemy {
-    // could use parent but this enemy will have some different values
-    // so here just change what is different keep the rest
+    //just change what is different keep the rest from parent
     constructor(game) {
       // super tells js to use stuff from parent
       super(game);
-      // this is added stuff unique to worm- order is important here
+      // stuff unique to worm- order is important here
       //1374x171 1374/6
       this.spriteWidth = 229;
       this.spriteHeight = 171;
@@ -107,7 +93,6 @@ window.addEventListener("load", function () {
   const game = new Game(ctx, canvas.width, canvas.height);
   let lastTime = 1;
   // animation loop
-
   function animate(timeStamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const deltaTime = timeStamp - lastTime;
