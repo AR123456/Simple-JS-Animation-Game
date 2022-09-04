@@ -16,6 +16,8 @@ window.addEventListener("load", function () {
       this.enemies = [];
       this.enemyInterval = 100;
       this.enemyTimer = 0;
+      // to keep track of diffrent enemy types to ranomize in the private method
+      this.enemyTypes = ["worm", "ghost"];
     }
     // update & draw public handle updating and drawing game - enemies player obstacles backgrounds menus
     update(deltaTime) {
@@ -34,8 +36,13 @@ window.addEventListener("load", function () {
       this.enemies.forEach((object) => object.draw(this.ctx));
     }
     // private method to create and set up new enemy
+    // using the enemyTypes array to randomize
     #addNewEnemy() {
-      this.enemies.push(new Worm(this));
+      // rand number between 0 and lentth of enemyTypes array
+      const randomEnemy =
+        this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
+      if (randomEnemy === "worm") this.enemies.push(new Worm(this));
+      if (randomEnemy === "ghost") this.enemies.push(new Ghost(this));
       this.enemies.sort(function (a, b) {
         return a.y - b.y;
       });
@@ -85,6 +92,26 @@ window.addEventListener("load", function () {
       this.x = this.game.width;
       this.y = Math.random() * this.game.height;
       this.image = worm;
+      // ransomize the speed of the worms or speed along vertical axis
+      this.vx = Math.random() * 0.1 + 0.1;
+    }
+  }
+  // Ghost class
+  class Ghost extends Enemy {
+    //just change what is different keep the rest from parent
+    constructor(game) {
+      // super tells js to use stuff from parent
+      super(game);
+      // stuff unique to worm- order is important here
+      //1566/209 1566/6
+      this.spriteWidth = 261;
+      this.spriteHeight = 209;
+      // maintain aspect ratio -size on canvas
+      this.width = this.spriteWidth / 2;
+      this.height = this.spriteHeight / 2;
+      this.x = this.game.width;
+      this.y = Math.random() * this.game.height;
+      this.image = ghost;
       // ransomize the speed of the worms or speed along vertical axis
       this.vx = Math.random() * 0.1 + 0.1;
     }
