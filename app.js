@@ -15,7 +15,7 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.enemies = [];
-      this.enemyInterval = 1000;
+      this.enemyInterval = 100;
       this.enemyTimer = 0;
     }
     // update and draw are public handle the updating and drawing  entire game - enemies player obstacles backgrounds menus
@@ -26,11 +26,9 @@ window.addEventListener("load", function () {
         this.enemyTimer = 0;
         // console.log(this.enemies);
       } else {
-        // have working deltaTime here
-        // console.log(deltaTime);
         this.enemyTimer += deltaTime;
       }
-      // passing deltaTime here so see if that resolves issue
+      // passing deltaTime here so it can be used in enemy class
       this.enemies.forEach((object) => object.update(deltaTime));
     }
     draw() {
@@ -40,8 +38,11 @@ window.addEventListener("load", function () {
     #addNewEnemy() {
       this.enemies.push(new Worm(this));
       // sort the array so that worms are not on top of one another
+      // only sort when we add a new enemy into the array
       this.enemies.sort(function (a, b) {
-        // sort so worms with vertical y coordinantes have lower index
+        // sort so worms with vertical y coordinantes have lower index drawn first
+        // worms that are higher are drawn behind worms that are lower
+        return a.y - b.y;
       });
     }
   }
@@ -80,7 +81,7 @@ window.addEventListener("load", function () {
       );
     }
   }
-  // creating worm sub class (child class )
+  // creating worm sub class (child class of enemy it will be using the draw and update methods from its parent )
 
   class Worm extends Enemy {
     // could use parent but this enemy will have some different values
