@@ -14,7 +14,7 @@ window.addEventListener("load", function () {
       this.width = width;
       this.height = height;
       this.enemies = [];
-      this.enemyInterval = 100;
+      this.enemyInterval = 500;
       this.enemyTimer = 0;
       // to keep track of diffrent enemy types to ranomize in the private method
       this.enemyTypes = ["worm", "ghost"];
@@ -42,10 +42,10 @@ window.addEventListener("load", function () {
       const randomEnemy =
         this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
       if (randomEnemy === "worm") this.enemies.push(new Worm(this));
-      if (randomEnemy === "ghost") this.enemies.push(new Ghost(this));
-      this.enemies.sort(function (a, b) {
-        return a.y - b.y;
-      });
+      else if (randomEnemy === "ghost") this.enemies.push(new Ghost(this));
+      // this.enemies.sort(function (a, b) {
+      //   return a.y - b.y;
+      // });
     }
   }
   class Enemy {
@@ -90,7 +90,9 @@ window.addEventListener("load", function () {
       this.width = this.spriteWidth / 2;
       this.height = this.spriteHeight / 2;
       this.x = this.game.width;
-      this.y = Math.random() * this.game.height;
+      // this.y = Math.random() * this.game.height;
+      // just draw worms on "ground"
+      this.y = this.game.height - this.height;
       this.image = worm;
       // ransomize the speed of the worms or speed along vertical axis
       this.vx = Math.random() * 0.1 + 0.1;
@@ -110,10 +112,33 @@ window.addEventListener("load", function () {
       this.width = this.spriteWidth / 2;
       this.height = this.spriteHeight / 2;
       this.x = this.game.width;
-      this.y = Math.random() * this.game.height;
+      // ghosts should only be in top 60% of game area
+      this.y = Math.random() * this.game.height * 0.6;
       this.image = ghost;
-      // ransomize the speed of the worms or speed along vertical axis
       this.vx = Math.random() * 0.1 + 0.1;
+      // use this to use trig to move ghost
+      this.angle = 0;
+      // randomize the amount of movement
+      this.curve = Math.random() * 3;
+    }
+    // use update to change the ghost movement pattern
+    update(deltaTime) {
+      // update with code from enemy class
+      super.update(deltaTime);
+      // change movement for the ghost
+      this.y += Math.sin(this.angle) * this.curve;
+      // increment the radiant for the sin wave
+      this.angle += 0.04;
+    }
+    // the ghost will be transparent so will need its own draw method
+    // run all the stuff from parent and then add this just for ghosts
+    draw() {
+      ctx.save();
+      // now  ghost transparentcy
+      ctx.globalAlpha = 0.3;
+      // this means enemy.draw
+      super.draw(ctx);
+      ctx.restore();
     }
   }
   // tell JS which canvas
