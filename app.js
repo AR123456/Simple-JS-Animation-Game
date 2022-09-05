@@ -17,7 +17,7 @@ window.addEventListener("load", function () {
       this.enemyInterval = 500;
       this.enemyTimer = 0;
       // to keep track of diffrent enemy types to ranomize in the private method
-      this.enemyTypes = ["worm", "ghost"];
+      this.enemyTypes = ["worm", "ghost", "spider"];
     }
     // update & draw public handle updating and drawing game - enemies player obstacles backgrounds menus
     update(deltaTime) {
@@ -43,6 +43,7 @@ window.addEventListener("load", function () {
         this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
       if (randomEnemy === "worm") this.enemies.push(new Worm(this));
       else if (randomEnemy === "ghost") this.enemies.push(new Ghost(this));
+      else if (randomEnemy === "spider") this.enemies.push(new Spider(this));
       // this.enemies.sort(function (a, b) {
       //   return a.y - b.y;
       // });
@@ -139,6 +140,46 @@ window.addEventListener("load", function () {
       // this means enemy.draw
       super.draw(ctx);
       ctx.restore();
+    }
+  }
+  // spider class
+  class Spider extends Enemy {
+    //just change what is different keep the rest from parent
+    constructor(game) {
+      // super tells js to use stuff from parent
+      super(game);
+      // stuff unique to spider- order is important here
+      //1860 X175   1860/6
+      this.spriteWidth = 310;
+      this.spriteHeight = 175;
+      // maintain aspect ratio -size on canvas
+      this.width = this.spriteWidth / 2;
+      this.height = this.spriteHeight / 2;
+      // randomize where on horizontal spider will drop from
+      this.x = Math.random() * this.game.width;
+      // start spider from just above game area
+      // this.y = Math.random() * this.game.height;
+      this.y = 0 - this.height;
+
+      this.image = spider;
+      // horizantal speed 0 only will move up and down
+      this.vx = 0;
+      // set vy to random so each spider has random speed of up and down
+      this.vy = Math.random() * 0.1 + 0.1;
+      // randomize spiders maximum movement range
+      this.maxLength = Math.random() * game.height;
+    }
+    // will have its own movement so needs it own update
+    update(deltaTime) {
+      super.update(deltaTime);
+      // increase vertical speed and normalize with deltaTime
+      this.y += this.vy * deltaTime;
+      // createing the up and down movment
+      if (this.y > this.maxLength) this.vy *= -1;
+    }
+    // draw spider web
+    draw(ctx) {
+      //
     }
   }
   // tell JS which canvas
