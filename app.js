@@ -133,7 +133,7 @@ window.addEventListener("load", function () {
     }
     // the ghost will be transparent so will need its own draw method
     // run all the stuff from parent and then add this just for ghosts
-    draw() {
+    draw(ctx) {
       ctx.save();
       // now  ghost transparentcy
       ctx.globalAlpha = 0.3;
@@ -179,7 +179,15 @@ window.addEventListener("load", function () {
     }
     // draw spider web
     draw(ctx) {
-      //
+      // draw the web
+      ctx.beginPath();
+      // on top of spider horizonatly offset y allow for sprite rectangle
+      ctx.moveTo(this.x, this.width / 2, 0);
+      // ending position were spider is at the moment
+      // this.x is top left corner of the sprite rect so offset to appear at middle of spider
+      ctx.lineTo(this.x + this.width / 2, this.y + 10);
+      ctx.stroke();
+      super.draw(ctx);
     }
   }
   // tell JS which canvas
