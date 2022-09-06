@@ -167,7 +167,7 @@ window.addEventListener("load", function () {
       // set vy to random so each spider has random speed of up and down
       this.vy = Math.random() * 0.1 + 0.1;
       // randomize spiders maximum movement range
-      this.maxLength = Math.random() * game.height;
+      this.maxLength = Math.random() * this.game.height;
     }
     // will have its own movement so needs it own update
     update(deltaTime) {
@@ -181,11 +181,11 @@ window.addEventListener("load", function () {
     draw(ctx) {
       // draw the web
       ctx.beginPath();
-      // on top of spider horizonatly offset y allow for sprite rectangle
+      // line starts from moveTo
       // original
-      // ctx.moveTo(this.x, this.width / 2 , 0);
+      ctx.moveTo(this.x + this.width / 2, 0);
       // working better
-      ctx.moveTo(this.x, this.width / 2 - this.width, 0);
+      // ctx.moveTo(this.x, this.width / 2 - this.width, 0);
 
       // ending position were spider is at the moment
       // this.x is top left corner of the sprite rect so offset to appear at middle of spider
