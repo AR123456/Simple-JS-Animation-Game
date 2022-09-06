@@ -182,7 +182,11 @@ window.addEventListener("load", function () {
       // draw the web
       ctx.beginPath();
       // on top of spider horizonatly offset y allow for sprite rectangle
-      ctx.moveTo(this.x, this.width / 2, 0);
+      // original
+      // ctx.moveTo(this.x, this.width / 2 , 0);
+      // working better
+      ctx.moveTo(this.x, this.width / 2 - this.width, 0);
+
       // ending position were spider is at the moment
       // this.x is top left corner of the sprite rect so offset to appear at middle of spider
       ctx.lineTo(this.x + this.width / 2, this.y + 10);
