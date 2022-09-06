@@ -47,15 +47,37 @@ window.addEventListener("load", function () {
       this.game = game;
       // console.log(this.game);
       this.markedForDeletion = false;
+      // what horizonatl frame from sprite sheet(s) to be shown
+      this.frameX;
+      // this can be specific to each enemy or for this project all sprite sheets have 6 frames
+      this.maxFrame = 5;
+      // account for delta time when animmating frames
+      this.frameInterval = 100;
+      // accumulator for deltaTime untill it reaches frameInterval
+      this.frameTimer = 0;
     }
     update(deltaTime) {
       this.x -= this.vx * deltaTime;
+      // have enemys moved beyond left edge of screen
       if (this.x < 0 - this.width) this.markedForDeletion = true;
+      if (this.frameTimer > this.frameInterval) {
+        // move to text frame in the spritesheet, unless already at the end
+        if (this.frameX < this.maxFrame) this.frameX++;
+        else this.frameX = 0;
+        // set frame timer back to 0 so it can accumulate delta time again
+        this.frameTimer = 0;
+      } else {
+        //do that
+        this.frameTimer += deltaTime;
+      }
     }
     draw(ctx) {
       ctx.drawImage(
         this.image,
-        0,
+        // replace x hard coded 0 with vars declared in constructor
+        // 0,
+        this.frameX * this.spriteWidth,
+        // y can stay 0 since sprite sheets for this game have only one row
         0,
         this.spriteWidth,
         this.spriteHeight,
