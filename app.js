@@ -8,7 +8,14 @@ window.addEventListener("load", function () {
   // split responsiblitys between objects and how they interact
   // Will handle event listeners, keyboard events, array of currently active keys
   class InputHandler {
-    constructor() {}
+    constructor() {
+      // add and remove keys from this array as they are being pressed
+      this.keys = [];
+      // when we created an instance of this class all code inside of it is executed
+      window.addEventListener("keydown", function (e) {
+        console.log(e);
+      });
+    }
     update() {}
     draw() {}
     #addNewEnemy() {}
@@ -36,8 +43,9 @@ window.addEventListener("load", function () {
   // handles displaying score and other text
   function displayStatusText() {}
 
-  // animation loop - will run 60 times per second
+  const input = new InputHandler();
 
+  // animation loop - will run 60 times per second
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     requestAnimationFrame(animate);
