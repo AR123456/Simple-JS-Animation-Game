@@ -56,13 +56,32 @@ window.addEventListener("load", function () {
       this.width = 200;
       this.height = 200;
       this.x = 10;
-      this.y = 10;
+      // put player on the ground
+      this.y = this.gameHeight - this.height;
+      this.image = document.getElementById("playerImage");
     }
-    update() {}
+
     // draw needs to know which canvas to draw on
     draw(context) {
       context.fillStyle = "white";
       context.fillRect(this.x, this.y, this.width, this.height);
+      context.drawImage(
+        this.image,
+        //change which place in row- horizontal
+        5 * this.width,
+        // change row of spritesheet
+        1 * this.height,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+    // move player around
+    update() {
+      this.x++;
     }
   }
   // endlessly scrolling background
@@ -84,13 +103,14 @@ window.addEventListener("load", function () {
   // instantiate classes so its code will be executed
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
-  player.draw(ctx);
 
   // animation loop - will run 60 times per second
   function animate() {
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    player.draw(ctx);
+    player.update();
+    requestAnimationFrame(animate);
   }
-  // animate(0);
+  animate(0);
   //
 });
