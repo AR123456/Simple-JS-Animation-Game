@@ -5,7 +5,7 @@ window.addEventListener("load", function () {
   const ctx = canvas.getContext("2d");
   canvas.width = 800;
   canvas.height = 720;
-  // split responsibilities between objects and how they interact
+
   // event listeners, keyboard events, array of currently active keys
   class InputHandler {
     constructor() {
@@ -25,7 +25,7 @@ window.addEventListener("load", function () {
           // push to keys array
           this.keys.push(e.key);
         }
-        console.log(e.key, this.keys);
+        // console.log(e.key, this.keys);
       });
       window.addEventListener("keyup", (e) => {
         // don't allow duplicate "ArrowDown" entries.  if somethings index is -1 it means it is not present in the array
@@ -39,7 +39,7 @@ window.addEventListener("load", function () {
           //array.splice(index, howmany)
           this.keys.splice(this.keys.indexOf(e.keys), 1);
         }
-        console.log(e.key, this.keys);
+        // console.log(e.key, this.keys);
       });
     }
     update() {}
@@ -48,9 +48,22 @@ window.addEventListener("load", function () {
   }
   //reacts to inputs or keys as pressed, drawing and updating player
   class Player {
-    constructor() {}
+    // player object needs to be aware of game boundaries
+    constructor(gameWidth, gameHeight) {
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      // the player itself 1800 x400
+      this.width = 200;
+      this.height = 200;
+      this.x = 10;
+      this.y = 10;
+    }
     update() {}
-    draw() {}
+    // draw needs to know which canvas to draw on
+    draw(context) {
+      context.fillStyle = "white";
+      context.fillRect(this.x, this.y, this.width, this.height);
+    }
   }
   // endlessly scrolling background
   class Background {
@@ -68,14 +81,16 @@ window.addEventListener("load", function () {
   function handleEnemies() {}
   // handles displaying score and other text
   function displayStatusText() {}
-
+  // instantiate classes so its code will be executed
   const input = new InputHandler();
+  const player = new Player(canvas.width, canvas.height);
+  player.draw(ctx);
 
   // animation loop - will run 60 times per second
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    requestAnimationFrame(animate);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // requestAnimationFrame(animate);
   }
-  animate(0);
+  // animate(0);
   //
 });
