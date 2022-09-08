@@ -59,6 +59,9 @@ window.addEventListener("load", function () {
       // put player on the ground
       this.y = this.gameHeight - this.height;
       this.image = document.getElementById("playerImage");
+      //class properties to navigate sprite sheet
+      this.frameX = 0;
+      this.frameY = 0;
     }
 
     // draw needs to know which canvas to draw on
@@ -68,9 +71,9 @@ window.addEventListener("load", function () {
       context.drawImage(
         this.image,
         //change which place in row- horizontal
-        5 * this.width,
+        this.frameX * this.width,
         // change row of spritesheet
-        1 * this.height,
+        this.frameY * this.height,
         this.width,
         this.height,
         this.x,
