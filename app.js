@@ -62,8 +62,12 @@ window.addEventListener("load", function () {
       //class properties to navigate sprite sheet
       this.frameX = 0;
       this.frameY = 0;
-      // control player spped
+      // control player speed- horizontal
       this.speed = 0;
+      // vertical movement speed
+      this.vy = 0;
+      // need a force that pushes in the opposite direction so player doesnt just go shooting up  IE gravity or weight
+      this.weight = 1;
     }
 
     // draw needs to know which canvas to draw on
@@ -87,22 +91,46 @@ window.addEventListener("load", function () {
     // move player around
     // pass in input to connect the keyboard inputs, also pass into the player.update() in the animate function
     update(input) {
-      // increment the players horizontal speed with speed property
-      this.x += this.speed;
-      // when arrow right is found in the array
+      // when key the array
       if (input.keys.indexOf("ArrowRight") > -1) {
         //set speed to 5
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
         this.speed = -5;
+      }
+      // control vertical with keys
+      else if (input.keys.indexOf("ArrowUp") > -1) {
+        this.vy = -10;
       } else {
         // set speed to 0 when key up happens()
         this.speed = 0;
       }
+      /// horizontal movement
+      // increment the players horizontal speed with speed property
+      this.x += this.speed;
       // set some boundries to that player cannot move off screen on left or right
       if (this.x < 0) this.x = 0;
       else if (this.x > this.gameWidth - this.width)
         this.x = this.gameWidth - this.width;
+
+      //// vertical movement
+      this.y += this.vy;
+      // is player in the air or on the ground ?
+      if (!this.onGround()) {
+        // player is in the air
+        this.vy += this.weight;
+      } else {
+        // if player is back on ground reset vy to 0
+        this.vy = 0;
+      }
+      // adding vertical boundry on ground level
+      if (this.y > this.gameHeight - this.height)
+        this.y = this.gameHeight - this.height;
+    }
+    /// this utility method will be used in multiple places to check if player is on ground
+    onGround() {
+      // return true if player is on the ground- not below it
+      return this.y >= this.gameHeight - this.height;
     }
   }
   // endlessly scrolling background
