@@ -48,7 +48,6 @@ window.addEventListener("load", function () {
   }
   //reacts to inputs or keys as pressed, drawing and updating player
   class Player {
-    // player object needs to be aware of game boundaries
     constructor(gameWidth, gameHeight) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
@@ -56,29 +55,21 @@ window.addEventListener("load", function () {
       this.width = 200;
       this.height = 200;
       this.x = 10;
-      // put player on the ground
       this.y = this.gameHeight - this.height;
       this.image = document.getElementById("playerImage");
-      //class properties to navigate sprite sheet
       this.frameX = 0;
       this.frameY = 0;
-      // control player speed- horizontal
       this.speed = 0;
-      // vertical movement speed
       this.vy = 0;
-      // need a force that pushes in the opposite direction so player doesnt just go shooting up  IE gravity or weight
       this.weight = 1;
     }
 
-    // draw needs to know which canvas to draw on
     draw(context) {
       context.fillStyle = "white";
       context.fillRect(this.x, this.y, this.width, this.height);
       context.drawImage(
         this.image,
-        //change which place in row- horizontal
         this.frameX * this.width,
-        // change row of spritesheet
         this.frameY * this.height,
         this.width,
         this.height,
@@ -88,48 +79,30 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    // move player around
-    // pass in input to connect the keyboard inputs, also pass into the player.update() in the animate function
     update(input) {
-      // when key the array
       if (input.keys.indexOf("ArrowRight") > -1) {
-        //set speed to 5
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
         this.speed = -5;
-      }
-      // control vertical with keys - only allow jump if on ground
-      else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+      } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
         this.vy = -32;
       } else {
-        // set speed to 0 when key up happens()
         this.speed = 0;
       }
-      /// horizontal movement
-      // increment the players horizontal speed with speed property
       this.x += this.speed;
-      // set some boundries to that player cannot move off screen on left or right
       if (this.x < 0) this.x = 0;
       else if (this.x > this.gameWidth - this.width)
         this.x = this.gameWidth - this.width;
-
-      //// vertical movement
       this.y += this.vy;
-      // is player in the air or on the ground ?
       if (!this.onGround()) {
-        // player is in the air
         this.vy += this.weight;
       } else {
-        // if player is back on ground reset vy to 0
         this.vy = 0;
       }
-      // adding vertical boundry on ground level
       if (this.y > this.gameHeight - this.height)
         this.y = this.gameHeight - this.height;
     }
-    /// this utility method will be used in multiple places to check if player is on ground
     onGround() {
-      // return true if player is on the ground- not below it
       return this.y >= this.gameHeight - this.height;
     }
   }
