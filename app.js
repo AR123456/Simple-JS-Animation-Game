@@ -99,6 +99,10 @@ window.addEventListener("load", function () {
         // set speed to 0 when key up happens()
         this.speed = 0;
       }
+      // set some boundries to that player cannot move off screen on left or right
+      if (this.x < 0) this.x = 0;
+      else if (this.x > this.gameWidth - this.width)
+        this.x = this.gameWidth - this.width;
     }
   }
   // endlessly scrolling background
