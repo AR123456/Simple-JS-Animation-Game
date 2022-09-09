@@ -98,9 +98,9 @@ window.addEventListener("load", function () {
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
         this.speed = -5;
       }
-      // control vertical with keys
-      else if (input.keys.indexOf("ArrowUp") > -1) {
-        this.vy = -10;
+      // control vertical with keys - only allow jump if on ground
+      else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+        this.vy = -32;
       } else {
         // set speed to 0 when key up happens()
         this.speed = 0;
