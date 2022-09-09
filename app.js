@@ -62,6 +62,8 @@ window.addEventListener("load", function () {
       //class properties to navigate sprite sheet
       this.frameX = 0;
       this.frameY = 0;
+      // control player spped
+      this.speed = 0;
     }
 
     // draw needs to know which canvas to draw on
@@ -83,8 +85,20 @@ window.addEventListener("load", function () {
       );
     }
     // move player around
-    update() {
-      this.x++;
+    // pass in input to connect the keyboard inputs, also pass into the player.update() in the animate function
+    update(input) {
+      // increment the players horizontal speed with speed property
+      this.x += this.speed;
+      // when arrow right is found in the array
+      if (input.keys.indexOf("ArrowRight") > -1) {
+        //set speed to 5
+        this.speed = 5;
+      } else if (input.keys.indexOf("ArrowLeft") > -1) {
+        this.speed = -5;
+      } else {
+        // set speed to 0 when key up happens()
+        this.speed = 0;
+      }
     }
   }
   // endlessly scrolling background
@@ -111,7 +125,7 @@ window.addEventListener("load", function () {
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.draw(ctx);
-    player.update();
+    player.update(input);
     requestAnimationFrame(animate);
   }
   animate(0);
