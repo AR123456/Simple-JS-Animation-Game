@@ -5,6 +5,8 @@ window.addEventListener("load", function () {
   const ctx = canvas.getContext("2d");
   canvas.width = 800;
   canvas.height = 720;
+  // enemies array
+  let enemies = [];
 
   // event listeners, keyboard events, array of currently active keys
   class InputHandler {
@@ -148,27 +150,61 @@ window.addEventListener("load", function () {
   }
   // generate enemies
   class Enemy {
-    constructor() {}
-    update() {}
-    draw() {}
+    constructor(gameWidth, gameHeight) {
+      // enemies need to be aware of game area boundaries
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      this.width = 160;
+      this.height = 119;
+      this.image = document.getElementById("enemyImage");
+      this.x = this.gameWidth;
+      this.y = this.gameHeight - this.height;
+      this.frameX = 0;
+    }
+    draw(context) {
+      context.drawImage(
+        this.image,
+        this.frameX * this.width,
+        0,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+    update() {
+      // move enemy to the left
+      this.x--;
+    }
   }
   // responsible for adding animated and removing enemies from the game
-  function handleEnemies() {}
+  // push instantiate of enemy to array
+  enemies.push(new Enemy(canvas.width, canvas.height));
+  function handleEnemies() {
+    // from the array
+    enemies.forEach((enemy) => {
+      enemy.draw(ctx);
+      enemy.update();
+    });
+  }
   // handles displaying score and other text
   function displayStatusText() {}
   // instantiate classes so its code will be executed
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
+
   // animation loop - will run 60 times per second
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // just one layer to game so draw backgound firs to dog is on top
     background.draw(ctx);
-    background.update();
+    // background.update();
     player.draw(ctx);
     player.update(input);
-
+    handleEnemies();
     requestAnimationFrame(animate);
   }
   animate(0);
