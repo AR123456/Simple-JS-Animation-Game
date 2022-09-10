@@ -89,15 +89,22 @@ window.addEventListener("load", function () {
       } else {
         this.speed = 0;
       }
+      // horizonatl
       this.x += this.speed;
       if (this.x < 0) this.x = 0;
       else if (this.x > this.gameWidth - this.width)
         this.x = this.gameWidth - this.width;
+      //vertical movement
       this.y += this.vy;
       if (!this.onGround()) {
         this.vy += this.weight;
+        // navigate sprite sheet
+        // jumping frame
+        this.frameY = 1;
       } else {
         this.vy = 0;
+        // back on ground reset frame to 0
+        this.frameY = 0;
       }
       if (this.y > this.gameHeight - this.height)
         this.y = this.gameHeight - this.height;
