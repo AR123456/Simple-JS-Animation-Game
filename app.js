@@ -113,11 +113,38 @@ window.addEventListener("load", function () {
       return this.y >= this.gameHeight - this.height;
     }
   }
-  // endlessly scrolling background
+  // endlessly scrolling background -one endlessly scrolling layer
   class Background {
-    constructor() {}
-    update() {}
-    draw() {}
+    constructor(gameWidth, gameHeight) {
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      // 2400 x 700
+      this.image = document.getElementById("backgroundImage");
+      this.x = 0;
+      this.y = 0;
+      this.width = 2400;
+      this.height = 720;
+      // speed of background scrolling
+      this.speed = 7;
+    }
+
+    draw(context) {
+      context.drawImage(this.image, this.x, this.y, this.width, this.height);
+      // trick to prevent gap when end of image is reached
+      context.drawImage(
+        this.image,
+        this.x + this.width - this.speed,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+    update() {
+      // scroll to the left
+      this.x -= this.speed;
+      // reset check
+      if (this.x < 0 - this.width) this.x = 0;
+    }
   }
   // generate enemies
   class Enemy {
@@ -132,12 +159,16 @@ window.addEventListener("load", function () {
   // instantiate classes so its code will be executed
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
-
+  const background = new Background(canvas.width, canvas.height);
   // animation loop - will run 60 times per second
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // just one layer to game so draw backgound firs to dog is on top
+    background.draw(ctx);
+    background.update();
     player.draw(ctx);
     player.update(input);
+
     requestAnimationFrame(animate);
   }
   animate(0);
