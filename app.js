@@ -160,6 +160,8 @@ window.addEventListener("load", function () {
       this.x = this.gameWidth;
       this.y = this.gameHeight - this.height;
       this.frameX = 0;
+      // use in conjunction with enemyTimer and delta time to control speed of enemys
+      this.speed = 8;
     }
     draw(context) {
       context.drawImage(
@@ -176,7 +178,7 @@ window.addEventListener("load", function () {
     }
     update() {
       // move enemy to the left
-      this.x--;
+      this.x -= this.speed;
     }
   }
   // responsible for adding animated and removing enemies from the game
@@ -185,7 +187,8 @@ window.addEventListener("load", function () {
 
   function handleEnemies(deltaTime) {
     // every increment of deltaTime push a new enemy to the array
-    if (enemyTimer > enemyInterval) {
+
+    if (enemyTimer > enemyInterval + randomEnemyInterval) {
       enemies.push(new Enemy(canvas.width, canvas.height));
       enemyTimer = 0;
     } else {
@@ -210,6 +213,7 @@ window.addEventListener("load", function () {
   let enemyTimer = 0;
   // ms time limit - one second
   let enemyInterval = 1000;
+  let randomEnemyInterval = Math.random() * 1000 + 500;
 
   // animation loop - will run 60 times per second
   // pass in timeStamp
