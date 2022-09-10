@@ -182,6 +182,7 @@ window.addEventListener("load", function () {
   // responsible for adding animated and removing enemies from the game
   // push instantiate of enemy to array
   enemies.push(new Enemy(canvas.width, canvas.height));
+
   function handleEnemies() {
     // from the array
     enemies.forEach((enemy) => {
@@ -196,8 +197,17 @@ window.addEventListener("load", function () {
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
 
+  //use time stamp and delta time to contol things like enemy generation
+  lastTime = 0;
+
   // animation loop - will run 60 times per second
-  function animate() {
+  // pass in timeStamp
+  function animate(timeStamp) {
+    // animate has timeStamp argument on it automatically and can be passed to the function it calls
+    const deltaTime = timeStamp - lastTime;
+    // now set timeStamp to last time so it can be used in next loop as value from the previous loop
+    lastTime = timeStamp;
+    // console.log(deltaTime);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // just one layer to game so draw backgound firs to dog is on top
     background.draw(ctx);
@@ -207,6 +217,7 @@ window.addEventListener("load", function () {
     handleEnemies();
     requestAnimationFrame(animate);
   }
+  // pass in 0 so that the first time that animate runs timeStamp dosent come back undefined
   animate(0);
   //
 });
