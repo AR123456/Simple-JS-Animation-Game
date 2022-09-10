@@ -181,9 +181,16 @@ window.addEventListener("load", function () {
   }
   // responsible for adding animated and removing enemies from the game
   // push instantiate of enemy to array
-  enemies.push(new Enemy(canvas.width, canvas.height));
+  // enemies.push(new Enemy(canvas.width, canvas.height));
 
-  function handleEnemies() {
+  function handleEnemies(deltaTime) {
+    // every increment of deltaTime push a new enemy to the array
+    if (enemyTimer > enemyInterval) {
+      enemies.push(new Enemy(canvas.width, canvas.height));
+      enemyTimer = 0;
+    } else {
+      enemyTimer += deltaTime;
+    }
     // from the array
     enemies.forEach((enemy) => {
       enemy.draw(ctx);
@@ -197,8 +204,12 @@ window.addEventListener("load", function () {
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
 
-  //use time stamp and delta time to contol things like enemy generation
+  //use time stamp and delta time to game timing
   lastTime = 0;
+  // will trigger something at an interval and then set itself back to 0
+  let enemyTimer = 0;
+  // ms time limit - one second
+  let enemyInterval = 1000;
 
   // animation loop - will run 60 times per second
   // pass in timeStamp
@@ -214,7 +225,8 @@ window.addEventListener("load", function () {
     // background.update();
     player.draw(ctx);
     player.update(input);
-    handleEnemies();
+    // make deltaTime avalable to handleenemies
+    handleEnemies(deltaTime);
     requestAnimationFrame(animate);
   }
   // pass in 0 so that the first time that animate runs timeStamp dosent come back undefined
