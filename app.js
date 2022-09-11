@@ -184,16 +184,22 @@ window.addEventListener("load", function () {
         this.height
       );
     }
+
     // pass deltaTime to update
     update(deltaTime) {
-      if (this.frameTimer > this.frameInterval) {
-        // speed up frame traverse
-        if (this.frameX >= this.maxFrame) this.frameX = 0;
-        else this.frameX++;
-        this.frameTimer = 0;
-      } else {
-        this.frameTimer += deltaTime;
-      }
+      // this.frameTimer is NAN here
+      // if (this.frameTimer > this.frameInterval) {
+
+      //   if (this.frameX >= this.maxFrame) this.frameX = 0;
+      //   else this.frameX++;
+      //   this.frameTimer = 0;
+      // } else {
+      //   this.frameTimer += deltaTime;
+      // }
+
+      if (this.frameX >= this.maxFrame) this.frameX = 0;
+      else this.frameX++;
+
       // move enemy right to the left
       this.x -= this.speed;
     }
