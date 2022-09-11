@@ -128,6 +128,8 @@ window.addEventListener("load", function () {
         this.frameY = 1;
       } else {
         this.vy = 0;
+        // back on ground so max frame back to 8 using top row of sprite sheet
+        this.maxFrame = 8;
         // back on ground reset frame to 0
         this.frameY = 0;
       }
