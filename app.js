@@ -60,6 +60,13 @@ window.addEventListener("load", function () {
       this.y = this.gameHeight - this.height;
       this.image = document.getElementById("playerImage");
       this.frameX = 0;
+      // 8 sprite in top row
+      this.maxFrame = 8;
+      this.fps = 20;
+      // cont from 0 to fame interval over and over
+      this.frameTimer = 0;
+      // value we are counting towards- how long a single frame lasts
+      this.frameInterval = 1000 / this.fps;
       this.frameY = 0;
       this.speed = 0;
       this.vy = 0;
@@ -81,7 +88,21 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update(input) {
+    update(input, deltaTime) {
+      // traversing sprite sheet
+      // if (this.frameX >= this.maxFrame) this.frameX = 0;
+      // else this.frameX++;
+      if (this.frameTimer > this.frameInterval) {
+        ///
+        // console.log(this.frameTimer);
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+        else this.frameX++;
+        this.frameTimer = 0;
+      } else {
+        this.frameTimer += deltaTime;
+      }
+      // key controls
+
       if (input.keys.indexOf("ArrowRight") > -1) {
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
@@ -101,6 +122,8 @@ window.addEventListener("load", function () {
       if (!this.onGround()) {
         this.vy += this.weight;
         // navigate sprite sheet
+        //when off the ground there are 6 sprites in that row of spritesheet
+        this.maxFrame = 5;
         // jumping frame
         this.frameY = 1;
       } else {
@@ -238,7 +261,7 @@ window.addEventListener("load", function () {
     background.draw(ctx);
     // background.update();
     player.draw(ctx);
-    player.update(input);
+    player.update(input, deltaTime);
     handleEnemies(deltaTime);
     requestAnimationFrame(animate);
   }
