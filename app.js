@@ -67,8 +67,8 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-      context.fillStyle = "white";
-      context.fillRect(this.x, this.y, this.width, this.height);
+      // context.fillStyle = "white";
+      // context.fillRect(this.x, this.y, this.width, this.height);
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -151,7 +151,6 @@ window.addEventListener("load", function () {
   // generate enemies
   class Enemy {
     constructor(gameWidth, gameHeight) {
-      // enemies need to be aware of game area boundaries
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
       this.width = 160;
@@ -160,7 +159,6 @@ window.addEventListener("load", function () {
       this.x = this.gameWidth;
       this.y = this.gameHeight - this.height;
       this.frameX = 0;
-      // use in conjunction with enemyTimer and delta time to control speed of enemys
       this.speed = 8;
     }
     draw(context) {
@@ -177,24 +175,19 @@ window.addEventListener("load", function () {
       );
     }
     update() {
-      // move enemy to the left
+      // move enemy right to the left
       this.x -= this.speed;
     }
   }
   // responsible for adding animated and removing enemies from the game
-  // push instantiate of enemy to array
-  // enemies.push(new Enemy(canvas.width, canvas.height));
-
   function handleEnemies(deltaTime) {
-    // every increment of deltaTime push a new enemy to the array
-
     if (enemyTimer > enemyInterval + randomEnemyInterval) {
       enemies.push(new Enemy(canvas.width, canvas.height));
+      randomEnemyInterval = Math.random() * 1000 + 500;
       enemyTimer = 0;
     } else {
       enemyTimer += deltaTime;
     }
-    // from the array
     enemies.forEach((enemy) => {
       enemy.draw(ctx);
       enemy.update();
@@ -202,38 +195,29 @@ window.addEventListener("load", function () {
   }
   // handles displaying score and other text
   function displayStatusText() {}
-  // instantiate classes so its code will be executed
+
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
-
-  //use time stamp and delta time to game timing
   lastTime = 0;
-  // will trigger something at an interval and then set itself back to 0
   let enemyTimer = 0;
-  // ms time limit - one second
   let enemyInterval = 1000;
   let randomEnemyInterval = Math.random() * 1000 + 500;
 
-  // animation loop - will run 60 times per second
-  // pass in timeStamp
+  // animation loop
   function animate(timeStamp) {
-    // animate has timeStamp argument on it automatically and can be passed to the function it calls
     const deltaTime = timeStamp - lastTime;
-    // now set timeStamp to last time so it can be used in next loop as value from the previous loop
     lastTime = timeStamp;
     // console.log(deltaTime);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // just one layer to game so draw backgound firs to dog is on top
     background.draw(ctx);
     // background.update();
     player.draw(ctx);
     player.update(input);
-    // make deltaTime avalable to handleenemies
     handleEnemies(deltaTime);
     requestAnimationFrame(animate);
   }
-  // pass in 0 so that the first time that animate runs timeStamp dosent come back undefined
+
   animate(0);
   //
 });
