@@ -159,6 +159,16 @@ window.addEventListener("load", function () {
       this.x = this.gameWidth;
       this.y = this.gameHeight - this.height;
       this.frameX = 0;
+      // traversing frames of spritesheet 6 sprites per row
+      this.maxFrame = 5;
+      // how vast we switch between individual frames want this diffrent
+      // than the overall speed of game so responsivnes and colison detection
+      // are not impacted the rest of the game runs at 60 fps
+      this.fps = 20;
+      // cont from 0 to fame interval over and over
+      this.frameTimer = 0;
+      // value we are counting towards- how long a single frame lasts
+      this.frameInterval = 1000 / this.fps;
       this.speed = 8;
     }
     draw(context) {
@@ -174,7 +184,16 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update() {
+    // pass deltaTime to update
+    update(deltaTime) {
+      if (this.frameTimer > this.frameInterval) {
+        // speed up frame traverse
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+        else this.frameX++;
+        this.frameTimer = 0;
+      } else {
+        this.frameTimer += deltaTime;
+      }
       // move enemy right to the left
       this.x -= this.speed;
     }
