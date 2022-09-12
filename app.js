@@ -74,9 +74,7 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-      // context.fillStyle = "white";
-      // context.fillRect(this.x, this.y, this.width, this.height);
-      context.drawImage(
+       context.drawImage(
         this.image,
         this.frameX * this.width,
         this.frameY * this.height,
@@ -90,19 +88,14 @@ window.addEventListener("load", function () {
     }
     update(input, deltaTime) {
       // traversing sprite sheet
-      // if (this.frameX >= this.maxFrame) this.frameX = 0;
-      // else this.frameX++;
       if (this.frameTimer > this.frameInterval) {
-        ///
-        // console.log(this.frameTimer);
-        if (this.frameX >= this.maxFrame) this.frameX = 0;
+              if (this.frameX >= this.maxFrame) this.frameX = 0;
         else this.frameX++;
         this.frameTimer = 0;
       } else {
         this.frameTimer += deltaTime;
       }
       // key controls
-
       if (input.keys.indexOf("ArrowRight") > -1) {
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
@@ -112,7 +105,7 @@ window.addEventListener("load", function () {
       } else {
         this.speed = 0;
       }
-      // horizonatl
+      // horizontal
       this.x += this.speed;
       if (this.x < 0) this.x = 0;
       else if (this.x > this.gameWidth - this.width)
@@ -122,7 +115,6 @@ window.addEventListener("load", function () {
       if (!this.onGround()) {
         this.vy += this.weight;
         // navigate sprite sheet
-        //when off the ground there are 6 sprites in that row of sprite sheet
         this.maxFrame = 5;
         // jumping frame
         this.frameY = 1;
@@ -184,18 +176,11 @@ window.addEventListener("load", function () {
       this.x = this.gameWidth;
       this.y = this.gameHeight - this.height;
       this.frameX = 0;
-      // traversing frames of sprite sheet 6 sprites per row
       this.maxFrame = 5;
-      // how fast we switch between individual frames want this different
-      // than the overall speed of game so responsiveness and collision detection
-      // are not impacted the rest of the game runs at 60 fps
       this.fps = 20;
-      // cont from 0 to fame interval over and over
       this.frameTimer = 0;
-      // value we are counting towards- how long a single frame lasts
       this.frameInterval = 1000 / this.fps;
       this.speed = 8;
-      // remove enemies from array when the scroll off screen
       this.markedForDeletion = false;
     }
     draw(context) {
@@ -212,9 +197,8 @@ window.addEventListener("load", function () {
       );
     }
 
-    // pass deltaTime to update
+    // pass deltaTime to update and in forEach in enemy loop
     update(deltaTime) {
-      // this.frameTimer is NAN here - until I passed deltaTime into enemy.update()in the handleEnemies function
       if (this.frameTimer > this.frameInterval) {
         if (this.frameX >= this.maxFrame) this.frameX = 0;
         else this.frameX++;
@@ -222,9 +206,7 @@ window.addEventListener("load", function () {
       } else {
         this.frameTimer += deltaTime;
       }
-      // move enemy right to the left
       this.x -= this.speed;
-      // check position and if offscreen mark for deletion
       if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
   }
@@ -232,7 +214,7 @@ window.addEventListener("load", function () {
   function handleEnemies(deltaTime) {
     if (enemyTimer > enemyInterval + randomEnemyInterval) {
       enemies.push(new Enemy(canvas.width, canvas.height));
-      // console.log(enemies);
+
       randomEnemyInterval = Math.random() * 1000 + 500;
       enemyTimer = 0;
     } else {
@@ -242,7 +224,6 @@ window.addEventListener("load", function () {
       enemy.draw(ctx);
       enemy.update(deltaTime);
     });
-    //filter so that only have enemies not marked for deletion
     enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
   }
   // handles displaying score and other text
