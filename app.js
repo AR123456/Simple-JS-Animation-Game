@@ -8,6 +8,7 @@ window.addEventListener("load", function () {
   // enemies array
   let enemies = [];
   let score = 0;
+  let gameOver = false;
 
   // event listeners, keyboard events, array of currently active keys
   class InputHandler {
@@ -101,7 +102,26 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update(input, deltaTime) {
+    // update needs to expect enemies array as argument
+    update(input, deltaTime, enemies) {
+      // collison detection- check player position against all enemy positions each animation frame
+      enemies.forEach((enemy) => {
+        // enemy hit box vs player hit box
+        // find radius of circle
+        const dx = enemy.x - this.x;
+        const dy = enemy.y - this.y;
+        // distance between center points of each circle using pythagoras theorem formula
+        // calculate distance on vertical and horizontal axis
+        // imaginary right triangle
+        // hypotenuse of which is distance between the points dx and dy
+        // square root of dx squared plus dy squared
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        // if distance between center point of player and center point of enemy circle is less that radius of enemy circle plus radiuos of player circle there is a collsion
+        if (distance < enemy.width / 2 + this.width / 2) {
+          // collision game over
+          gameOver = true;
+        }
+      });
       // traversing sprite sheet
       if (this.frameTimer > this.frameInterval) {
         if (this.frameX >= this.maxFrame) this.frameX = 0;
@@ -271,6 +291,14 @@ window.addEventListener("load", function () {
     context.font = "40px Helvetica";
     // pass in text to draw and x,y coordinates
     context.fillText("Score: " + score, 22, 52);
+    if (gameOver) {
+      context.textAlign = "center";
+      context.fillStyle = "black";
+      context.fillText("Game Over, try again! ", canvas.width / 2, 200);
+      context.textAlign = "center";
+      context.fillStyle = "white";
+      context.fillText("Game Over, try again! ", canvas.width / 2 + 2, 202);
+    }
   }
 
   const input = new InputHandler();
@@ -291,10 +319,12 @@ window.addEventListener("load", function () {
     background.draw(ctx);
     // background.update();
     player.draw(ctx);
-    player.update(input, deltaTime);
+    // putting collison detection check in player update method
+    // pass in enemies array - check player vs enemies position each annimation frame
+    player.update(input, deltaTime, enemies);
     handleEnemies(deltaTime);
     displayStatusText(ctx);
-    requestAnimationFrame(animate);
+    if (!gameOver) requestAnimationFrame(animate);
   }
 
   animate(0);
