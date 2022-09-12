@@ -78,6 +78,17 @@ window.addEventListener("load", function () {
       // adding collison detection using basic rect method
       context.strokeStyle = "white";
       context.strokeRect(this.x, this.y, this.width, this.height);
+      // trying circular hit box
+      context.beginPath();
+      context.arc(
+        this.x + this.width / 2,
+        this.y + this.height / 2,
+        this.width / 2,
+        0,
+        Math.PI * 2
+      );
+      context.stroke();
+
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -191,6 +202,16 @@ window.addEventListener("load", function () {
       // adding collison detection using basic rect method
       context.strokeStyle = "white";
       context.strokeRect(this.x, this.y, this.width, this.height);
+      // trying circular hit box
+      context.beginPath();
+      context.arc(
+        this.x + this.width / 2,
+        this.y + this.height / 2,
+        this.width / 2,
+        0,
+        Math.PI * 2
+      );
+      context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
