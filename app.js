@@ -122,7 +122,7 @@ window.addEventListener("load", function () {
       if (!this.onGround()) {
         this.vy += this.weight;
         // navigate sprite sheet
-        //when off the ground there are 6 sprites in that row of spritesheet
+        //when off the ground there are 6 sprites in that row of sprite sheet
         this.maxFrame = 5;
         // jumping frame
         this.frameY = 1;
@@ -184,10 +184,10 @@ window.addEventListener("load", function () {
       this.x = this.gameWidth;
       this.y = this.gameHeight - this.height;
       this.frameX = 0;
-      // traversing frames of spritesheet 6 sprites per row
+      // traversing frames of sprite sheet 6 sprites per row
       this.maxFrame = 5;
-      // how vast we switch between individual frames want this diffrent
-      // than the overall speed of game so responsivnes and colison detection
+      // how fast we switch between individual frames want this different
+      // than the overall speed of game so responsiveness and collision detection
       // are not impacted the rest of the game runs at 60 fps
       this.fps = 20;
       // cont from 0 to fame interval over and over
@@ -214,7 +214,7 @@ window.addEventListener("load", function () {
 
     // pass deltaTime to update
     update(deltaTime) {
-      // this.frameTimer is NAN here - untill I passed deltaTime into enemy.update()in the handleEnemies fucntion
+      // this.frameTimer is NAN here - until I passed deltaTime into enemy.update()in the handleEnemies function
       if (this.frameTimer > this.frameInterval) {
         if (this.frameX >= this.maxFrame) this.frameX = 0;
         else this.frameX++;
