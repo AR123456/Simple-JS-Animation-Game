@@ -195,6 +195,8 @@ window.addEventListener("load", function () {
       // value we are counting towards- how long a single frame lasts
       this.frameInterval = 1000 / this.fps;
       this.speed = 8;
+      // remove enemies from array when the scroll off screen
+      this.markedForDeletion = false;
     }
     draw(context) {
       context.drawImage(
@@ -212,27 +214,25 @@ window.addEventListener("load", function () {
 
     // pass deltaTime to update
     update(deltaTime) {
-      // this.frameTimer is NAN here
-      // if (this.frameTimer > this.frameInterval) {
-
-      //   if (this.frameX >= this.maxFrame) this.frameX = 0;
-      //   else this.frameX++;
-      //   this.frameTimer = 0;
-      // } else {
-      //   this.frameTimer += deltaTime;
-      // }
-
-      if (this.frameX >= this.maxFrame) this.frameX = 0;
-      else this.frameX++;
-
+      // this.frameTimer is NAN here - untill I passed deltaTime into enemy.update()in the handleEnemies fucntion
+      if (this.frameTimer > this.frameInterval) {
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+        else this.frameX++;
+        this.frameTimer = 0;
+      } else {
+        this.frameTimer += deltaTime;
+      }
       // move enemy right to the left
       this.x -= this.speed;
+      // check position and if offscreen mark for deletion
+      if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
   }
   // responsible for adding animated and removing enemies from the game
   function handleEnemies(deltaTime) {
     if (enemyTimer > enemyInterval + randomEnemyInterval) {
       enemies.push(new Enemy(canvas.width, canvas.height));
+      // console.log(enemies);
       randomEnemyInterval = Math.random() * 1000 + 500;
       enemyTimer = 0;
     } else {
@@ -240,8 +240,10 @@ window.addEventListener("load", function () {
     }
     enemies.forEach((enemy) => {
       enemy.draw(ctx);
-      enemy.update();
+      enemy.update(deltaTime);
     });
+    //filter so that only have enemies not marked for deletion
+    enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
   }
   // handles displaying score and other text
   function displayStatusText() {}
@@ -252,6 +254,7 @@ window.addEventListener("load", function () {
   lastTime = 0;
   let enemyTimer = 0;
   let enemyInterval = 1000;
+
   let randomEnemyInterval = Math.random() * 1000 + 500;
 
   // animation loop
