@@ -7,6 +7,7 @@ window.addEventListener("load", function () {
   canvas.height = 720;
   // enemies array
   let enemies = [];
+  let score = 0;
 
   // event listeners, keyboard events, array of currently active keys
   class InputHandler {
@@ -74,7 +75,7 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-       context.drawImage(
+      context.drawImage(
         this.image,
         this.frameX * this.width,
         this.frameY * this.height,
@@ -89,7 +90,7 @@ window.addEventListener("load", function () {
     update(input, deltaTime) {
       // traversing sprite sheet
       if (this.frameTimer > this.frameInterval) {
-              if (this.frameX >= this.maxFrame) this.frameX = 0;
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
         else this.frameX++;
         this.frameTimer = 0;
       } else {
@@ -207,7 +208,12 @@ window.addEventListener("load", function () {
         this.frameTimer += deltaTime;
       }
       this.x -= this.speed;
-      if (this.x < 0 - this.width) this.markedForDeletion = true;
+      if (this.x < 0 - this.width) {
+        this.markedForDeletion = true;
+        // if player avoides enemey that is good
+        // when enemy scrolls off screen increment score
+        score++;
+      }
     }
   }
   // responsible for adding animated and removing enemies from the game
@@ -227,7 +233,18 @@ window.addEventListener("load", function () {
     enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
   }
   // handles displaying score and other text
-  function displayStatusText() {}
+  // pass in context to specifiy which canvas to draw on
+  function displayStatusText(context) {
+    context.fillStyle = "black ";
+    context.font = "40px Helvetica";
+    // pass in text to draw and x,y coordinates
+    context.fillText("Score: " + score, 20, 50);
+    // offset to give score a shadow effect
+    context.fillStyle = "white ";
+    context.font = "40px Helvetica";
+    // pass in text to draw and x,y coordinates
+    context.fillText("Score: " + score, 22, 52);
+  }
 
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
@@ -249,6 +266,7 @@ window.addEventListener("load", function () {
     player.draw(ctx);
     player.update(input, deltaTime);
     handleEnemies(deltaTime);
+    displayStatusText(ctx);
     requestAnimationFrame(animate);
   }
 
