@@ -53,7 +53,7 @@ window.addEventListener("load", function () {
       // the player itself 1800 x400
       this.width = 200;
       this.height = 200;
-      this.x = 10;
+      this.x = 100;
       this.y = this.gameHeight - this.height;
       this.image = document.getElementById("playerImage");
       this.frameX = 0;
@@ -68,6 +68,15 @@ window.addEventListener("load", function () {
       this.speed = 0;
       this.vy = 0;
       this.weight = 1;
+    }
+    // restarting game
+    restart() {
+      //x and y original value
+      this.x = 100;
+      this.y = this.gameHeight - this.height;
+      // 8 sprite in top row
+      this.maxFrame = 8;
+      this.frameY = 0;
     }
 
     draw(context) {
@@ -171,6 +180,10 @@ window.addEventListener("load", function () {
       // reset check
       if (this.x < 0 - this.width) this.x = 0;
     }
+    // this is mostly for visual feedback
+    restart() {
+      this.x = 0;
+    }
   }
   // generate enemies
   class Enemy {
@@ -255,7 +268,10 @@ window.addEventListener("load", function () {
       context.fillText("Game Over, try again! ", canvas.width / 2 + 2, 202);
     }
   }
-
+  function restartGame() {
+    // put player back in start postion - useing restart method on player
+    player.restart();
+  }
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
