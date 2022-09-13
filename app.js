@@ -89,7 +89,7 @@ window.addEventListener("load", function () {
         Math.PI * 2
       );
       context.stroke();
-      // circle hit box 2
+      // circle hit box 2- th colison detections is actually happening in the blue circle
       context.strokeStyle = "blue";
       // trying circular hit box
       context.beginPath();
@@ -124,8 +124,8 @@ window.addEventListener("load", function () {
       enemies.forEach((enemy) => {
         // enemy hit box vs player hit box
         // find radius of circle
-        const dx = enemy.x - this.x;
-        const dy = enemy.y - this.y;
+        const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);
+        const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2);
         // distance between center points of each circle using pythagoras theorem formula
         // calculate distance on vertical and horizontal axis
         // imaginary right triangle
@@ -249,7 +249,7 @@ window.addEventListener("load", function () {
       );
       context.stroke();
 
-      // circle hit box 2
+      // circle hit box 2- th colison detections is actually happening in the blue circle
       context.strokeStyle = "blue";
       // trying circular hit box
       context.beginPath();
