@@ -76,35 +76,6 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-      // context.strokeStyle = "white";
-      // context.strokeRect(this.x, this.y, this.width, this.height);
-
-      // context.beginPath();
-      // context.arc(
-      //   this.x + this.width / 2,
-      //   this.y + this.height / 2,
-      //   this.width / 2,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
-      // // circle hit box 2- th colison detections is actually happening in the blue circle
-      // context.strokeStyle = "blue";
-      // // trying circular hit box
-      // context.beginPath();
-      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
-      // context.stroke();
-      // context.drawImage(
-      //   this.image,
-      //   this.frameX * this.width,
-      //   0,
-      //   this.width,
-      //   this.height,
-      //   this.x,
-      //   this.y,
-      //   this.width,
-      //   this.height
-      // );
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -119,21 +90,12 @@ window.addEventListener("load", function () {
     }
     // update needs to expect enemies array as argument
     update(input, deltaTime, enemies) {
-      // collison detection- check player position against all enemy positions each animation frame
       enemies.forEach((enemy) => {
         // enemy hit box vs player hit box
-        // find radius of circle
         const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);
         const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2);
-        // distance between center points of each circle using pythagoras theorem formula
-        // calculate distance on vertical and horizontal axis
-        // imaginary right triangle
-        // hypotenuse of which is distance between the points dx and dy
-        // square root of dx squared plus dy squared
         const distance = Math.sqrt(dx * dx + dy * dy);
-        // if distance between center point of player and center point of enemy circle is less that radius of enemy circle plus radiuos of player circle there is a collsion
         if (distance < enemy.width / 2 + this.width / 2) {
-          // collision game over
           gameOver = true;
         }
       });
@@ -234,26 +196,6 @@ window.addEventListener("load", function () {
       this.markedForDeletion = false;
     }
     draw(context) {
-      // // adding collison detection using basic rect method
-      // context.strokeStyle = "white";
-      // context.strokeRect(this.x, this.y, this.width, this.height);
-      // // trying circular hit box
-      // context.beginPath();
-      // context.arc(
-      //   this.x + this.width / 2,
-      //   this.y + this.height / 2,
-      //   this.width / 2,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
-
-      // // circle hit box 2- th colison detections is actually happening in the blue circle
-      // context.strokeStyle = "blue";
-      // // trying circular hit box
-      // context.beginPath();
-      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
-      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -279,8 +221,7 @@ window.addEventListener("load", function () {
       this.x -= this.speed;
       if (this.x < 0 - this.width) {
         this.markedForDeletion = true;
-        // if player avoides enemey that is good
-        // when enemy scrolls off screen increment score
+
         score++;
       }
     }
@@ -302,16 +243,13 @@ window.addEventListener("load", function () {
     enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
   }
   // handles displaying score and other text
-  // pass in context to specifiy which canvas to draw on
+
   function displayStatusText(context) {
     context.fillStyle = "black ";
     context.font = "40px Helvetica";
-    // pass in text to draw and x,y coordinates
     context.fillText("Score: " + score, 20, 50);
-    // offset to give score a shadow effect
     context.fillStyle = "white ";
     context.font = "40px Helvetica";
-    // pass in text to draw and x,y coordinates
     context.fillText("Score: " + score, 22, 52);
     if (gameOver) {
       context.textAlign = "center";
