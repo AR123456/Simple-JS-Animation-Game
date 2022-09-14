@@ -45,24 +45,28 @@ window.addEventListener("load", function () {
         // console.log(e.key, this.keys);
         // implementing use of touch screen to play game
         window.addEventListener("touchstart", (e) => {
-          // this will run whenever user touches browser window
-          // start stuff
-          // console.log("touching");
-          // lots of stuff avalible on event timeStamp, changeTouches index 0 .pageX and pageY are avalible
-          console.log(e);
-          // vertical coordinate of touch event
-          console.log(e.changedTouches[0].pageY);
+          this.touchY = e.changedTouches[0].pageY;
         });
         window.addEventListener("touchmove", (e) => {
-          // this will run whenever moves touch before lifting browser window
-          // detect movement and direction , make calculation time ect
-          // determine direction of swipe
-          // console.log("moved");
+          // compare starting coordiante to current coordinate to determine direction
+          // helper var to hold starting palce
+          const swipeDistance = e.changedTouches[0].pageY - this.touchY;
+          // check swipe direction of up and swipe up not currently in the keys array
+          if (
+            swipeDistance < -this.touchThreshold &&
+            this.keys.indexOf("swipe up") === -1
+          )
+            this.keys.push("swipe up");
+          else if (
+            swipeDistance > this.touchThreshold &&
+            this.keys.indexOf("swipe down") === -1
+          )
+            this.keys.push("swipe down");
         });
         window.addEventListener("touchend", (e) => {
           // this will run whenever user stop touching browser window
-          // clean up and discard reset
-          // console.log("end");
+          // // clean up and discard reset
+          // console.log(this.keys);
         });
       });
     }
