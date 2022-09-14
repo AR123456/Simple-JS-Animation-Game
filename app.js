@@ -14,6 +14,10 @@ window.addEventListener("load", function () {
   class InputHandler {
     constructor() {
       this.keys = [];
+      // starting vertical coordinate
+      this.touchY = "";
+      // avoid over senseing touches like short taps make sure they are at lease 30 px apart
+      this.touchThreshold = 30;
       window.addEventListener("keydown", (e) => {
         if (
           (e.key === "ArrowDown" ||
@@ -43,22 +47,22 @@ window.addEventListener("load", function () {
         window.addEventListener("touchstart", (e) => {
           // this will run whenever user touches browser window
           // start stuff
-          console.log("touching");
+          // console.log("touching");
           // lots of stuff avalible on event timeStamp, changeTouches index 0 .pageX and pageY are avalible
           console.log(e);
-          // start of the touch event
-          console.log(e.changedTouches[0].pageX);
+          // vertical coordinate of touch event
+          console.log(e.changedTouches[0].pageY);
         });
         window.addEventListener("touchmove", (e) => {
           // this will run whenever moves touch before lifting browser window
           // detect movement and direction , make calculation time ect
           // determine direction of swipe
-          console.log("moved");
+          // console.log("moved");
         });
         window.addEventListener("touchend", (e) => {
           // this will run whenever user stop touching browser window
           // clean up and discard reset
-          console.log("end");
+          // console.log("end");
         });
       });
     }
