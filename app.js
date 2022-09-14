@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
           this.keys.indexOf(e.key) === -1
         ) {
           this.keys.push(e.key);
-        }
+        } else if (e.key === "Enter" && gameOver) restartGame();
         // console.log(e.key, this.keys);
       });
       window.addEventListener("keyup", (e) => {
@@ -180,8 +180,9 @@ window.addEventListener("load", function () {
       // reset check
       if (this.x < 0 - this.width) this.x = 0;
     }
-    // this is mostly for visual feedback
+
     restart() {
+      // this is mostly for visual feedback
       this.x = 0;
     }
   }
@@ -253,6 +254,7 @@ window.addEventListener("load", function () {
   // handles displaying score and other text
 
   function displayStatusText(context) {
+    context.textAlign = "left";
     context.fillStyle = "black ";
     context.font = "40px Helvetica";
     context.fillText("Score: " + score, 20, 50);
@@ -262,15 +264,28 @@ window.addEventListener("load", function () {
     if (gameOver) {
       context.textAlign = "center";
       context.fillStyle = "black";
-      context.fillText("Game Over, try again! ", canvas.width / 2, 200);
+      context.fillText(
+        "Game Over, try again! Press Enter to Restart ",
+        canvas.width / 2,
+        200
+      );
       context.textAlign = "center";
       context.fillStyle = "white";
-      context.fillText("Game Over, try again! ", canvas.width / 2 + 2, 202);
+      context.fillText(
+        "Game Over, try again! Press Enter to Restart ",
+        canvas.width / 2 + 2,
+        202
+      );
     }
   }
   function restartGame() {
     // put player back in start postion - useing restart method on player
     player.restart();
+    background.restart();
+    enemies = [];
+    score = 0;
+    gameOver = false;
+    animate(0);
   }
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
@@ -286,9 +301,10 @@ window.addEventListener("load", function () {
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     // console.log(deltaTime);
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     background.draw(ctx);
-    // background.update();
+    background.update();
     player.draw(ctx);
     // putting collison detection check in player update method
     // pass in enemies array - check player vs enemies position each annimation frame
