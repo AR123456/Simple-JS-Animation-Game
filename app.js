@@ -42,15 +42,23 @@ window.addEventListener("load", function () {
         // implementing use of touch screen to play game
         window.addEventListener("touchstart", (e) => {
           // this will run whenever user touches browser window
+          // start stuff
           console.log("touching");
+          // lots of stuff avalible on event timeStamp, changeTouches index 0 .pageX and pageY are avalible
+          console.log(e);
+          // start of the touch event
+          console.log(e.changedTouches[0].pageX);
         });
         window.addEventListener("touchmove", (e) => {
-          // this will run as long as touch is in progress
-          console.log("moving");
+          // this will run whenever moves touch before lifting browser window
+          // detect movement and direction , make calculation time ect
+          // determine direction of swipe
+          console.log("moved");
         });
         window.addEventListener("touchend", (e) => {
-          // this will run users stops touching the  browser window
-          console.log("stopped touching ");
+          // this will run whenever user stop touching browser window
+          // clean up and discard reset
+          console.log("end");
         });
       });
     }
