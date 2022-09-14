@@ -39,6 +39,19 @@ window.addEventListener("load", function () {
           this.keys.splice(this.keys.indexOf(e.keys), 1);
         }
         // console.log(e.key, this.keys);
+        // implementing use of touch screen to play game
+        window.addEventListener("touchstart", (e) => {
+          // this will run whenever user touches browser window
+          console.log("touching");
+        });
+        window.addEventListener("touchmove", (e) => {
+          // this will run whenever user touches browser window
+          console.log("moving");
+        });
+        window.addEventListener("touchend", (e) => {
+          // this will run whenever user touches browser window
+          console.log("stopped touching ");
+        });
       });
     }
     update() {}
