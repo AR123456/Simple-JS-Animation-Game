@@ -45,11 +45,11 @@ window.addEventListener("load", function () {
           console.log("touching");
         });
         window.addEventListener("touchmove", (e) => {
-          // this will run whenever user touches browser window
+          // this will run as long as touch is in progress
           console.log("moving");
         });
         window.addEventListener("touchend", (e) => {
-          // this will run whenever user touches browser window
+          // this will run users stops touching the  browser window
           console.log("stopped touching ");
         });
       });
