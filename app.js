@@ -17,6 +17,7 @@ window.addEventListener("load", function () {
       // starting vertical coordinate
       this.touchY = "";
       // avoid over senseing touches like short taps make sure they are at lease 30 px apart
+      // making this longer causes action to happen only after a longer swipe this is in distance , pixels
       this.touchThreshold = 30;
       window.addEventListener("keydown", (e) => {
         if (
@@ -61,12 +62,17 @@ window.addEventListener("load", function () {
             swipeDistance > this.touchThreshold &&
             this.keys.indexOf("swipe down") === -1
           )
+            // slice down will restart game
             this.keys.push("swipe down");
+
+          if (gameOver) restartGame();
         });
         window.addEventListener("touchend", (e) => {
           // this will run whenever user stop touching browser window
           // // clean up and discard reset
-          // console.log(this.keys);
+          // using splice to find and remove swipe up from array
+          this.keys.splice(this.keys.indexOf("swipe up"), 1);
+          this.keys.splice(this.keys.indexOf("swipe down"), 1);
         });
       });
     }
