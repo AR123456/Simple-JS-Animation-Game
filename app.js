@@ -336,11 +336,14 @@ window.addEventListener("load", function () {
       // canvas.requestFullscreen().then().catch();
       // returns promis, catch the error
       canvas.requestFullscreen().catch((err) => {
-        alert(err);
+        alert(` Error, cannot enable full screen mode: ${err}`);
       });
+    } else {
+      document.exitFullscreen();
     }
   }
-  toggleFullScreen();
+  fullScreenButton.addEventListener("click", toggleFullScreen);
+  // to exit full screen mode on mobile swipe down
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
