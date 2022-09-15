@@ -149,14 +149,16 @@ window.addEventListener("load", function () {
     update(input, deltaTime, enemies) {
       enemies.forEach((enemy) => {
         // enemy hit box vs player hit box - center point of enemy vs player circle
-        const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);
-        // const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2);
+        // const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);// re size enemy hit box
+        const dx = enemy.x + enemy.width / 2 - 20 - (this.x + this.width / 2);
+
         const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2 + 20);
         // hypotenuse = distance
         const distance = Math.sqrt(dx * dx + dy * dy);
         // compare radi to the distance if = circles are touching and there is collison
-        // if (distance < enemy.width / 2 + this.width / 2) {
-        if (distance < enemy.width / 2 + this.width / 3) {
+
+        // if (distance < enemy.width / 2 + this.width / 3) {  // rs size enemy hit box
+        if (distance < enemy.width / 3 + this.width / 3) {
           gameOver = true;
         }
       });
