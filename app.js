@@ -116,23 +116,6 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-      // hit box may not exactly match the sprite
-      // should be predictable when collison can and cannot happen
-      // this is drawn just as visual of what is going on in the actual hit detection but can use to adjust size visually and then in code
-      // context.lineWidth = 5;
-      // context.strokeStyle = "white";
-      // context.beginPath();
-      // context.arc(
-      //   this.x + this.width / 2,
-      //   // this.y + this.height / 2, adjust height of circle
-      //   this.y + this.height / 2 + 20,
-      //   // this.width / 2, - making circle smaller
-      //   this.width / 3,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
-
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -148,16 +131,9 @@ window.addEventListener("load", function () {
     // update needs to expect enemies array as argument
     update(input, deltaTime, enemies) {
       enemies.forEach((enemy) => {
-        // enemy hit box vs player hit box - center point of enemy vs player circle
-        // const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);// re size enemy hit box
         const dx = enemy.x + enemy.width / 2 - 20 - (this.x + this.width / 2);
-
         const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2 + 20);
-        // hypotenuse = distance
         const distance = Math.sqrt(dx * dx + dy * dy);
-        // compare radi to the distance if = circles are touching and there is collison
-
-        // if (distance < enemy.width / 2 + this.width / 3) {  // rs size enemy hit box
         if (distance < enemy.width / 3 + this.width / 3) {
           gameOver = true;
         }
@@ -269,21 +245,6 @@ window.addEventListener("load", function () {
       this.markedForDeletion = false;
     }
     draw(context) {
-      // hit box may not exactly match the sprite
-      // should be predictable when collision can and cannot happen
-      // context.lineWidth = 5;
-      // context.strokeStyle = "white";
-      // context.beginPath();
-      // context.arc(
-      //   // this.x + this.width / 2, testing out resizing of hit box before updating the code to detect collision
-      //   this.x + this.width / 2 - 20,
-      //   this.y + this.height / 2,
-      //   // this.width / 2, testing out resizing of hit box before updating the code to detect collision
-      //   this.width / 3,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
