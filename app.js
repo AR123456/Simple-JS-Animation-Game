@@ -119,19 +119,19 @@ window.addEventListener("load", function () {
       // hit box may not exactly match the sprite
       // should be predictable when collison can and cannot happen
       // this is drawn just as visual of what is going on in the actual hit detection but can use to adjust size visually and then in code
-      context.lineWidth = 5;
-      context.strokeStyle = "white";
-      context.beginPath();
-      context.arc(
-        this.x + this.width / 2,
-        // this.y + this.height / 2, adjust height of circle
-        this.y + this.height / 2 + 20,
-        // this.width / 2, - making circle smaller
-        this.width / 3,
-        0,
-        Math.PI * 2
-      );
-      context.stroke();
+      // context.lineWidth = 5;
+      // context.strokeStyle = "white";
+      // context.beginPath();
+      // context.arc(
+      //   this.x + this.width / 2,
+      //   // this.y + this.height / 2, adjust height of circle
+      //   this.y + this.height / 2 + 20,
+      //   // this.width / 2, - making circle smaller
+      //   this.width / 3,
+      //   0,
+      //   Math.PI * 2
+      // );
+      // context.stroke();
 
       context.drawImage(
         this.image,
@@ -271,19 +271,19 @@ window.addEventListener("load", function () {
     draw(context) {
       // hit box may not exactly match the sprite
       // should be predictable when collision can and cannot happen
-      context.lineWidth = 5;
-      context.strokeStyle = "white";
-      context.beginPath();
-      context.arc(
-        // this.x + this.width / 2, testing out resizing of hit box before updating the code to detect collision
-        this.x + this.width / 2 - 20,
-        this.y + this.height / 2,
-        // this.width / 2, testing out resizing of hit box before updating the code to detect collision
-        this.width / 3,
-        0,
-        Math.PI * 2
-      );
-      context.stroke();
+      // context.lineWidth = 5;
+      // context.strokeStyle = "white";
+      // context.beginPath();
+      // context.arc(
+      //   // this.x + this.width / 2, testing out resizing of hit box before updating the code to detect collision
+      //   this.x + this.width / 2 - 20,
+      //   this.y + this.height / 2,
+      //   // this.width / 2, testing out resizing of hit box before updating the code to detect collision
+      //   this.width / 3,
+      //   0,
+      //   Math.PI * 2
+      // );
+      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
