@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica", cursive;
+}
+body {
+  overflow: hidden;
+}
+canvas {
+  background: blue;
+  top: 0;
+  left: 0;
+}
+/* hiding in css will draw with JS  */
+img {
+  display: none;
+}
