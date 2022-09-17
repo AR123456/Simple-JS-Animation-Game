@@ -4,6 +4,7 @@ export default class InputHandler {
   constructor() {
     this.lastKey = "";
     window.addEventListener("keydown", function (e) {
+      console.log(e.key);
       // expression to validate
       switch (e.key) {
         case "ArrowLeft":
