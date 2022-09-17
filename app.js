@@ -2,6 +2,7 @@
 // imports
 import Player from "./player.js";
 import InputHandler from "./input.js";
+import { drawStatusText } from "./utils";
 window.addEventListener("load", function () {
   // when game is loading show loader, when it is loaded stop showing loading
   const loading = this.document.getElementById("loading");
@@ -18,7 +19,8 @@ window.addEventListener("load", function () {
 
   function animate() {
     // bring in the classes here call their methods
-    // console.log(input.lastKey);
+    console.log(input.lastKey);
+    // drawStatusText(ctx, input);
     // endless animation loop
     requestAnimationFrame(animate);
   }
