@@ -18,6 +18,10 @@ window.addEventListener("load", function () {
 
   function animate() {
     // bring in the classes here call their methods
+    // console.log(input.lastKey);
+    // endless animation loop
+    requestAnimationFrame(animate);
   }
+  animate();
   // end of window
 });
