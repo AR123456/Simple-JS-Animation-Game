@@ -39,5 +39,10 @@ export default class Player {
       this.height
     );
   }
+  // public method
+  // mechanism that will allow swapping state with key press
+  setState(state) {
+    this.currentState = this.state[state];
+  }
   update() {}
 }

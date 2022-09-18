@@ -1,7 +1,4 @@
 /**@type {HTMLCanvasElement} */
-
-import { ENTERED } from "react-transition-group/Transition";
-
 // keeping track of state with states object
 export const states = {
   // using enum to help with state
@@ -22,15 +19,19 @@ class StandingLeft extends State {
     super("STANDING LEFT");
     // make player class proptery
     this.player = player;
+}
     // enter - everything the player needs to do when entering this state- like change speed or sprite sheet
     enter(){
         // this will run one time when we go into the state 
         // animate row 1 
+        this.player.frameY=1;
     }
     // listen for a predefined set of inputs and swap to a different state when the correct key is pressed
     handleInput(input){
         // this will run over and over with each animation frame
-    }
+        // if we are standing left and press right set state to StandingRight 
+        if(input === "PRESS right")
+   
   }
 }
 class StandingRight extends State {
@@ -40,6 +41,7 @@ class StandingRight extends State {
     super("STANDING RIGHT");
     // make player class proptery
     this.player = player;
+}
     // enter - everything the player needs to do when entering this state- like change speed or sprite sheet
     enter(){
         // this will run one time when we go into the state 
@@ -47,6 +49,8 @@ class StandingRight extends State {
     // listen for a predefined set of inputs and swap to a different state when the correct key is pressed
     handleInput(input){
         // this will run over and over with each animation frame
+        // if we are in the standing right state and player pushes left set state to standing left
+        if(input==="PRESS left")
     }
-  }
+
 }
