@@ -23,8 +23,30 @@ class StandingLeft extends State {
     // make player class proptery
     this.player = player;
     // enter - everything the player needs to do when entering this state- like change speed or sprite sheet
-    enter(){}
-    // listen for a predefined set of inputs and swap to a diffrent state when the correct key is pressed
-    handleInput(){}
+    enter(){
+        // this will run one time when we go into the state 
+        // animate row 1 
+    }
+    // listen for a predefined set of inputs and swap to a different state when the correct key is pressed
+    handleInput(input){
+        // this will run over and over with each animation frame
+    }
+  }
+}
+class StandingRight extends State {
+  // if property cannot be found in child JS will look to the parent
+  constructor(player) {
+    // need to call super before this.
+    super("STANDING RIGHT");
+    // make player class proptery
+    this.player = player;
+    // enter - everything the player needs to do when entering this state- like change speed or sprite sheet
+    enter(){
+        // this will run one time when we go into the state 
+    }
+    // listen for a predefined set of inputs and swap to a different state when the correct key is pressed
+    handleInput(input){
+        // this will run over and over with each animation frame
+    }
   }
 }
