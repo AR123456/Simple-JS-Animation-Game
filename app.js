@@ -2,7 +2,7 @@
 // imports
 import Player from "./player.js";
 import InputHandler from "./input.js";
-import { drawStatusText } from "./utils";
+import { drawStatusText } from "./utils.js";
 window.addEventListener("load", function () {
   // when game is loading show loader, when it is loaded stop showing loading
   const loading = this.document.getElementById("loading");
@@ -14,13 +14,16 @@ window.addEventListener("load", function () {
   canvas.height = window.innerHeight;
   // instansiate a player from the class
   const player = new Player(canvas.width, canvas.height);
-  player.draw(ctx);
+
   const input = new InputHandler();
 
   function animate() {
+    // clear out old paint
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     // bring in the classes here call their methods
-    console.log(input.lastKey);
-    // drawStatusText(ctx, input);
+    // console.log(input.lastKey);
+    player.draw(ctx);
+    drawStatusText(ctx, input);
     // endless animation loop
     requestAnimationFrame(animate);
   }
