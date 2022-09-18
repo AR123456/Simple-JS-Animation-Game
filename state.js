@@ -44,6 +44,7 @@ export class StandingRight extends State {
   // enter - everything the player needs to do when entering this state- like change speed or sprite sheet
   enter() {
     // this will run one time when we go into the state
+    this.player.frameY = 0;
   }
   // listen for a predefined set of inputs and swap to a different state when the correct key is pressed
   handleInput(input) {

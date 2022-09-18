@@ -22,8 +22,9 @@ window.addEventListener("load", function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // bring in the classes here call their methods
     // console.log(input.lastKey);
+    player.update(input.lastKey);
     player.draw(ctx);
-    drawStatusText(ctx, input);
+    drawStatusText(ctx, input, player);
     // endless animation loop
     requestAnimationFrame(animate);
   }
