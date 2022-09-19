@@ -3,7 +3,7 @@ export default class InputHandler {
   // keep track of keys
   constructor() {
     this.lastKey = "";
-    // need to bind to this keyword to the InputHandler this on InputHandler object by using es6 syntax
+    // es6 bind to this keyword to InputHandler
     window.addEventListener("keydown", (e) => {
       // expression to validate
       switch (e.key) {
