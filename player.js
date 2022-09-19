@@ -1,5 +1,5 @@
 /**@type {HTMLCanvasElement} */
-import { StandingLeft, StandingRight } from "./state.js";
+import { StandingLeft, StandingRight, SittingLeft } from "./state.js";
 // the player needs to be aware of the game boundaries
 export default class Player {
   constructor(gameWidth, gameHeight) {
@@ -7,7 +7,11 @@ export default class Player {
     this.gameHeight = gameHeight;
     // array of possible player states
     // the this keyword represents the entire player object
-    this.states = [new StandingLeft(this), new StandingRight(this)];
+    this.states = [
+      new StandingLeft(this),
+      new StandingRight(this),
+      new SittingLeft(this),
+    ];
     // player can only have one state at a time, the index of the states array
     this.currentState = this.states[1];
     // point to the image in the html
