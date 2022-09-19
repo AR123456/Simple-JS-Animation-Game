@@ -9,7 +9,6 @@ export default class InputHandler {
       // expression to validate
       switch (e.key) {
         case "ArrowLeft":
-          // if arrowleft was pressed execute this code
           this.lastKey = "PRESS left";
           break;
         case "ArrowRight":
@@ -24,10 +23,8 @@ export default class InputHandler {
       }
     });
     window.addEventListener("keyup", (e) => {
-      // expression to validate
       switch (e.key) {
         case "ArrowLeft":
-          // if arrowleft was pressed execute this code
           this.lastKey = "RELEASE left";
           break;
         case "ArrowRight":
