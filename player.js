@@ -9,7 +9,7 @@ export default class Player {
     // the this keyword represents the entire player object
     this.states = [new StandingLeft(this), new StandingRight(this)];
     // player can only have one state at a time, the index of the states array
-    this.currentState = this.states[0];
+    this.currentState = this.states[1];
     // point to the image in the html
     this.image = document.getElementById("dogImage");
     //1800x2182

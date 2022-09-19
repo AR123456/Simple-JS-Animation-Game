@@ -5,6 +5,7 @@ export default class InputHandler {
     this.lastKey = "";
     // es6 bind to this keyword to InputHandler
     window.addEventListener("keydown", (e) => {
+      // console.log(e.key);
       // expression to validate
       switch (e.key) {
         case "ArrowLeft":
@@ -14,6 +15,12 @@ export default class InputHandler {
         case "ArrowRight":
           this.lastKey = "PRESS right";
           break;
+        case "ArrowDown":
+          this.lastKey = "PRESS down";
+          break;
+        // case "ArrowUp":
+        //   this.lastKey = "PRESS up";
+        //   break;
       }
     });
     window.addEventListener("keyup", (e) => {
@@ -25,6 +32,9 @@ export default class InputHandler {
           break;
         case "ArrowRight":
           this.lastKey = "RELEASE right";
+          break;
+        case "ArrowDown":
+          this.lastKey = "RELEASE down";
           break;
       }
     });
