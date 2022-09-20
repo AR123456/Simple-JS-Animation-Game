@@ -59,7 +59,12 @@ export default class Player {
   }
   update(input) {
     this.currentState.handleInput(input);
+    // horizontal movement
     this.x += this.speed;
+    // horizontal boundries
+    if (this.x <= 0) this.x = 0;
+    else if (this.x >= this.gameWidth - this.width)
+      this.x = this.gameWidth - this.width;
   }
   // public method
   // mechanism that will allow swapping state with key press
