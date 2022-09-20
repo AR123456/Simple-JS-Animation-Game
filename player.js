@@ -4,6 +4,8 @@ import {
   StandingRight,
   SittingLeft,
   SittingRight,
+  RunningLeft,
+  RunningRight,
 } from "./state.js";
 // the player needs to be aware of the game boundaries
 export default class Player {
@@ -17,6 +19,8 @@ export default class Player {
       new StandingRight(this),
       new SittingLeft(this),
       new SittingRight(this),
+      new RunningLeft(this),
+      new RunningRight(this),
     ];
     // player can only have one state at a time, the index of the states array
     this.currentState = this.states[1];
