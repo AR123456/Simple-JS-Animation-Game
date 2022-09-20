@@ -9,6 +9,8 @@ export const states = {
   SITTING_RIGHT: 3,
   RUNNING_LEFT: 4,
   RUNNING_RIGHT: 5,
+  JUMPING_LEFT: 6,
+  JUMPING_RIGHT: 7,
 };
 
 class State {
@@ -33,6 +35,7 @@ export class StandingLeft extends State {
     if (input === "PRESS right") this.player.setState(states.RUNNING_RIGHT);
     else if (input === "PRESS left") this.player.setState(states.RUNNING_LEFT);
     else if (input === "PRESS down") this.player.setState(states.SITTING_LEFT);
+    else if (input === "PRESS up") this.player.setState(states.JUMPING_LEFT);
   }
 }
 export class StandingRight extends State {
@@ -50,6 +53,7 @@ export class StandingRight extends State {
     else if (input === "PRESS right")
       this.player.setState(states.RUNNING_RIGHT);
     else if (input == "PRESS down") this.player.setState(states.SITTING_RIGHT);
+    else if (input === "PRESS up") this.player.setState(states.JUMPING_RIGHT);
   }
 }
 export class SittingLeft extends State {
@@ -115,4 +119,27 @@ export class RunningRight extends State {
       this.player.setState(states.STANDING_RIGHT);
     else if (input === "PRESS down") this.player.setState(states.SITTING_RIGHT);
   }
+}
+
+// state swapping can be tied to other game events that key inputs
+// after player reaches max height of jump change state to falling
+export class JumpingLeft extends State {
+  constructor(player) {
+    super("JUMPING LEFT");
+    this.player = player;
+  }
+  enter() {
+    this.player.frameY = 3;
+  }
+  handleInput(input) {}
+}
+export class JumpingRight extends State {
+  constructor(player) {
+    super("JUMPING RIGHT");
+    this.player = player;
+  }
+  enter() {
+    this.player.frameY = 2;
+  }
+  handleInput(input) {}
 }
