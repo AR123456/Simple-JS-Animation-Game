@@ -38,6 +38,10 @@ export default class Player {
     this.frameX = 0;
     // vertical navigation
     this.frameY = 0;
+    // make player run
+    this.speed = 0;
+    // px per frame speed
+    this.maxSpeed = 10;
   }
   //
   draw(context) {
@@ -54,8 +58,8 @@ export default class Player {
     );
   }
   update(input) {
-    // get the current state from that const
     this.currentState.handleInput(input);
+    this.x += this.speed;
   }
   // public method
   // mechanism that will allow swapping state with key press
