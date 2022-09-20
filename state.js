@@ -26,7 +26,8 @@ export class StandingLeft extends State {
   enter() {
     // run one time when we go into the state
     this.player.frameY = 1;
-    // when standing not moving
+    // when standing not moving set speed back to 0
+    this.player.speed = 0;
   }
   handleInput(input) {
     if (input === "PRESS right") this.player.setState(states.RUNNING_RIGHT);
@@ -41,6 +42,8 @@ export class StandingRight extends State {
   }
   enter() {
     this.player.frameY = 0;
+    // when standing not moving set speed back to 0
+    this.player.speed = 0;
   }
   handleInput(input) {
     if (input === "PRESS left") this.player.setState(states.RUNNING_LEFT);
@@ -56,6 +59,7 @@ export class SittingLeft extends State {
   }
   enter() {
     this.player.frameY = 9;
+    this.player.speed = 0;
   }
   handleInput(input) {
     if (input === "PRESS right") this.player.setState(states.SITTING_RIGHT);
@@ -70,6 +74,7 @@ export class SittingRight extends State {
   }
   enter() {
     this.player.frameY = 8;
+    this.player.speed = 0;
   }
   handleInput(input) {
     if (input === "PRESS left") this.player.setState(states.SITTING_LEFT);
