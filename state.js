@@ -131,9 +131,12 @@ export class JumpingLeft extends State {
   enter() {
     this.player.frameY = 3;
     // push player up
-    this.player.vy -= 20;
+    if (this.player.onGround()) this.player.vy -= 30;
   }
-  handleInput(input) {}
+  handleInput(input) {
+    // switch in air
+    if (input === "PRESS right") this.player.setState(states.JUMPING_RIGHT);
+  }
 }
 export class JumpingRight extends State {
   constructor(player) {
@@ -143,7 +146,10 @@ export class JumpingRight extends State {
   enter() {
     this.player.frameY = 2;
     // push player up
-    this.player.vy -= 20;
+    if (this.player.onGround()) this.player.vy -= 30;
   }
-  handleInput(input) {}
+  handleInput(input) {
+    // switch in air
+    if (input === "PRESS left") this.player.setState(states.JUMPING_LEFT);
+  }
 }

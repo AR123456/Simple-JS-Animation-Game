@@ -75,7 +75,7 @@ export default class Player {
     // vertical movement
     this.y += this.vy;
     // if the player is not on the ground (in air )
-    if (this.y < this.gameHeight - this.height) {
+    if (!this.onGround()) {
       // add weight to bring it down
       this.vy += this.weight;
     } else {
@@ -89,5 +89,9 @@ export default class Player {
     this.currentState = this.states[state];
     // where on sprite sheet from the enter method on child class the enum value of states object in states.js
     this.currentState.enter();
+  }
+  onGround() {
+    // when true return that player is on the ground
+    return this.y >= this.gameHeight - this.height;
   }
 }
