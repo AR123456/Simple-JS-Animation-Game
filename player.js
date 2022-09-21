@@ -75,7 +75,7 @@ export default class Player {
     // vertical movement
     this.y += this.vy;
     // if the player is not on the ground (in air )
-    if (this.y < this.height - this.height) {
+    if (this.y < this.gameHeight - this.height) {
       // add weight to bring it down
       this.vy += this.weight;
     } else {
