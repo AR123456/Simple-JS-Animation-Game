@@ -11,6 +11,8 @@ export const states = {
   RUNNING_RIGHT: 5,
   JUMPING_LEFT: 6,
   JUMPING_RIGHT: 7,
+  FALLING_LEFT: 8,
+  FALLING_RIGHT: 9,
 };
 
 class State {
@@ -137,6 +139,7 @@ export class JumpingLeft extends State {
   handleInput(input) {
     // switch in air
     if (input === "PRESS right") this.player.setState(states.JUMPING_RIGHT);
+    else if (this.player.onGround()) this.player.setState(states.STANDING_LEFT);
   }
 }
 export class JumpingRight extends State {
@@ -153,5 +156,7 @@ export class JumpingRight extends State {
   handleInput(input) {
     // switch in air
     if (input === "PRESS left") this.player.setState(states.JUMPING_LEFT);
+    else if (this.player.onGround())
+      this.player.setState(states.STANDING_RIGHT);
   }
 }

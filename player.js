@@ -82,6 +82,9 @@ export default class Player {
       // player is on the ground so set velocity to 0
       this.vy = 0;
     }
+    // keep player from falling through floor - does not seem to be needed
+    if (this.y > this.gameHeight - this.height)
+      this.y = this.gameHeight - this.height;
   }
   // public method
   // mechanism that will allow swapping state with key press
