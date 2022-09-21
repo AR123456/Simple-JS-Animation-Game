@@ -8,6 +8,8 @@ import {
   RunningRight,
   JumpingLeft,
   JumpingRight,
+  FallingLeft,
+  FallingRight,
 } from "./state.js";
 // the player needs to be aware of the game boundaries
 export default class Player {
@@ -25,6 +27,8 @@ export default class Player {
       new RunningRight(this),
       new JumpingLeft(this),
       new JumpingRight(this),
+      new FallingLeft(this),
+      new FallingRight(this),
     ];
     // player can only have one state at a time, the index of the states array
     this.currentState = this.states[1];
