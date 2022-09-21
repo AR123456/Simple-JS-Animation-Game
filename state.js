@@ -132,6 +132,7 @@ export class JumpingLeft extends State {
     this.player.frameY = 3;
     // push player up
     if (this.player.onGround()) this.player.vy -= 30;
+    this.player.speed = -this.player.maxSpeed * 0.5;
   }
   handleInput(input) {
     // switch in air
@@ -147,6 +148,7 @@ export class JumpingRight extends State {
     this.player.frameY = 2;
     // push player up
     if (this.player.onGround()) this.player.vy -= 30;
+    this.player.speed = this.player.maxSpeed * 0.5;
   }
   handleInput(input) {
     // switch in air
