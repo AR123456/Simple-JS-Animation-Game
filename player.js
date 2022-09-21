@@ -6,6 +6,8 @@ import {
   SittingRight,
   RunningLeft,
   RunningRight,
+  JumpingLeft,
+  JumpingRight,
 } from "./state.js";
 // the player needs to be aware of the game boundaries
 export default class Player {
@@ -21,6 +23,8 @@ export default class Player {
       new SittingRight(this),
       new RunningLeft(this),
       new RunningRight(this),
+      new JumpingLeft(this),
+      new JumpingRight(this),
     ];
     // player can only have one state at a time, the index of the states array
     this.currentState = this.states[1];
@@ -34,6 +38,9 @@ export default class Player {
     // postion from top left of canvas to start draw image put player on ground
     this.x = this.gameWidth / 2 - this.width / 2;
     this.y = this.gameHeight - this.height;
+    // vertical movement and gravity, vy goes up and wt pulls down
+    this.vy = 0;
+    this.weight = 0.5;
     // horizontal navigation
     this.frameX = 0;
     // vertical navigation
@@ -65,6 +72,16 @@ export default class Player {
     if (this.x <= 0) this.x = 0;
     else if (this.x >= this.gameWidth - this.width)
       this.x = this.gameWidth - this.width;
+    // vertical movement
+    this.y += this.vy;
+    // if the player is not on the ground (in air )
+    if (this.y < this.height - this.height) {
+      // add weight to bring it down
+      this.vy += this.weight;
+    } else {
+      // player is on the ground so set velocity to 0
+      this.vy = 0;
+    }
   }
   // public method
   // mechanism that will allow swapping state with key press

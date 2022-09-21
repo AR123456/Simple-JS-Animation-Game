@@ -130,6 +130,8 @@ export class JumpingLeft extends State {
   }
   enter() {
     this.player.frameY = 3;
+    // push player up
+    this.vy -= 20;
   }
   handleInput(input) {}
 }
@@ -140,6 +142,8 @@ export class JumpingRight extends State {
   }
   enter() {
     this.player.frameY = 2;
+    // push player up
+    this.vy -= 20;
   }
   handleInput(input) {}
 }
