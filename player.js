@@ -49,6 +49,8 @@ export default class Player {
     this.frameX = 0;
     // vertical navigation of sprite sheet
     this.frameY = 0;
+    // initally setting to 5
+    this.maxFrame = 5;
     // make player run
     this.speed = 0;
     // px per frame speed
@@ -56,6 +58,9 @@ export default class Player {
   }
   //
   draw(context) {
+    // traversing sprite sheet to animate player
+    if (this.frameX < this.maxFrame) this.frameX++;
+    else this.frameX = 0;
     context.drawImage(
       this.image,
       this.width * this.frameX,
