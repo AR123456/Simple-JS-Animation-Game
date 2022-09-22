@@ -53,14 +53,27 @@ export default class Player {
     this.maxFrame = 5;
     // make player run
     this.speed = 0;
-    // px per frame speed
+    // px per frame speed- move up or down to change player speed
     this.maxSpeed = 10;
+    // helper vars for using delta time
+    // the fps is limited by each computers capabilitys, if set to number beyond max the max will be used by the individual computer
+    this.fps = 40;
+    // accumulator for delta time
+    this.frameTimer = 0;
+    // goal value of frameTimer- number of mil secs each frame should display
+    this.frameInterval = 1000 / this.fps;
   }
-  //
-  draw(context) {
-    // traversing sprite sheet to animate player
-    if (this.frameX < this.maxFrame) this.frameX++;
-    else this.frameX = 0;
+  //getting delta time from app.js
+  draw(context, deltaTime) {
+    if (this.frameTimer > this.frameInterval) {
+      // traversing sprite sheet to animate player
+      if (this.frameX < this.maxFrame) this.frameX++;
+      else this.frameX = 0;
+      this.frameTimer = 0;
+    } else {
+      this.frameTimer += deltaTime;
+    }
+
     context.drawImage(
       this.image,
       this.width * this.frameX,
