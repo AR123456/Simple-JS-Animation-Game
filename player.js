@@ -56,7 +56,6 @@ export default class Player {
     // px per frame speed- move up or down to change player speed
     this.maxSpeed = 10;
     // helper vars for using delta time
-    // the fps is limited by each computers capabilitys, if set to number beyond max the max will be used by the individual computer
     this.fps = 40;
     // accumulator for delta time
     this.frameTimer = 0;
