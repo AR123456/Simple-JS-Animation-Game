@@ -45,9 +45,9 @@ export default class Player {
     // vertical movement and gravity, vy goes up and wt pulls down
     this.vy = 0;
     this.weight = 0.5;
-    // horizontal navigation
+    // horizontal navigation of sprite sheet
     this.frameX = 0;
-    // vertical navigation
+    // vertical navigation of sprite sheet
     this.frameY = 0;
     // make player run
     this.speed = 0;

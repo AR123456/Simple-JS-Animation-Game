@@ -30,7 +30,6 @@ export class StandingLeft extends State {
   enter() {
     // run one time when we go into the state
     this.player.frameY = 1;
-    // when standing not moving set speed back to 0
     this.player.speed = 0;
   }
   handleInput(input) {
@@ -47,7 +46,6 @@ export class StandingRight extends State {
   }
   enter() {
     this.player.frameY = 0;
-    // when standing not moving set speed back to 0
     this.player.speed = 0;
   }
   handleInput(input) {
@@ -95,7 +93,6 @@ export class RunningLeft extends State {
   }
   enter() {
     this.player.frameY = 7;
-    // when entering set max speed
     this.player.speed = -this.player.maxSpeed;
   }
   handleInput(input) {
@@ -112,7 +109,6 @@ export class RunningRight extends State {
   }
   enter() {
     this.player.frameY = 6;
-    // when entering set max speed
     this.player.speed = this.player.maxSpeed;
   }
   handleInput(input) {
@@ -123,8 +119,6 @@ export class RunningRight extends State {
   }
 }
 
-// state swapping can be tied to other game events that key inputs
-// after player reaches max height of jump change state to falling
 export class JumpingLeft extends State {
   constructor(player) {
     super("JUMPING LEFT");
@@ -151,16 +145,13 @@ export class JumpingRight extends State {
   }
   enter() {
     this.player.frameY = 2;
-    // push player up
     if (this.player.onGround()) this.player.vy -= 30;
     this.player.speed = this.player.maxSpeed * 0.5;
   }
   handleInput(input) {
-    // switch in air
     if (input === "PRESS left") this.player.setState(states.JUMPING_LEFT);
     else if (this.player.onGround())
       this.player.setState(states.STANDING_RIGHT);
-    // when vy is at 0 we are at peak of jump, as we go into positive numbers we are falling
     else if (this.player.vy > 0) this.player.setState(states.FALLING_RIGHT);
   }
 }
@@ -173,7 +164,6 @@ export class FallingLeft extends State {
     this.player.frameY = 5;
   }
   handleInput(input) {
-    // switch in air
     if (input === "PRESS right") this.player.setState(states.FALLING_RIGHT);
     else if (this.player.onGround()) this.player.setState(states.STANDING_LEFT);
   }
@@ -187,7 +177,6 @@ export class FallingRight extends State {
     this.player.frameY = 4;
   }
   handleInput(input) {
-    // switch in air
     if (input === "PRESS left") this.player.setState(states.FALLING_LEFT);
     else if (this.player.onGround())
       this.player.setState(states.STANDING_RIGHT);
