@@ -1,6 +1,4 @@
 /**@type {HTMLCanvasElement} */
-
-// keeping track of state with states object
 export const states = {
   // using enum to help with state
   STANDING_LEFT: 0,
@@ -26,9 +24,7 @@ export class StandingLeft extends State {
     super("STANDING LEFT");
     this.player = player;
   }
-  // enter - everything the player needs to do when entering this state-
   enter() {
-    // run one time when we go into the state
     this.player.frameY = 1;
     this.player.speed = 0;
     this.player.maxFrame = 6;
@@ -138,10 +134,8 @@ export class JumpingLeft extends State {
     this.player.maxFrame = 6;
   }
   handleInput(input) {
-    // switch in air
     if (input === "PRESS right") this.player.setState(states.JUMPING_RIGHT);
     else if (this.player.onGround()) this.player.setState(states.STANDING_LEFT);
-    // when vy is at 0 we are at peak of jump, as we go into positive numbers we are falling
     else if (this.player.vy > 0) this.player.setState(states.FALLING_LEFT);
   }
 }

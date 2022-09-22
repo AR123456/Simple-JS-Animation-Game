@@ -1,12 +1,8 @@
 /**@type {HTMLCanvasElement} */
 export default class InputHandler {
-  // keep track of keys
   constructor() {
     this.lastKey = "";
-    // es6 bind to this keyword to InputHandler
     window.addEventListener("keydown", (e) => {
-      // console.log(e.key);
-      // expression to validate
       switch (e.key) {
         case "ArrowLeft":
           this.lastKey = "PRESS left";
