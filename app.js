@@ -3,8 +3,13 @@
 
 // window
 window.addEventListener("load", function () {
-  // load the html
-  // defne canvas and context w and h
-  // animate function
+  const canvas = document.getElementById("canvas1");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 500;
+  canvas.height = 500;
+  // main game constructor that all logic will go through
+  class Game {
+    constructor() {}
+  }
   // end of window
 });
