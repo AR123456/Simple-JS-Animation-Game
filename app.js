@@ -2,6 +2,7 @@
 // imports
 
 import { Player } from "./player.js";
+import { InputHandler } from "./input.js";
 // window
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -15,6 +16,7 @@ window.addEventListener("load", function () {
       this.height = height;
       // this = game object expected via class in player js
       this.player = new Player(this);
+      this.input = new InputHandler();
     }
     update() {
       // run calcs that need to happen
@@ -31,6 +33,8 @@ window.addEventListener("load", function () {
   console.log(game);
   // animate 60 times per sec
   function animate() {
+    // clean up old paint
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update();
     game.draw(ctx);
     requestAnimationFrame(animate);

@@ -13,7 +13,7 @@ export class Player {
     this.image = document.getElementById("player");
   }
   update() {
-    this.x++;
+    // this.x++;
   }
   draw(context) {
     // determines what the player looks like
