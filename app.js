@@ -1,6 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // imports
-
+import { Player } from "./player.js";
 // window
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -12,14 +12,20 @@ window.addEventListener("load", function () {
     constructor(width, height) {
       this.width = width;
       this.height = height;
+      // this = game object expected via class in player js
+      this.player = new Player(this);
     }
     update() {
       // run calcs that need to happen
     }
-    draw() {
+    // context arg vua player.js
+    draw(context) {
       // draw images and score
+      this.player.draw(context);
     }
   }
-
+  // instance of game class pass in w and h, constructor is triggered
+  const game = new Game(canvas.width, canvas.height);
+  console.log(game);
   // end of window
 });
