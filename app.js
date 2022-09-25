@@ -1,5 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // imports
+
 import { Player } from "./player.js";
 // window
 window.addEventListener("load", function () {
@@ -27,5 +28,11 @@ window.addEventListener("load", function () {
   // instance of game class pass in w and h, constructor is triggered
   const game = new Game(canvas.width, canvas.height);
   console.log(game);
+  // animate 60 times per sec
+  function animate() {
+    game.draw(ctx);
+    requestAnimationFrame(animate);
+  }
+  animate();
   // end of window
 });
