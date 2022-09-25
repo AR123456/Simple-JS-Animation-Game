@@ -9,7 +9,17 @@ window.addEventListener("load", function () {
   canvas.height = 500;
   // main game constructor that all logic will go through
   class Game {
-    constructor() {}
+    constructor(width, height) {
+      this.width = width;
+      this.height = height;
+    }
+    update() {
+      // run calcs that need to happen
+    }
+    draw() {
+      // draw images and score
+    }
   }
+
   // end of window
 });
