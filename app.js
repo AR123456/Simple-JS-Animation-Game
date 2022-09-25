@@ -20,7 +20,7 @@ window.addEventListener("load", function () {
     }
     update() {
       // run calcs that need to happen
-      this.player.update();
+      this.player.update(this.input.keys);
     }
     // context arg vua player.js
     draw(context) {
