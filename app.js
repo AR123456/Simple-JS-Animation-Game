@@ -18,6 +18,7 @@ window.addEventListener("load", function () {
     }
     update() {
       // run calcs that need to happen
+      this.player.update();
     }
     // context arg vua player.js
     draw(context) {
@@ -30,6 +31,7 @@ window.addEventListener("load", function () {
   console.log(game);
   // animate 60 times per sec
   function animate() {
+    game.update();
     game.draw(ctx);
     requestAnimationFrame(animate);
   }

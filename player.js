@@ -12,7 +12,9 @@ export class Player {
     this.y = this.game.height - this.height;
     this.image = document.getElementById("player");
   }
-  update() {}
+  update() {
+    this.x++;
+  }
   draw(context) {
     // determines what the player looks like
 
