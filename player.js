@@ -23,6 +23,9 @@ export class Player {
     else this.speed = 0;
     // add boundries to player is not moving off screen
     if (this.x < 0) this.x = 0;
+    if (this.x >= this.game.width - this.width)
+      this.x = this.game.width - this.width;
+    // vertical and dive movemements
   }
   draw(context) {
     // determines what the player looks like
