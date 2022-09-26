@@ -30,7 +30,7 @@ window.addEventListener("load", function () {
   }
   // instance of game class pass in w and h, constructor is triggered
   const game = new Game(canvas.width, canvas.height);
-  console.log(game);
+  // console.log(game);
   // animate 60 times per sec
   function animate() {
     // clean up old paint

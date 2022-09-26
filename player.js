@@ -9,7 +9,13 @@ export class Player {
     this.width = 100;
     this.height = 91.3;
     this.x = 0;
+    // position vertically
     this.y = this.game.height - this.height;
+
+    //verrtical speed
+    this.vy = 0;
+    // gravity
+    this.weight = 1;
     this.image = document.getElementById("player");
     this.speed = 0;
     this.maxSpeed = 10;
@@ -26,6 +32,15 @@ export class Player {
     if (this.x >= this.game.width - this.width)
       this.x = this.game.width - this.width;
     // vertical and dive movemements
+    this.y += this.vy;
+    // go up but only if you started on ground
+    if (input.includes("ArrowUp") && this.onGround()) this.vy -= 10;
+    // this code pulls player down and gets stronger the longer the player is in the air
+    if (!this.onGround()) this.vy += this.weight;
+  }
+  // helper function that returns true if player is on the ground
+  onGround() {
+    return this.y >= this.game.height - this.height;
   }
   draw(context) {
     // determines what the player looks like
