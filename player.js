@@ -32,11 +32,14 @@ export class Player {
     if (this.x >= this.game.width - this.width)
       this.x = this.game.width - this.width;
     // vertical and dive movemements
-    this.y += this.vy;
+
     // go up but only if you started on ground
-    if (input.includes("ArrowUp") && this.onGround()) this.vy -= 10;
+    if (input.includes("ArrowUp") && this.onGround()) this.vy -= 20;
+    this.y += this.vy;
     // this code pulls player down and gets stronger the longer the player is in the air
     if (!this.onGround()) this.vy += this.weight;
+    // when player is on ground reset velocity to 0
+    else this.vy = 0;
   }
   // helper function that returns true if player is on the ground
   onGround() {
