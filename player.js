@@ -11,21 +11,9 @@ export class Player {
     this.x = 0;
     this.y = this.game.height - this.height;
     this.image = document.getElementById("player");
-    this.speed = 0;
-    this.maxSpeed = 10;
   }
-  update(input) {
-    // horizontal
-    this.x += this.speed;
-    if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
-    else if (input.includes("ArrowLeft")) this.speed = -this.maxSpeed;
-    // keyup stops movement - no arrow key in the input array
-    else this.speed = 0;
-    // add boundries to player is not moving off screen
-    if (this.x < 0) this.x = 0;
-    if (this.x >= this.game.width - this.width)
-      this.x = this.game.width - this.width;
-    // vertical and dive movemements
+  update() {
+    // this.x++;
   }
   draw(context) {
     // determines what the player looks like
