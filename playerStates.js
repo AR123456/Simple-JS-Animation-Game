@@ -20,12 +20,18 @@ export class Sitting extends State {
     super("SITTING");
     this.player = player;
   }
+  // this method runs once on enter
   enter() {
     // setting the sitting value position on the sprite sheet that is being passed to player.js
     // Note another way to set this would be defineing getters and setters on the player object
     this.player.frameY = 5;
   }
-  handleInput(input) {}
+  // this method runs 60 times per second, input here is keys array from input.js
+  handleInput(input) {
+    if (input.includes("ArrowLeft") || input.includes("ArrowRight")) {
+      this.player.setState();
+    }
+  }
 }
 export class Running extends State {
   constructor(player) {

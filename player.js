@@ -31,6 +31,8 @@ export class Player {
     this.currentState.enter();
   }
   update(input) {
+    // handle(nput method on playerState, the value of input is comming from app.js Game class
+    this.currentState.handleInput(input);
     // horizontal
     this.x += this.speed;
     if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
@@ -58,7 +60,9 @@ export class Player {
   // mothod to allow switching of state the state -arg is index from states array
   setState(state) {
     // index from states array
-    this.currentState = this.states[0];
+    this.currentState = this.states[state];
+    // speed, sprite animation ect
+    this.currentState.enter();
   }
   draw(context) {
     // determines what the player looks like
