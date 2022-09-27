@@ -17,10 +17,14 @@ export class Player {
     // gravity
     this.weight = 1;
     this.image = document.getElementById("player");
+    // traverse sprite sheet horizontal
+    this.frameX = 0;
+    // traverse sprite sheet vertical
+    this.frameY = 0;
     this.speed = 0;
     this.maxSpeed = 10;
-    // array of state vales - each state needs it own enter method and handle update method
-    this.states = [new Sitting()];
+    // array of state vales - each state needs it own enter method and handle update method - note "this" is teh entire player class
+    this.states = [new Sitting(this)];
     // points to indexes in the states array
     this.currentState = this.states[0];
     // when the player object is initialized for the first time call its enter methond to activate its initial defalt state
@@ -51,13 +55,18 @@ export class Player {
   onGround() {
     return this.y >= this.game.height - this.height;
   }
+  // mothod to allow switching of state the state -arg is index from states array
+  setState(state) {
+    // index from states array
+    this.currentState = this.states[0];
+  }
   draw(context) {
     // determines what the player looks like
 
     context.drawImage(
       this.image,
-      0,
-      0,
+      this.frameX * this.width,
+      this.frameY * this.height,
       this.width,
       this.height,
       this.x,

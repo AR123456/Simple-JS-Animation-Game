@@ -20,7 +20,11 @@ export class Sitting extends State {
     super("SITTING");
     this.player = player;
   }
-  enter() {}
+  enter() {
+    // setting the sitting value position on the sprite sheet that is being passed to player.js
+    // Note another way to set this would be defineing getters and setters on the player object
+    this.player.frameY = 5;
+  }
   handleInput(input) {}
 }
 export class Running extends State {
