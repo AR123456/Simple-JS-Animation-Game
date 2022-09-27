@@ -16,17 +16,26 @@ class State {
   handleInput() {}
 }
 export class Sitting extends State {
-  constructor() {}
+  constructor(player) {
+    super("SITTING");
+    this.player = player;
+  }
   enter() {}
-  handleInput() {}
+  handleInput(input) {}
 }
 export class Running extends State {
-  constructor() {}
+  constructor(player) {
+    super("RUNNING");
+    this.player = player;
+  }
   enter() {}
-  handleInput() {}
+  handleInput(input) {}
 }
 export class Jumping extends State {
-  constructor() {}
+  constructor(player) {
+    super("JUMPING");
+    this.state = state;
+  }
   enter() {}
-  handleInput() {}
+  handleInput(input) {}
 }
