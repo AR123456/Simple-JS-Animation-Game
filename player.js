@@ -1,6 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // all the player state imports
-import { Sitting } from "./playerStates.js";
+import { Running, Sitting } from "./playerStates.js";
 // Player class , constructor , draw  updates setting state
 export class Player {
   constructor(game) {
@@ -24,7 +24,7 @@ export class Player {
     this.speed = 0;
     this.maxSpeed = 10;
     // array of state vales - each state needs it own enter method and handle update method - note "this" is teh entire player class
-    this.states = [new Sitting(this)];
+    this.states = [new Sitting(this), new Running(this)];
     // points to indexes in the states array
     this.currentState = this.states[0];
     // when the player object is initialized for the first time call its enter methond to activate its initial defalt state

@@ -29,7 +29,9 @@ export class Sitting extends State {
   // this method runs 60 times per second, input here is keys array from input.js
   handleInput(input) {
     if (input.includes("ArrowLeft") || input.includes("ArrowRight")) {
-      this.player.setState();
+      // pass setState num corresponding to state to go into, use enum to
+      // use words for human readability
+      this.player.setState(states.RUNNING);
     }
   }
 }
@@ -38,8 +40,14 @@ export class Running extends State {
     super("RUNNING");
     this.player = player;
   }
-  enter() {}
-  handleInput(input) {}
+  enter() {
+    this.player.frameY = 3;
+  }
+  handleInput(input) {
+    if (input.includes("ArrowDown")) {
+      this.player.setState(states.SITTING);
+    }
+  }
 }
 export class Jumping extends State {
   constructor(player) {
