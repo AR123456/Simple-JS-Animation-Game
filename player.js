@@ -1,6 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // all the player state imports
-import { Running, Sitting } from "./playerStates.js";
+import { Running, Sitting, Jumping, Falling } from "./playerStates.js";
 
 export class Player {
   constructor(game) {
@@ -17,20 +17,28 @@ export class Player {
     this.frameY = 0;
     this.speed = 0;
     this.maxSpeed = 10;
-    this.states = [new Sitting(this), new Running(this)];
+    // order needs to be same as enum
+    this.states = [
+      new Sitting(this),
+      new Running(this),
+      new Jumping(this),
+      new Falling(this),
+    ];
     this.currentState = this.states[0];
     this.currentState.enter();
   }
   update(input) {
     this.currentState.handleInput(input);
     this.x += this.speed;
+    // player should be able to mover left and right in all states
     if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
     else if (input.includes("ArrowLeft")) this.speed = -this.maxSpeed;
     else this.speed = 0;
     if (this.x < 0) this.x = 0;
     if (this.x >= this.game.width - this.width)
       this.x = this.game.width - this.width;
-    if (input.includes("ArrowUp") && this.onGround()) this.vy -= 20;
+    // veritcal
+    // if (input.includes("ArrowUp") && this.onGround()) this.vy -= 20;
     this.y += this.vy;
     if (!this.onGround()) this.vy += this.weight;
     else this.vy = 0;
