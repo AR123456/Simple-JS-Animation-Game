@@ -47,7 +47,7 @@ export class Running extends State {
 export class Jumping extends State {
   constructor(player) {
     super("JUMPING");
-    this.state = player;
+    this.player = player;
   }
   enter() {
     if (this.player.onGround()) this.player.vy -= 30;
@@ -63,14 +63,14 @@ export class Jumping extends State {
 export class Falling extends State {
   constructor(player) {
     super("FALLING");
-    this.state = player;
+    this.player = player;
   }
   enter() {
-    this.player.frameY = 1;
+    this.player.frameY = 2;
   }
   handleInput(input) {
     // wait for player to be on grouund
-    if (this.player.onGround) {
+    if (this.player.onGround()) {
       this.player.setState(states.RUNNING);
     }
   }

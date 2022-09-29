@@ -1,6 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // all the player state imports
-import { Running, Sitting, Jumping, Falling } from "./playerStates.js";
+import { Sitting, Running, Jumping, Falling } from "./playerStates.js";
 
 export class Player {
   constructor(game) {
