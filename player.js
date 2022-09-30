@@ -19,6 +19,12 @@ export class Player {
     this.frameY = 0;
     // number of frames in the row- adjust with state changes
     this.maxFrame = 5;
+    // use deltaTime to control speed of animation through spritesheet
+    this.fps = 20;
+    // how long frame should stay on screen
+    this.frameInterval = 1000 / this.fps;
+    // 0 to frame interval
+    this.frameTimer = 0;
     this.speed = 0;
     this.maxSpeed = 10;
     // order needs to be same as enum
@@ -31,7 +37,7 @@ export class Player {
     this.currentState = this.states[0];
     this.currentState.enter();
   }
-  update(input) {
+  update(input, deltaTime) {
     this.currentState.handleInput(input);
     this.x += this.speed;
     // player should be able to mover left and right in all states
@@ -46,6 +52,13 @@ export class Player {
     if (!this.onGround()) this.vy += this.weight;
     else this.vy = 0;
     // sprite animation
+    if (this.frameTimer > this.frameInterval) {
+      this.frameTimer = 0;
+      if (this.frameX < this.maxFrame) this.frameX++;
+      else this.frameX = 0;
+    } else {
+      this.frameTimer += deltaTime;
+    }
     // cycle between 0 and rows max frames
     // if (this.frameX < this.maxFrame) this.frameX++;
     // else this.frameX = 0;
