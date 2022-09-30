@@ -27,7 +27,32 @@ class Layer {
 }
 // class to combine and create background layers
 export class Background {
-  constructor() {}
-  update() {}
-  draw() {}
+  constructor(game) {
+    this.game = game;
+    this.width = 1667;
+    this.height = 500;
+    this.layer5image = document.getElementById("layer5");
+    // instance of Layer class
+    this.layer1 = new Layer(
+      this.game,
+      this.width,
+      this.height,
+      1,
+      this.layerImage5
+    );
+    // array to hold background layers
+    this.backgroundLayers = [layer1];
+  }
+  update() {
+    this.backgroundLayers.forEach((layer) => {
+      // for each layer in the array do this
+      layer.update();
+    });
+  }
+  draw(context) {
+    this.backgroundLayers.forEach((layer) => {
+      // for each layer in the array do this
+      layer.draw(context);
+    });
+  }
 }
