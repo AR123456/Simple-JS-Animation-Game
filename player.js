@@ -18,7 +18,7 @@ export class Player {
     // vertical position in sprite sheet
     this.frameY = 0;
     // number of frames in the row- adjust with state changes
-    this.maxFrame = 5;
+    this.maxFrame;
     // use deltaTime to control speed of animation through spritesheet
     this.fps = 20;
     // how long frame should stay on screen
