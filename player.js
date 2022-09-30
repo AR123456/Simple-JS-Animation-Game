@@ -60,9 +60,6 @@ export class Player {
     } else {
       this.frameTimer += deltaTime;
     }
-    // cycle between 0 and rows max frames
-    // if (this.frameX < this.maxFrame) this.frameX++;
-    // else this.frameX = 0;
   }
   onGround() {
     return this.y >= this.game.height - this.height - this.game.groundMargin;
