@@ -9,7 +9,7 @@ export class Player {
     this.width = 100;
     this.height = 91.3;
     this.x = 0;
-    this.y = this.game.height - this.height;
+    this.y = this.game.height - this.height - this.game.groundMargin;
     this.vy = 0;
     this.weight = 1;
     this.image = document.getElementById("player");
@@ -20,6 +20,7 @@ export class Player {
     // number of frames in the row- adjust with state changes
     this.maxFrame;
     // use deltaTime to control speed of animation through spritesheet
+    // note sprite sheets are desinged to display best at a particular fps
     this.fps = 20;
     // how long frame should stay on screen
     this.frameInterval = 1000 / this.fps;
@@ -64,7 +65,7 @@ export class Player {
     // else this.frameX = 0;
   }
   onGround() {
-    return this.y >= this.game.height - this.height;
+    return this.y >= this.game.height - this.height - this.game.groundMargin;
   }
   setState(state) {
     this.currentState = this.states[state];

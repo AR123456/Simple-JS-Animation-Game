@@ -13,6 +13,9 @@ window.addEventListener("load", function () {
     constructor(width, height) {
       this.width = width;
       this.height = height;
+      // ground level for the game - the order is important, needs to be before the player is instantiated
+      // this can be adjusted based on what enviroment the player is is
+      this.groundMargin = 50;
       this.player = new Player(this);
       this.input = new InputHandler();
     }
