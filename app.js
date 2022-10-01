@@ -3,6 +3,7 @@
 
 import { Player } from "./player.js";
 import { InputHandler } from "./input.js";
+import { Background } from "./background.js";
 // window
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -18,13 +19,18 @@ window.addEventListener("load", function () {
       this.groundMargin = 50;
       // using speed in background js
       this.speed = 3;
+      // instantiate background
+      this.background = new Background(this);
       this.player = new Player(this);
       this.input = new InputHandler();
     }
     update(deltaTime) {
+      this.background.update();
       this.player.update(this.input.keys, deltaTime);
     }
     draw(context) {
+      // background first so it is behind player
+      this.background.draw(context);
       this.player.draw(context);
     }
   }

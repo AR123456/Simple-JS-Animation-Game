@@ -38,7 +38,7 @@ export class Background {
       this.width,
       this.height,
       1,
-      this.layerImage5
+      this.layer5image
     );
     // array to hold background layers
     this.backgroundLayers = [layer1];
