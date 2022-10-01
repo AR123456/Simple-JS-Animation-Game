@@ -32,6 +32,7 @@ export class Background {
     this.width = 1667;
     this.height = 500;
     this.layer5image = document.getElementById("layer5");
+
     // instance of Layer class
     this.layer1 = new Layer(
       this.game,
@@ -41,7 +42,7 @@ export class Background {
       this.layer5image
     );
     // array to hold background layers
-    this.backgroundLayers = [layer1];
+    this.backgroundLayers = [this.layer1];
   }
   update() {
     this.backgroundLayers.forEach((layer) => {
