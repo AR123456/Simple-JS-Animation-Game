@@ -70,7 +70,7 @@ export class Player {
     this.currentState = this.states[state];
     // change the speed property on game to what is passed as an argument
     // when player is sitting speed is 0
-    this.game.speed = this.game.maxSpeed * speed;
+    this.game.speed = speed;
     this.currentState.enter();
   }
   draw(context) {
