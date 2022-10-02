@@ -18,7 +18,9 @@ window.addEventListener("load", function () {
       // this can be adjusted based on what enviroment the player is is
       this.groundMargin = 80;
       // using speed in background js
-      this.speed = 3;
+      // at start of game player is sitting so speed 0- changing this in playerStates.js
+      this.speed = 0;
+      this.maxSpeed = 4;
       // instantiate background
       this.background = new Background(this);
       this.player = new Player(this);

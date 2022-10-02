@@ -64,8 +64,13 @@ export class Player {
   onGround() {
     return this.y >= this.game.height - this.height - this.game.groundMargin;
   }
-  setState(state) {
+  // bringing in variable speed of background scrolling depending on what player is doing
+  // note other ways to solve this , this may not be the best way
+  setState(state, speed) {
     this.currentState = this.states[state];
+    // change the speed property on game to what is passed as an argument
+    // when player is sitting speed is 0
+    this.game.speed = this.game.maxSpeed * speed;
     this.currentState.enter();
   }
   draw(context) {
