@@ -1,5 +1,4 @@
 /**@type {HTMLCanvasElement} */
-// imports
 
 import { Player } from "./player.js";
 import { InputHandler } from "./input.js";
@@ -20,6 +19,7 @@ window.addEventListener("load", function () {
       // using speed in background js
       // at start of game player is sitting so speed 0- changing this in playerStates.js
       this.speed = 0;
+      this.maxSpeed = 4;
       // instantiate background
       this.background = new Background(this);
       this.player = new Player(this);
