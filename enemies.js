@@ -48,10 +48,12 @@ export class FlyingEnemy extends Enemy {
     this.game = game;
     this.width = 60;
     this.height = 44;
-    this.x = this.game.width;
+    // randomize spacing by randomizing x coordiante
+    this.x = this.game.width + Math.random() * this.game.width + 0.5;
     // random start y only on top half of game
     this.y = Math.random() * this.game.height * 0.5;
-    this.speedX = 2;
+    // randomize enemy speed
+    this.speedX = Math.random() + 1;
     this.speedY = 0;
     this.maxFrame = 5;
     this.image = document.getElementById("enemy-fly");
