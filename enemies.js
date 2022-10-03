@@ -6,6 +6,8 @@ class Enemy {
     this.fps = 20;
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
+    // this will be shared with all enemies so define here
+    this.markedForDeletion = false;
   }
   // update needs delta time
   update(deltaTime) {
@@ -20,6 +22,9 @@ class Enemy {
     } else {
       this.frameTimer += deltaTime;
     }
+    // when an enemy gets to left edge of screen remove it from the array
+    // horizontal coordianate of the enemy + enemy width less 0 mark it for deletion
+    if (this.x + this.width < 0) this.markedForDeletion = true;
   }
   // draw needs context
   draw(context) {

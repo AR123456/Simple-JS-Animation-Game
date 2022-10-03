@@ -38,6 +38,9 @@ window.addEventListener("load", function () {
       }
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime);
+        // check to see if any of the enemies have been marked for deletion and if so splice out of the array
+        if (enemy.markedForDeletion)
+          this.enemies.splice(this.enemies.indexOf(enemy), 1);
       });
     }
     draw(context) {
@@ -51,6 +54,7 @@ window.addEventListener("load", function () {
     addEnemy() {
       // here this referres to the main game object
       this.enemies.push(new FlyingEnemy(this));
+      // console.log(this.enemies);
     }
   }
 
