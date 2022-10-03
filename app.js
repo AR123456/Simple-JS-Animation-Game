@@ -21,17 +21,21 @@ window.addEventListener("load", function () {
       this.player = new Player(this);
       this.input = new InputHandler();
       // helper functions for addEnemy method
+      this.enemies = [];
     }
     update(deltaTime) {
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
+      // handle enemies
     }
     draw(context) {
       this.background.draw(context);
       this.player.draw(context);
     }
     // add enemy at specific interval
-    addEnemy() {}
+    addEnemy() {
+      this.enemies.push(new FlyingEnemy(this));
+    }
   }
 
   const game = new Game(canvas.width, canvas.height);
