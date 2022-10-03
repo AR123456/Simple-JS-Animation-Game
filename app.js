@@ -22,18 +22,34 @@ window.addEventListener("load", function () {
       this.input = new InputHandler();
       // helper functions for addEnemy method
       this.enemies = [];
+      this.enemyTimer = 0;
+      // add new enemy ever second
+      this.enemyInterval = 1000;
     }
     update(deltaTime) {
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
       // handle enemies
+      if (this.enemyTimer > this.enemyInterval) {
+        this.addEnemy();
+        this.enemyTimer = 0;
+      } else {
+        this.enemyTimer += deltaTime;
+      }
+      this.enemies.forEach((enemy) => {
+        enemy.update(deltaTime);
+      });
     }
     draw(context) {
       this.background.draw(context);
       this.player.draw(context);
+      this.enemies.forEach((enemy) => {
+        enemy.draw(context);
+      });
     }
     // add enemy at specific interval
     addEnemy() {
+      // here this referres to the main game object
       this.enemies.push(new FlyingEnemy(this));
     }
   }

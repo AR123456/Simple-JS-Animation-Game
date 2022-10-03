@@ -10,7 +10,7 @@ class Enemy {
   // update needs delta time
   update(deltaTime) {
     // handle movement
-    this.x += this.speedX;
+    this.x -= this.speedX;
     this.y += this.speedY;
     // handle cycle through sprite sheet
     if (this.frameTimer > this.frameInterval) {
@@ -43,9 +43,11 @@ export class FlyingEnemy extends Enemy {
     this.game = game;
     this.width = 60;
     this.height = 44;
-    this.x = 200;
-    this.y = 200;
+    this.x = this.game.width;
+    // random start y only on top half of game
+    this.y = Math.random() * this.game.height * 0.5;
     this.speedX = 2;
+    this.speedY = 0;
     this.maxFrame = 5;
     this.image = document.getElementById("enemy-fly");
   }
