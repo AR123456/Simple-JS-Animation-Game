@@ -3,6 +3,7 @@
 import { Player } from "./player.js";
 import { InputHandler } from "./input.js";
 import { Background } from "./background.js";
+import { FlyingEnemy, ClimbingEnemy, GroundEnemy } from "./enemies.js";
 // window
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -16,10 +17,10 @@ window.addEventListener("load", function () {
       this.groundMargin = 80;
       this.speed = 0;
       this.maxSpeed = 4;
-
       this.background = new Background(this);
       this.player = new Player(this);
       this.input = new InputHandler();
+      // helper functions for addEnemy method
     }
     update(deltaTime) {
       this.background.update();
@@ -29,6 +30,8 @@ window.addEventListener("load", function () {
       this.background.draw(context);
       this.player.draw(context);
     }
+    // add enemy at specific interval
+    addEnemy() {}
   }
 
   const game = new Game(canvas.width, canvas.height);
