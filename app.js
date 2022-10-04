@@ -54,8 +54,12 @@ window.addEventListener("load", function () {
     addEnemy() {
       // here this referres to the main game object
       // only add a plant enemy if player is moving and only half the time
-      if (this.speed > 0 && Math.random() < 0.5)
+      if (this.speed > 0 && Math.random() < 0.5) {
         this.enemies.push(new GroundEnemy(this));
+      }
+
+      // check for adding spiders if ! math.random less than 0.5 add a spider
+      else if (this.speed > 0) this.enemies.push(new ClimbingEnemy(this));
       this.enemies.push(new FlyingEnemy(this));
       // console.log(this.enemies);
     }
@@ -65,7 +69,6 @@ window.addEventListener("load", function () {
   let lastTime = 0;
   function animate(timeStamp) {
     const deltaTime = timeStamp - lastTime;
-
     lastTime = timeStamp;
     // clean up old paint
     ctx.clearRect(0, 0, canvas.width, canvas.height);
