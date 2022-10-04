@@ -53,6 +53,9 @@ window.addEventListener("load", function () {
     // add enemy at specific interval
     addEnemy() {
       // here this referres to the main game object
+      // only add a plant enemy if player is moving and only half the time
+      if (this.speed > 0 && Math.random() < 0.5)
+        this.enemies.push(new GroundEnemy(this));
       this.enemies.push(new FlyingEnemy(this));
       // console.log(this.enemies);
     }

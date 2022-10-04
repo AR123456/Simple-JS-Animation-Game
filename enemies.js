@@ -67,7 +67,8 @@ export class FlyingEnemy extends Enemy {
   update(deltaTime) {
     // get stuff from parent - parents update expects deltaTime
     super.update(deltaTime);
-    // now do the stuff that just applies to flying enemeys
+    // now do the stuff that just applies to flying enemeies
+    //bobby up and down movements
     this.angle += this.va;
     this.y += Math.sin(this.angle);
   }
@@ -76,7 +77,18 @@ export class GroundEnemy extends Enemy {
   constructor(game) {
     super();
     this.game = game;
+    this.width = 60;
+    this.height = 87;
+    this.x = this.game.width;
+    // on the ground
+    this.y = this.game.height - this.height - this.game.groundMargin;
+    this.image = document.getElementById("enemy-plant");
+    // plants do not move so 0
+    this.speedX = 0;
+    this.speedY = 0;
+    this.maxFrame = 1;
   }
+  // if no update or draw called here JS will travel up the prototype chain and will find update and draw methond on the  parent class(in app js)
 }
 export class ClimbingEnemy extends Enemy {
   constructor(game) {
