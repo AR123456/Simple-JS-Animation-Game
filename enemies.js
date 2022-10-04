@@ -12,7 +12,9 @@ class Enemy {
   // update needs delta time
   update(deltaTime) {
     // handle movement
-    this.x -= this.speedX;
+    // account for speed when player is moving- when player is moving the enemies should appear to move coordinated with the dynamic player and background
+
+    this.x -= this.speedX + this.game.speed;
     this.y += this.speedY;
     // handle cycle through sprite sheet
     if (this.frameTimer > this.frameInterval) {
