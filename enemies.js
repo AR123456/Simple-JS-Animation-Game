@@ -13,7 +13,6 @@ class Enemy {
   update(deltaTime) {
     // handle movement
     // account for speed when player is moving- when player is moving the enemies should appear to move coordinated with the dynamic player and background
-
     this.x -= this.speedX + this.game.speed;
     this.y += this.speedY;
     // handle cycle through sprite sheet
@@ -59,11 +58,18 @@ export class FlyingEnemy extends Enemy {
     this.speedY = 0;
     this.maxFrame = 5;
     this.image = document.getElementById("enemy-fly");
+    // give flying enemies a bobbing like movement - only flying get so define here - map along sin wave
+    this.angle = 0;
+    // va velocity angle
+    this.va = Math.random() * 0.1 + 0.1;
   }
   // update needs deltaTime
   update(deltaTime) {
     // get stuff from parent - parents update expects deltaTime
     super.update(deltaTime);
+    // now do the stuff that just applies to flying enemeys
+    this.angle += this.va;
+    this.y += Math.sin(this.angle);
   }
 }
 export class GroundEnemy extends Enemy {
