@@ -29,7 +29,7 @@ window.addEventListener("load", function () {
     update(deltaTime) {
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
-      // handle enemies
+      // handle enemiesdd
       if (this.enemyTimer > this.enemyInterval) {
         this.addEnemy();
         this.enemyTimer = 0;
