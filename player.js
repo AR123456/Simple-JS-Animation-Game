@@ -30,6 +30,7 @@ export class Player {
     this.currentState.enter();
   }
   update(input, deltaTime) {
+    this.checkCollision();
     this.currentState.handleInput(input);
     this.x += this.speed;
     if (input.includes("ArrowRight")) this.speed = this.maxSpeed;
@@ -77,12 +78,19 @@ export class Player {
   //
   checkCollision() {
     // cycle through the enemy array and comprer their x&y  w&h that of player object
-    this.game.enemies.forEach(enemy =>{
-      if(){
+    this.game.enemies.forEach((enemy) => {
+      if (
+        enemy.x < this.x + this.width &&
+        enemy.x + enemy.width > this.x &&
+        enemy.y < this.y + this.height &&
+        enemy.y + enemy.height > this.y
+      ) {
         //collision detected
-      }else{
+        enemy.markedForDeletion = true;
+        this.game.score++;
+      } else {
         // no collision detected
       }
-    })
+    });
   }
 }

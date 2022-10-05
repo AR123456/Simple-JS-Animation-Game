@@ -25,6 +25,7 @@ window.addEventListener("load", function () {
       this.enemyInterval = 1000;
       // draw methond on player class is where hit box is drawn
       this.debug = true;
+      this.score = 0;
     }
     update(deltaTime) {
       this.background.update();
