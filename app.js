@@ -4,6 +4,7 @@ import { Player } from "./player.js";
 import { InputHandler } from "./input.js";
 import { Background } from "./background.js";
 import { FlyingEnemy, ClimbingEnemy, GroundEnemy } from "./enemies.js";
+import { UI } from "./UI.js";
 // window
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
@@ -26,6 +27,7 @@ window.addEventListener("load", function () {
       // draw methond on player class is where hit box is drawn
       this.debug = true;
       this.score = 0;
+      this.fontColor = "black";
     }
     update(deltaTime) {
       this.background.update();
