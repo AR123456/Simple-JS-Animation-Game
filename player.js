@@ -74,4 +74,15 @@ export class Player {
       this.height
     );
   }
+  //
+  checkCollision() {
+    // cycle through the enemy array and comprer their x&y  w&h that of player object
+    this.game.enemies.forEach(enemy =>{
+      if(){
+        //collision detected
+      }else{
+        // no collision detected
+      }
+    })
+  }
 }
