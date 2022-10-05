@@ -20,10 +20,8 @@ window.addEventListener("load", function () {
       this.background = new Background(this);
       this.player = new Player(this);
       this.input = new InputHandler();
-      // helper functions for addEnemy method
       this.enemies = [];
       this.enemyTimer = 0;
-      // add new enemy ever second
       this.enemyInterval = 1000;
     }
     update(deltaTime) {
@@ -38,7 +36,6 @@ window.addEventListener("load", function () {
       }
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime);
-        // check to see if any of the enemies have been marked for deletion and if so splice out of the array
         if (enemy.markedForDeletion)
           this.enemies.splice(this.enemies.indexOf(enemy), 1);
       });
@@ -53,13 +50,9 @@ window.addEventListener("load", function () {
     // add enemy at specific interval
     addEnemy() {
       // here this referres to the main game object
-      // only add a plant enemy if player is moving and only half the time
       if (this.speed > 0 && Math.random() < 0.5) {
         this.enemies.push(new GroundEnemy(this));
-      }
-
-      // check for adding spiders if ! math.random less than 0.5 add a spider
-      else if (this.speed > 0) this.enemies.push(new ClimbingEnemy(this));
+      } else if (this.speed > 0) this.enemies.push(new ClimbingEnemy(this));
       this.enemies.push(new FlyingEnemy(this));
       // console.log(this.enemies);
     }

@@ -6,16 +6,13 @@ class Enemy {
     this.fps = 20;
     this.frameInterval = 1000 / this.fps;
     this.frameTimer = 0;
-    // this will be shared with all enemies so define here
     this.markedForDeletion = false;
   }
   // update needs delta time
   update(deltaTime) {
     // handle movement
-    // account for speed when player is moving- when player is moving the enemies should appear to move coordinated with the dynamic player and background
     this.x -= this.speedX + this.game.speed;
     this.y += this.speedY;
-    // handle cycle through sprite sheet
     if (this.frameTimer > this.frameInterval) {
       this.frameTimer = 0;
       if (this.frameX < this.maxFrame) this.frameX++;
@@ -23,11 +20,9 @@ class Enemy {
     } else {
       this.frameTimer += deltaTime;
     }
-    // when an enemy gets to left edge of screen remove it from the array
-    // horizontal coordianate of the enemy + enemy width less 0 mark it for deletion
     if (this.x + this.width < 0) this.markedForDeletion = true;
   }
-  // draw needs context
+
   draw(context) {
     context.drawImage(
       this.image,
@@ -44,31 +39,21 @@ class Enemy {
 }
 export class FlyingEnemy extends Enemy {
   constructor(game) {
-    // get game w and h from game object
     super();
     this.game = game;
     this.width = 60;
     this.height = 44;
-    // randomize spacing by randomizing x coordiante
     this.x = this.game.width + Math.random() * this.game.width + 0.5;
-    // random start y only on top half of game
     this.y = Math.random() * this.game.height * 0.5;
-    // randomize enemy speed
     this.speedX = Math.random() + 1;
     this.speedY = 0;
     this.maxFrame = 5;
     this.image = document.getElementById("enemy-fly");
-    // give flying enemies a bobbing like movement - only flying get so define here - map along sin wave
     this.angle = 0;
-    // va velocity angle
     this.va = Math.random() * 0.1 + 0.1;
   }
-  // update needs deltaTime
   update(deltaTime) {
-    // get stuff from parent - parents update expects deltaTime
     super.update(deltaTime);
-    // now do the stuff that just applies to flying enemeies
-    //bobby up and down movements
     this.angle += this.va;
     this.y += Math.sin(this.angle);
   }
@@ -80,15 +65,12 @@ export class GroundEnemy extends Enemy {
     this.width = 60;
     this.height = 87;
     this.x = this.game.width;
-    // on the ground
     this.y = this.game.height - this.height - this.game.groundMargin;
     this.image = document.getElementById("enemy-plant");
-    // plants do not move so 0
     this.speedX = 0;
     this.speedY = 0;
     this.maxFrame = 1;
   }
-  // if no update or draw called here JS will travel up the prototype chain and will find update and draw methond on the  parent class(in app js)
 }
 export class ClimbingEnemy extends Enemy {
   constructor(game) {
@@ -105,8 +87,15 @@ export class ClimbingEnemy extends Enemy {
   }
   update(deltaTime) {
     super.update(deltaTime);
+    if (this.y > this.game.height - this.height - this.game.groundMargin)
+      this.speedY *= -1;
+    if (this.y < -this.height) this.markedForDeletion = true;
   }
   draw(context) {
     super.draw(context);
+    context.beginPath();
+    context.moveTo(this.x + this.width / 2, 0);
+    context.lineTo(this.x + this.width / 2, this.y + 50);
+    context.stroke();
   }
 }
