@@ -59,6 +59,9 @@ export class Player {
     this.currentState.enter();
   }
   draw(context) {
+    // if debug is true draw rectangle around player
+    if (this.game.debug)
+      context.strokeRect(this.x, this.y, this.width, this.height);
     context.drawImage(
       this.image,
       this.frameX * this.width,
