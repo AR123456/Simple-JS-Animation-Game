@@ -54,6 +54,11 @@ export class Running extends State {
     } else if (input.includes("ArrowUp")) {
       this.player.setState(states.JUMPING, 1);
     }
+    // allow going into rolling from anywhere
+    else if (input.includes("Enter")) {
+      // set to rolling and increase scrolling speed to 2
+      this.player.setState(states.ROLLING, 2);
+    }
   }
 }
 export class Jumping extends State {
