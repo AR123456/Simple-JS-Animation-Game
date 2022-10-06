@@ -26,7 +26,6 @@ window.addEventListener("load", function () {
       this.enemies = [];
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
-      // draw methond on player class is where hit box is drawn
       this.debug = true;
       this.score = 0;
       this.fontColor = "black";
@@ -34,7 +33,7 @@ window.addEventListener("load", function () {
     update(deltaTime) {
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
-      // handle enemiesdd
+
       if (this.enemyTimer > this.enemyInterval) {
         this.addEnemy();
         this.enemyTimer = 0;
@@ -55,9 +54,8 @@ window.addEventListener("load", function () {
       });
       this.UI.draw(context);
     }
-    // add enemy at specific interval
+
     addEnemy() {
-      // here this referres to the main game object
       if (this.speed > 0 && Math.random() < 0.5) {
         this.enemies.push(new GroundEnemy(this));
       } else if (this.speed > 0) this.enemies.push(new ClimbingEnemy(this));

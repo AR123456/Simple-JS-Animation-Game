@@ -8,7 +8,6 @@ export class UI {
   draw(context) {
     context.font = this.fontSize + "px " + this.fontFamily;
     context.textAlign = "left";
-    // this is coming from game class
     context.fillStyle = this.game.fontColor;
 
     // score

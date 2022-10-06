@@ -30,10 +30,7 @@ export class Sitting extends State {
   handleInput(input) {
     if (input.includes("ArrowLeft") || input.includes("ArrowRight")) {
       this.player.setState(states.RUNNING, 1);
-    }
-    // allow going into rolling from anywhere
-    else if (input.includes("Enter")) {
-      // set to rolling and increase scrolling speed to 2
+    } else if (input.includes("Enter")) {
       this.player.setState(states.ROLLING, 2);
     }
   }
@@ -53,10 +50,7 @@ export class Running extends State {
       this.player.setState(states.SITTING, 0);
     } else if (input.includes("ArrowUp")) {
       this.player.setState(states.JUMPING, 1);
-    }
-    // allow going into rolling from anywhere
-    else if (input.includes("Enter")) {
-      // set to rolling and increase scrolling speed to 2
+    } else if (input.includes("Enter")) {
       this.player.setState(states.ROLLING, 2);
     }
   }
@@ -75,9 +69,7 @@ export class Jumping extends State {
   handleInput(input) {
     if (this.player.vy > this.player.weight) {
       this.player.setState(states.FALLING, 1);
-    } // allow going into rolling from anywhere
-    else if (input.includes("Enter")) {
-      // set to rolling and increase scrolling speed to 2
+    } else if (input.includes("Enter")) {
       this.player.setState(states.ROLLING, 2);
     }
   }
@@ -106,18 +98,20 @@ export class Rolling extends State {
   enter() {
     this.frameX = 0;
     this.player.maxFrame = 6;
-    // row 6 of sprite sheet
+
     this.player.frameY = 6;
   }
   handleInput(input) {
-    // player should roll when enter key is held down
-    // if enter key not held down swith to running state
     if (!input.includes("Enter") && this.player.onGround()) {
       this.player.setState(states.RUNNING, 1);
-    }
-    // if player is in the air switch to falling
-    else if (!input.includes("Enter") && !this.player.onGround()) {
+    } else if (!input.includes("Enter") && !this.player.onGround()) {
       this.player.setState(states.FALLING, 1);
+    } else if (
+      input.includes("Enter") &&
+      input.includes("ArrowUp") &&
+      this.player.onGround()
+    ) {
+      this.player.vy -= 27;
     }
   }
 }
