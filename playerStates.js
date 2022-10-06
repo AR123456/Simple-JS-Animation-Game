@@ -75,6 +75,10 @@ export class Jumping extends State {
   handleInput(input) {
     if (this.player.vy > this.player.weight) {
       this.player.setState(states.FALLING, 1);
+    } // allow going into rolling from anywhere
+    else if (input.includes("Enter")) {
+      // set to rolling and increase scrolling speed to 2
+      this.player.setState(states.ROLLING, 2);
     }
   }
 }
