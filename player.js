@@ -27,10 +27,11 @@ export class Player {
       new Falling(this.game),
       new Rolling(this.game),
     ];
-  //   // this should only happen when the rest of the game object is ready in app.js
-  //   this.currentState = this.states[0];
-  //   this.currentState.enter();
-  // }
+    //   // this should only happen when the rest of the game object is ready in app.js
+    //   this.currentState = this.states[0];
+    //   this.currentState.enter();
+  }
+
   update(input, deltaTime) {
     this.checkCollision();
     this.currentState.handleInput(input);
