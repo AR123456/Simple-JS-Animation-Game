@@ -19,17 +19,18 @@ export class Player {
     this.frameTimer = 0;
     this.speed = 0;
     this.maxSpeed = 10;
-
+    // as part of particle refactor need to have this.game now
     this.states = [
-      new Sitting(this),
-      new Running(this),
-      new Jumping(this),
-      new Falling(this),
-      new Rolling(this),
+      new Sitting(this.game),
+      new Running(this.game),
+      new Jumping(this.game),
+      new Falling(this.game),
+      new Rolling(this.game),
     ];
-    this.currentState = this.states[0];
-    this.currentState.enter();
-  }
+  //   // this should only happen when the rest of the game object is ready in app.js
+  //   this.currentState = this.states[0];
+  //   this.currentState.enter();
+  // }
   update(input, deltaTime) {
     this.checkCollision();
     this.currentState.handleInput(input);
