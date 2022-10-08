@@ -36,16 +36,28 @@ export class Fire extends Particle {
   constructor(game, x, y) {
     super(game);
     this.image = document.getElementById("fire");
-    this.size = Math.random() * 100 + 50;
+    this.size = Math.random() * 50 + 50;
     this.x = x;
     this.y = y;
     this.speedX = 1;
     this.speedY = 1;
+    // rotating the fire image
+    this.angle = 0;
+    // velocity of angle
+    this.va = Math.random() * 0.2 - 0.1;
   }
   update() {
     super.update();
+    this.angle += this.va;
   }
   draw(context) {
-    context.drawImage(this.image, this.x, this.y, this.size, this.size);
+    // wrapping code between save and restore so the canvas setting between them only effect this particle
+    context.save();
+    // translate rotation center point to a location on the center of item to be rotated
+    context.translate(this.x, this.y);
+    // the fire image is a rectangle
+    context.rotate(this.angle);
+    context.drawImage(this.image, 0, 0, this.size, this.size);
+    context.restore();
   }
 }
