@@ -21,6 +21,7 @@
 #layer5,
 #enemy-fly,
 #enemy-spider-big,
-#enemy-plant {
+#enemy-plant,
+#fire {
   display: none;
 }
