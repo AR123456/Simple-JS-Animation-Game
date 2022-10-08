@@ -9,7 +9,8 @@ class Particle {
   update() {
     this.x -= this.speedX + this.game.speed;
     this.y -= this.speedY;
-    this.size *= 0.95;
+    // adjust this to increase length of trail
+    this.size *= 0.97;
     if (this.size < 0.5) this.markedForDeletion = true;
   }
 }
@@ -36,19 +37,22 @@ export class Fire extends Particle {
   constructor(game, x, y) {
     super(game);
     this.image = document.getElementById("fire");
-    this.size = Math.random() * 50 + 50;
+    // adjust the size of fire particles
+    this.size = Math.random() * 100 + 50;
     this.x = x;
     this.y = y;
     this.speedX = 1;
     this.speedY = 1;
     // rotating the fire image
     this.angle = 0;
-    // velocity of angle
+    // velocity of angle - change speed of rotation of fire image
     this.va = Math.random() * 0.2 - 0.1;
   }
   update() {
     super.update();
     this.angle += this.va;
+    // horizontal wobble
+    this.x += Math.sin(this.angle * 5);
   }
   draw(context) {
     // wrapping code between save and restore so the canvas setting between them only effect this particle
@@ -57,7 +61,14 @@ export class Fire extends Particle {
     context.translate(this.x, this.y);
     // the fire image is a rectangle
     context.rotate(this.angle);
-    context.drawImage(this.image, 0, 0, this.size, this.size);
+
+    context.drawImage(
+      this.image,
+      -this.size * 0.5,
+      -this.size * 0.5,
+      this.size,
+      this.size
+    );
     context.restore();
   }
 }
