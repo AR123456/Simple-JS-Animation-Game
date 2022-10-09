@@ -26,6 +26,7 @@ window.addEventListener("load", function () {
       this.enemies = [];
       // holder of particles
       this.particles = [];
+      this.maxParticles = 50;
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
       this.debug = true;
@@ -56,6 +57,11 @@ window.addEventListener("load", function () {
         particle.update();
         if (particle.markedForDeletion) this.particles.splice(index, 1);
       });
+      // limit the max amount of particles allowed in the game
+      if (this.particles.length > this.maxParticles) {
+        // splice to remove in greater than 50, assigning as the new arrays because by itself splice dosent alter orignial array
+        this.particles = this.particles.splice(0, this.maxParticles);
+      }
     }
     draw(context) {
       this.background.draw(context);
