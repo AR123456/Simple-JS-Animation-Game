@@ -32,7 +32,20 @@ export class Dust extends Particle {
     context.fill();
   }
 }
-export class Splash extends Particle {}
+// make a flaming splash effect
+export class Splash extends Particle {
+  constructor(game, x, y) {
+    super(game);
+    this.size = Math.random() * 100 + 100;
+    this.x = x;
+    this.y = y;
+    // -3 to 3 rand num
+    this.speedX = Math.random() * 6 - 3;
+    this.speedY = Math.random() * 2 + 2;
+    this.gravity = 0;
+    this.image = document.getElementById("fire");
+  }
+}
 export class Fire extends Particle {
   constructor(game, x, y) {
     super(game);
