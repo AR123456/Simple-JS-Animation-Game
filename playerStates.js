@@ -157,6 +157,16 @@ export class Diving extends State {
     );
     if (!input.includes("Enter") && this.game.player.onGround()) {
       this.game.player.setState(states.RUNNING, 1);
+      // for the splash - we have detected that player is on ground so create splash
+      for (let i = 0; i < 30; i++) {
+        this.game.particles.unshift(
+          new Splash(
+            this.game,
+            this.game.player.x + this.game.player.width * 0.5,
+            this.game.player.y + this.game.height
+          )
+        );
+      }
     } else if (input.includes("Enter") && !this.game.player.onGround()) {
       this.game.player.setState(states.ROLLING, 2);
     }
