@@ -1,6 +1,6 @@
 /**@type {HTMLCanvasElement} */
 // particles are closely tied to player state so putting here, but we need the game oject in each player state class too .  Need to do a bit of refactor for that.
-import { Dust, Fire } from "./particles.js";
+import { Dust, Fire, Splash } from "./particles.js";
 // enums to make changing state more clear
 const states = {
   SITTING: 0,
