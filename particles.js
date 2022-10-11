@@ -14,7 +14,7 @@ class Particle {
     if (this.size < 0.5) this.markedForDeletion = true;
   }
 }
-// will need the exproted particesl in playerStates.js
+// will need the exported particles in playerStates.js
 export class Dust extends Particle {
   constructor(game, x, y) {
     super(game);

@@ -163,7 +163,7 @@ export class Diving extends State {
           new Splash(
             this.game,
             this.game.player.x + this.game.player.width * 0.5,
-            this.game.player.y + this.game.height
+            this.game.player.y + this.game.player.height
           )
         );
       }
@@ -172,3 +172,4 @@ export class Diving extends State {
     }
   }
 }
+// dizzy animation when hit and not in fireball state
