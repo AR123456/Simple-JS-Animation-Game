@@ -173,3 +173,21 @@ export class Diving extends State {
   }
 }
 // dizzy animation when hit and not in fireball state
+export class Hit extends State {
+  constructor(game) {
+    super("HIT", game);
+  }
+  enter() {
+    this.game.player.frameX = 0;
+    this.game.player.maxFrame = 10;
+    this.game.player.frameY = 4;
+  }
+  handleInput(input) {
+    // trigger change to different sprite row for dizzy animation
+    if (this.game.player.frameX >= 10 && this.game.player.onGround()) {
+      this.game.player.setState(states.RUNNING, 1);
+    } else if (this.game.player.frameX >= 10 && !this.game.player.onGround()) {
+      this.game.player.setState(states.FALLING, 2);
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {
   Falling,
   Rolling,
   Diving,
+  Hit,
 } from "./playerStates.js";
 
 export class Player {
@@ -27,6 +28,7 @@ export class Player {
     this.speed = 0;
     this.maxSpeed = 10;
     // as part of particle refactor need to have this.game now
+    // position in array needs to match states array in playerstates.js enums
     this.states = [
       new Sitting(this.game),
       new Running(this.game),
@@ -34,6 +36,7 @@ export class Player {
       new Falling(this.game),
       new Rolling(this.game),
       new Diving(this.game),
+      new Hit(this.game),
     ];
     //   // this should only happen when the rest of the game object is ready in app.js
     //   this.currentState = this.states[0];
@@ -96,7 +99,7 @@ export class Player {
   }
   //
   checkCollision() {
-    // cycle through the enemy array and comprer their x&y  w&h that of player object
+    // cycle through the enemy array and compare their x&y  w&h that of player object
     this.game.enemies.forEach((enemy) => {
       if (
         enemy.x < this.x + this.width &&
@@ -107,8 +110,6 @@ export class Player {
         //collision detected
         enemy.markedForDeletion = true;
         this.game.score++;
-      } else {
-        // no collision detected
       }
     });
   }
