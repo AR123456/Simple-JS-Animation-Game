@@ -109,7 +109,18 @@ export class Player {
       ) {
         //collision detected
         enemy.markedForDeletion = true;
-        this.game.score++;
+        // what index of the states array are we in?
+        // if it is rolling or diving increase score (4 or 5)
+        if (
+          this.currentState === this.states[4] ||
+          this.currentState === this.states[5]
+        ) {
+          this.game.score++;
+        } else {
+          // player has collided so state is hit
+          // change to hit state and set speed to 0 for durration of the hit state
+          this.setState(6, 0);
+        }
       }
     });
   }
