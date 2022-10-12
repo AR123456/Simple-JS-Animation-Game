@@ -110,6 +110,14 @@ export class Player {
       ) {
         //collision detected
         enemy.markedForDeletion = true;
+        // the collision animation
+        this.game.collisions.push(
+          new CollisionAnimation(
+            this.game,
+            enemy.x + enemy.width * 0.5,
+            enemy.y + enemy.height * 0.5
+          )
+        );
         // what index of the states array are we in?
         // if it is rolling or diving increase score (4 or 5)
         if (

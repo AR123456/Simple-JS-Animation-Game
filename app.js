@@ -26,6 +26,8 @@ window.addEventListener("load", function () {
       this.enemies = [];
       // holder of particles
       this.particles = [];
+      // holder of collision objects
+      this.collisions = [];
       this.maxParticles = 50;
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
