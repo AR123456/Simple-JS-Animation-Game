@@ -31,15 +31,23 @@ window.addEventListener("load", function () {
       this.maxParticles = 50;
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
-      this.debug = true;
+      this.debug = false;
       this.score = 0;
       this.fontColor = "black";
+      // adding game timer - object to score as may points in given time
+      this.time = 0;
+      // milliseconds
+      this.maxTime = 20000;
+      this.gameOver = false;
       // this should only happen when the rest of the game object is ready
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
     }
 
     update(deltaTime) {
+      // increment time
+      this.time += deltaTime;
+      if (this.time > this.maxTime) this.gameOver = true;
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
 
@@ -104,7 +112,8 @@ window.addEventListener("load", function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update(deltaTime);
     game.draw(ctx);
-    requestAnimationFrame(animate);
+    // only continue if game is not over
+    if (!game.gameOver) requestAnimationFrame(animate);
   }
   animate(0);
   // end of window
