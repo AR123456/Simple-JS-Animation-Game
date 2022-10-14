@@ -64,6 +64,12 @@ window.addEventListener("load", function () {
         // splice to remove in greater than 50, assigning as the new arrays because by itself splice dosent alter orignial array
         this.particles = this.particles.splice(0, this.maxParticles);
       }
+      // handle collision sprite
+      this.collisions.forEach((collision, index) => {
+        collision.update(deltaTime);
+        // if marked for deletion slice out of array
+        if (collision.markedForDeletion) this.collisions.splice(index, 1);
+      });
     }
     draw(context) {
       this.background.draw(context);
@@ -73,6 +79,9 @@ window.addEventListener("load", function () {
       });
       this.particles.forEach((particle) => {
         particle.draw(context);
+      });
+      this.collisions.forEach((collision) => {
+        collision.draw(context);
       });
       this.UI.draw(context);
     }
