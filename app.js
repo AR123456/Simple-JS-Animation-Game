@@ -15,7 +15,8 @@ window.addEventListener("load", function () {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.groundMargin = 80;
+      // changing ground for forest background
+      this.groundMargin = 40;
       this.speed = 0;
       this.maxSpeed = 4;
       this.background = new Background(this);
