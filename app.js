@@ -34,12 +34,10 @@ window.addEventListener("load", function () {
       this.debug = false;
       this.score = 0;
       this.fontColor = "black";
-      // adding game timer - object to score as may points in given time
+      // game timer - object to score as may points in given time
       this.time = 0;
-      // milliseconds
       this.maxTime = 20000;
       this.gameOver = false;
-      // this should only happen when the rest of the game object is ready
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
     }
@@ -67,11 +65,7 @@ window.addEventListener("load", function () {
         particle.update();
         if (particle.markedForDeletion) this.particles.splice(index, 1);
       });
-      // limit the max amount of particles allowed in the game
       if (this.particles.length > this.maxParticles) {
-        // splice to remove in greater than 50, assigning as the new arrays because by itself splice dosent alter orignial array
-        // this.particles = this.particles.splice(0, this.maxParticles);
-        // instead of using splice just setting back t max particle length which is more memory effecent
         this.particles.length = this.maxParticles;
       }
       // handle collision sprite

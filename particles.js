@@ -14,7 +14,6 @@ class Particle {
     if (this.size < 0.5) this.markedForDeletion = true;
   }
 }
-// will need the exported particles in playerStates.js
 export class Dust extends Particle {
   constructor(game, x, y) {
     super(game);
@@ -32,14 +31,12 @@ export class Dust extends Particle {
     context.fill();
   }
 }
-// make a flaming splash effect
 export class Splash extends Particle {
   constructor(game, x, y) {
     super(game);
     this.size = Math.random() * 100 + 100;
     this.x = x - this.size * 0.4;
     this.y = y - this.size * 0.5;
-    // -3 to 3 rand num
     this.speedX = Math.random() * 6 - 4;
     this.speedY = Math.random() * 2 + 1;
     this.gravity = 0;
@@ -76,13 +73,9 @@ export class Fire extends Particle {
     this.x += Math.sin(this.angle * 5);
   }
   draw(context) {
-    // wrapping code between save and restore so the canvas setting between them only effect this particle
     context.save();
-    // translate rotation center point to a location on the center of item to be rotated
     context.translate(this.x, this.y);
-    // the fire image is a rectangle
     context.rotate(this.angle);
-
     context.drawImage(
       this.image,
       -this.size * 0.5,

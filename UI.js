@@ -7,11 +7,6 @@ export class UI {
   }
   draw(context) {
     context.save();
-    // offseting text so it stands out - not working
-    // context.shadowOffSetX = 2;
-    // context.shadowOffSetY = 2;
-    // context.shadowColor = "white";
-    // context.shadowBlur = 0;
     context.font = this.fontSize + "px " + this.fontFamily;
     context.textAlign = "left";
 
@@ -40,7 +35,7 @@ export class UI {
         );
       }
     }
-    // shadow
+    ///// shadow  effect
     context.font = this.fontSize + "px " + this.fontFamily;
     context.textAlign = "left";
     context.fillStyle = this.game.fontColor;

@@ -16,7 +16,6 @@ export class InputHandler {
         this.keys.push(e.key);
       } else if (e.key === "d") {
         // toggle to go into debug mode so it boxes are visiable
-        // set debug to its opposite value debug value is defined in app.js
         this.game.debug = !this.game.debug;
       }
     });
