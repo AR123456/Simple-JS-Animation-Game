@@ -70,7 +70,9 @@ window.addEventListener("load", function () {
       // limit the max amount of particles allowed in the game
       if (this.particles.length > this.maxParticles) {
         // splice to remove in greater than 50, assigning as the new arrays because by itself splice dosent alter orignial array
-        this.particles = this.particles.splice(0, this.maxParticles);
+        // this.particles = this.particles.splice(0, this.maxParticles);
+        // instead of using splice just setting back t max particle length which is more memory effecent
+        this.particles.length = this.maxParticles;
       }
       // handle collision sprite
       this.collisions.forEach((collision, index) => {
