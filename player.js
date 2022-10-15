@@ -116,7 +116,12 @@ export class Player {
         ) {
           this.game.score++;
         } else {
+          // collision has occured while not a fire ball or diving so state is dizzy
           this.setState(6, 0);
+          // decrease lives by one
+          this.game.lives--;
+          // check for remaining lives if none the game is over
+          if (this.game.lives <= 0) this.game.gameOver = true;
         }
       }
     });
