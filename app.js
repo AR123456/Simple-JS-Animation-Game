@@ -22,7 +22,6 @@ window.addEventListener("load", function () {
       this.background = new Background(this);
       this.player = new Player(this);
       this.input = new InputHandler(this);
-      // score
       this.UI = new UI(this);
       this.enemies = [];
       // holder of particles
@@ -39,6 +38,8 @@ window.addEventListener("load", function () {
       this.time = 0;
       this.maxTime = 20000;
       this.gameOver = false;
+      // lives
+      this.lives = 5;
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
     }
