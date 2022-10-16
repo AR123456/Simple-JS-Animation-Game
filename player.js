@@ -9,6 +9,7 @@ import {
   Hit,
 } from "./playerStates.js";
 import { CollisionAnimation } from "./collisionAnimation.js";
+import { floatingMessages } from "./floatingMessages";
 
 export class Player {
   constructor(game) {
@@ -115,6 +116,10 @@ export class Player {
           this.currentState === this.states[5]
         ) {
           this.game.score++;
+          // show flying score points
+          this.game.floatingMessage.push(
+            new floatingMessage("+1", enemy.x, enemy.y, 0, 0)
+          );
         } else {
           // collision has occured while not a fire ball or diving so state is dizzy
           this.setState(6, 0);
