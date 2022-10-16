@@ -117,9 +117,9 @@ export class Player {
         ) {
           this.game.score++;
           // show flying score points
+          // could make the +1 dynamic if different enemies score diff points
           this.game.floatingMessages.push(
-            // could make the +1 dynamic if different enemies score diff points
-            new floatingMessage("+1", enemy.x, enemy.y, 0, 0)
+            new floatingMessage("+1", enemy.x, enemy.y, 150, 50)
           );
         } else {
           // collision has occured while not a fire ball or diving so state is dizzy

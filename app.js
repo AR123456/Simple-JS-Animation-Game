@@ -64,10 +64,7 @@ window.addEventListener("load", function () {
         if (enemy.markedForDeletion)
           this.enemies.splice(this.enemies.indexOf(enemy), 1);
       });
-      // handle floating messages
-      this.floatingMessages.forEach((message) => {
-        message.update();
-      });
+
       // handle particles
       this.particles.forEach((particle, index) => {
         particle.update();
@@ -76,6 +73,10 @@ window.addEventListener("load", function () {
       if (this.particles.length > this.maxParticles) {
         this.particles.length = this.maxParticles;
       }
+      // handle floating messages
+      this.floatingMessages.forEach((message) => {
+        message.update();
+      });
       // handle collision sprite
       this.collisions.forEach((collision, index) => {
         collision.update(deltaTime);

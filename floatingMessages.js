@@ -27,6 +27,6 @@ export class floatingMessage {
     context.fillStyle = "white";
     context.fillText(this.value, this.x, this.y);
     context.fillStyle = "black";
-    context.fillText(this.value, this.x + 2, this.y + 2);
+    context.fillText(this.value, this.x - 2, this.y - 2);
   }
 }
