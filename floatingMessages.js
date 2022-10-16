@@ -16,9 +16,9 @@ export class floatingMessage {
   }
 
   update() {
-    // move slowly towards target
-    this.x += this.targetX - this.x;
-    this.y += this.targetY - this.y;
+    // start off fast then move slowly towards target(upper left of screen)
+    this.x += (this.targetX - this.x) * 0.03;
+    this.y += (this.targetY - this.y) * 0.03;
     this.timer++;
     if (this.timer > 100) this.markedForDeletion = true;
   }
