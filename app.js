@@ -93,6 +93,12 @@ window.addEventListener("load", function () {
       this.floatingMessages = this.floatingMessages.filter(
         (message) => !message.markedForDeletion
       );
+      console.log(
+        this.enemies,
+        this.particles,
+        this.collisions,
+        this.floatingMessages
+      );
     }
     draw(context) {
       this.background.draw(context);
