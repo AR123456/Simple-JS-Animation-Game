@@ -125,6 +125,8 @@ export class Player {
         } else {
           // collision has occured while not a fire ball or diving so state is dizzy
           this.setState(6, 0);
+          // decrease score if there is a collision that is not a score
+          // this.game.score -= 5;
           // decrease lives by one
           this.game.lives--;
           // check for remaining lives if none the game is over

@@ -35,10 +35,12 @@ window.addEventListener("load", function () {
       this.enemyInterval = 1000;
       this.debug = false;
       this.score = 0;
+      //minimum winning score
+      this.winningScore = 40;
       this.fontColor = "black";
       // game timer - object to score as may points in given time
       this.time = 0;
-      this.maxTime = 20000;
+      this.maxTime = 30000;
       this.gameOver = false;
       // lives
       this.lives = 5;
