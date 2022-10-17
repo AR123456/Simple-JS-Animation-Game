@@ -80,7 +80,7 @@ export class Player {
     this.currentState.enter();
   }
   draw(context) {
-    // Debug mode if debug is true draw rectangle around player
+    // if debug is true draw rectangle around player
     if (this.game.debug)
       context.strokeRect(this.x, this.y, this.width, this.height);
     context.drawImage(
@@ -125,7 +125,7 @@ export class Player {
         } else {
           // collision has occured while not a fire ball or diving so state is dizzy
           this.setState(6, 0);
-          //  to make more difficult decrease score if there is a collision that is not a score
+          // decrease score if there is a collision that is not a score
           // this.game.score -= 5;
           // decrease lives by one
           this.game.lives--;
