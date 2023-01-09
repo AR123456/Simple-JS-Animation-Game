@@ -9,50 +9,28 @@ import { UI } from "./UI.js";
 window.addEventListener("load", function () {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
-  // can adjust game width but height is optimized for 500
-  canvas.width = 900;
+  canvas.width = 500;
   canvas.height = 500;
   class Game {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      // changing ground for forest background
-      this.groundMargin = 40;
+      this.groundMargin = 80;
       this.speed = 0;
       this.maxSpeed = 4;
       this.background = new Background(this);
       this.player = new Player(this);
       this.input = new InputHandler(this);
+      // score
       this.UI = new UI(this);
       this.enemies = [];
-      // holder of particles
-      this.particles = [];
-      // holder of collision objects
-      this.collisions = [];
-      // messages that display on collision
-      this.floatingMessages = [];
-      this.maxParticles = 50;
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
-      this.debug = false;
+      this.debug = true;
       this.score = 0;
-      //minimum winning score
-      this.winningScore = 40;
       this.fontColor = "black";
-      // game timer - object to score as may points in given time
-      this.time = 0;
-      this.maxTime = 30000;
-      this.gameOver = false;
-      // lives
-      this.lives = 5;
-      this.player.currentState = this.player.states[0];
-      this.player.currentState.enter();
     }
-
     update(deltaTime) {
-      // increment time
-      this.time += deltaTime;
-      if (this.time > this.maxTime) this.gameOver = true;
       this.background.update();
       this.player.update(this.input.keys, deltaTime);
 
@@ -64,49 +42,15 @@ window.addEventListener("load", function () {
       }
       this.enemies.forEach((enemy) => {
         enemy.update(deltaTime);
+        if (enemy.markedForDeletion)
+          this.enemies.splice(this.enemies.indexOf(enemy), 1);
       });
-
-      // handle particles
-      this.particles.forEach((particle, index) => {
-        particle.update();
-      });
-      if (this.particles.length > this.maxParticles) {
-        this.particles.length = this.maxParticles;
-      }
-      // handle floating messages
-      this.floatingMessages.forEach((message) => {
-        message.update();
-      });
-      // handle collision sprite
-      this.collisions.forEach((collision, index) => {
-        collision.update(deltaTime);
-        // if marked for deletion slice out of array
-      });
-      this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
-      this.particles = this.particles.filter(
-        (particle) => !particle.markedForDeletion
-      );
-      this.collisions = this.collisions.filter(
-        (collision) => !collision.markedForDeletion
-      );
-      this.floatingMessages = this.floatingMessages.filter(
-        (message) => !message.markedForDeletion
-      );
     }
     draw(context) {
       this.background.draw(context);
       this.player.draw(context);
       this.enemies.forEach((enemy) => {
         enemy.draw(context);
-      });
-      this.particles.forEach((particle) => {
-        particle.draw(context);
-      });
-      this.collisions.forEach((collision) => {
-        collision.draw(context);
-      });
-      this.floatingMessages.forEach((message) => {
-        message.draw(context);
       });
       this.UI.draw(context);
     }
@@ -129,8 +73,7 @@ window.addEventListener("load", function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.update(deltaTime);
     game.draw(ctx);
-    // only continue if game is not over
-    if (!game.gameOver) requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
   animate(0);
   // end of window
